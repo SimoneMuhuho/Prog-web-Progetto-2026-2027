@@ -58,6 +58,47 @@ switch ($action) {
         echo json_encode(['success' => true, 'data' => $rows]);
         break;
 
+    // ── READ: telefonate del contratto ───────────────────────────────────────
+    case 'telefonate':
+        $numero = $_GET['numero'] ?? '';
+        if (!$numero) { echo json_encode(['success' => false, 'message' => 'Numero mancante']); break; }
+        $stmt = $pdo->prepare("
+            SELECT data, ora, durata, costo
+            FROM Telefonata
+            WHERE effettuataDa = ?
+            ORDER BY data DESC, ora DESC
+        ");
+        $stmt->execute([$numero]);
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+        break;
+
+    // ── READ: SIM attiva del contratto ────────────────────────────────────────
+    case 'sim_attiva':
+        $numero = $_GET['numero'] ?? '';
+        if (!$numero) { echo json_encode(['success' => false, 'message' => 'Numero mancante']); break; }
+        $stmt = $pdo->prepare("
+            SELECT codice, tipoSIM, dataAttivazione
+            FROM SIMAttiva
+            WHERE associataA = ?
+        ");
+        $stmt->execute([$numero]);
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+        break;
+
+    // ── READ: SIM disattivate del contratto ───────────────────────────────────
+    case 'sim_disattive':
+        $numero = $_GET['numero'] ?? '';
+        if (!$numero) { echo json_encode(['success' => false, 'message' => 'Numero mancante']); break; }
+        $stmt = $pdo->prepare("
+            SELECT codice, tipoSIM, dataAttivazione, dataDisattivazione
+            FROM SIMDisattiva
+            WHERE associataA = ?
+            ORDER BY dataDisattivazione DESC
+        ");
+        $stmt->execute([$numero]);
+        echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+        break;
+
     // ── READ: singolo contratto ───────────────────────────────────────────────
     case 'get':
         $numero = $_GET['numero'] ?? '';
