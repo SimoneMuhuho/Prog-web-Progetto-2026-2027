@@ -1,0 +1,76 @@
+:root {
+    --bg-dark: #1E293B;      /* Blu Slate Profondo (per Header/Footer) */
+    --salmon: #F05A4F;       /* Salmone Moderno (per Nav e Titoli) */
+    --salmon-hover: #D94E44; /* Salmone scuro per l'hover */
+    --bg-light: #F8FAFC;     /* Sfondo pagina riposante */
+    --text-main: #334155;    /* Testo scuro */
+    --text-light: #F1F5F9;   /* Testo chiaro per aree scure */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+.header {
+    background-color: var(--bg-dark);
+    color: var(--salmon);
+    padding: 10px;
+    top: 0;
+    z-index: 1000;
+}
+
+h1 {
+    text-align: center;
+}
+
+footer {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding: 5px;
+    text-align: center;
+
+    position: sticky;
+    bottom: 0; 
+    width: 100%;
+    z-index: 1000;
+
+    border-top: 2px solid var(--salmon);
+}
+
+.nav ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--salmon);
+}
+
+.nav li {
+    float: left;
+}
+
+.nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav ul li a:hover {
+    background-color: var(--salmon-hover);
+}
