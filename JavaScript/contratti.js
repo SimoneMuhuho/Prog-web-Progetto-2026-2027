@@ -3,10 +3,8 @@
  * Logica jQuery per la pagina contratti.php  –  Layout 1
  * Gestisce: caricamento tabella, filtri multipli, modal dettaglio
  */
-
 $(function () {
-
-    const API = 'api_contratti.php';
+    const API = '../PHP/contratti/api_contratti.php'
 
     /* ══════════════════════════════════════════════════════════════════════
        UTILITY
