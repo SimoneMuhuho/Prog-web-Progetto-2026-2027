@@ -1,7 +1,7 @@
 
----------------- LAYOUT  PAGINA CONTRATTI --------------
+/* LAYOUT  PAGINA CONTRATTI */
 
- Main diviso 25/75 (Layout 1) 
+/* Main diviso 25/75 (Layout 1) */
 main.layout-1 {
     display: flex;
     flex-direction: row;
@@ -9,7 +9,7 @@ main.layout-1 {
     overflow: hidden; 
 }
 
- SIDEBAR FILTRI (25%) 
+/* SIDEBAR FILTRI (25%) */
 .sidebar-filtro {
     flex: 0 0 25%;
     width: 25%;
@@ -25,7 +25,7 @@ main.layout-1 {
 .filtro-group input, .filtro-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; }
 .filtro-actions { margin-top: 20px; }
 
- CONTENUTO CENTRALE (75%) 
+/* CONTENUTO CENTRALE (75%) */
 .contenuto-risultati {
     flex: 0 0 75%;
     width: 75%;
@@ -36,7 +36,7 @@ main.layout-1 {
 
 .contenuto-risultati h2 { margin-top: 0; color: var(--bg-dark); }
 
- TABELLA E SCORRIMENTO 
+/* TABELLA E SCORRIMENTO */
 .table-wrap {
     flex: 1; 
     background: #FFFFFF;
@@ -53,7 +53,7 @@ th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
 tr:hover { background-color: var(--bg-light); }
 
 
-   FINESTRA MODALE E MESSAGGI (Dettaglio JS)
+/* FINESTRA MODALE E MESSAGGI (Dettaglio JS) */
 
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;

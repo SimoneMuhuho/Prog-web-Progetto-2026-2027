@@ -1,5 +1,5 @@
 
-------------   PALETTE COLORI "SALMON MOBILE" ------------------
+/* PALETTE COLORI "SALMON MOBILE" */
 
 :root {
     --bg-dark: #1A2421;      /* Alga Nori (Scuro) */
@@ -30,7 +30,7 @@ body {
 }
 
 
-------------   HEADER, NAV E FOOTER ---------------
+/*   HEADER, NAV E FOOTER */
 .header {
     background-color: var(--bg-dark);
     color: var(--salmon);
@@ -81,7 +81,7 @@ footer {
 }
 
 
---------- LAYOUT PRINCIPALE & COMPONENTI GLOBALI (BOTTONI)----------
+/* LAYOUT PRINCIPALE & COMPONENTI GLOBALI (BOTTONI)  */
 
 
 main {
