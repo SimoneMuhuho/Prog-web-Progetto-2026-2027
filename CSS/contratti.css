@@ -1,0 +1,34 @@
+
+   CSS SPECIFICO: PAGINA CONTRATTI
+
+## Permette al corpo della modale di scorrere se i dati sono troppi 
+.modal-body-scroll {
+    max-height: 60vh; 
+    overflow-y: auto;
+}
+
+## Box riassuntivo in alto nella modale 
+.modal-info-box {
+    margin-bottom: 20px; 
+    padding: 15px; 
+    background: #f8f9fa; 
+    border-radius: 8px;
+}
+
+## Titolini delle varie sezioni dentro la modale (es. Telefonate, SIM) 
+.modal-section-title {
+    margin-top: 15px; 
+    border-bottom: 2px solid var(--salmon); 
+    padding-bottom: 5px;
+}
+
+## Margini e larghezza per le tabelline dentro la modale 
+.modal-table {
+    width: 100%; 
+    margin-bottom: 15px;
+}
+
+## Centrare il testo (utile per la colonna dei bottoni) 
+.text-center {
+    text-align: center;
+}

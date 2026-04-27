@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/style.css">
-    <title>Salmon Mobile - Contratti</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="../CSS/contratti.css">
+    <title>Contratti Telefonici</title>
 </head>
 <body>
 
-    <div id="header-placeholder"></div>
+    <header class="header">
+        <h1>Gestione Contratti Telefonici</h1>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="contratto-telefonico.html">Contratti</a></li>
+            <li><a href="">Telefonate</a></li>
+            <li><a href="">SIM Attive</a></li>
+            <li><a href="">SIM Non Attive</a></li>
+            <li><a href="">SIM Disattive</a></li>
+        </ul>
+    </nav>
 
     <main class="layout-1">
 
@@ -42,92 +55,46 @@
 
             <div class="filtro-actions">
                 <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
-                <button id="btn-reset" class="btn btn-outline btn-block">Reset</button>
+                <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
             </div>
         </aside>
 
         <section class="contenuto-risultati">
-            <div id="msg-box" style="display:none;"></div>
-            
-            <h2>Elenco Contratti</h2>
-            
+            <h2>Contratti Telefonici</h2>
+
+            <div id="msg-box" class="msg-box"></div>
+
             <div class="table-wrap">
-                <table>
+                <table id="tbl-contratti">
                     <thead>
                         <tr>
                             <th>Numero</th>
-                            <th>Attivazione</th>
+                            <th>Data Attivazione</th>
                             <th>Tipo</th>
-                            <th>Minuti</th>
-                            <th>Credito</th>
-                            <th>N. Tel.</th>
+                            <th>Minuti Residui</th>
+                            <th>Credito Residuo (€)</th>
+                            <th>N° Telefonate</th>
                             <th>SIM Attiva</th>
-                            <th>Azioni</th>
+                            <th>Dettaglio</th>
                         </tr>
                     </thead>
                     <tbody id="tbl-body">
-                        </tbody>
+                        <tr><td colspan="8" class="loading">Caricamento…</td></tr>
+                    </tbody>
                 </table>
             </div>
         </section>
 
-        <div id="modal-overlay" class="modal-overlay" style="display:none;">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3 id="modal-title">Dettaglio Contratto</h3>
-                    <button class="modal-close" id="modal-close-btn">&times;</button>
-                </div>
-                <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
-                    
-                    <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                        <p><strong>Numero:</strong> <span id="d-numero"></span></p>
-                        <p><strong>Data:</strong> <span id="d-data"></span></p>
-                        <p><strong>Tipo:</strong> <span id="d-tipo"></span></p>
-                        <p><strong>Residuo:</strong> <span id="d-residuo"></span></p>
-                    </div>
-
-                    <h4 style="margin-top: 15px; border-bottom: 2px solid #FA8072; padding-bottom: 5px;">📞 Telefonate</h4>
-                    <div class="table-wrap">
-                        <table style="width: 100%; margin-bottom: 15px;">
-                            <thead><tr><th>Data</th><th>Ora</th><th>Durata</th><th>Costo</th></tr></thead>
-                            <tbody id="body-telefonate"></tbody>
-                        </table>
-                    </div>
-
-                    <h4 style="margin-top: 15px; border-bottom: 2px solid #1A2421; padding-bottom: 5px;">🟢 SIM Attiva</h4>
-                    <div class="table-wrap">
-                        <table style="width: 100%; margin-bottom: 15px;">
-                            <thead><tr><th>Codice</th><th>Tipo</th><th>Attivazione</th></tr></thead>
-                            <tbody id="body-sim-attiva"></tbody>
-                        </table>
-                    </div>
-
-                    <h4 style="margin-top: 15px; border-bottom: 2px solid #ccc; padding-bottom: 5px;">🔴 SIM Disattive</h4>
-                    <div class="table-wrap">
-                        <table style="width: 100%;">
-                            <thead><tr><th>Codice</th><th>Tipo</th><th>Attivazione</th><th>Disattivazione</th></tr></thead>
-                            <tbody id="body-sim-disattive"></tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline" id="btn-chiudi">Chiudi</button>
-                </div>
-            </div>
-        </div>
-
     </main>
 
-    <div id="footer-placeholder"></div>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../JavaScript/contratti.js"></script>
-    <script>
-        $(function(){
-            $("#header-placeholder").load("header.html");
-            $("#footer-placeholder").load("footer.html");
-        });
-    </script>
+
+    <footer>
+        <p>
+            Nota: Tutti i dati visualizzati sono generati casualmente a scopo didattico. Realizzato secondo le specifiche del Progetto d'Esame PW. © 2026 Università degli Studi di Bergamo
+        </p>
+    </footer>
 
 </body>
 </html>
