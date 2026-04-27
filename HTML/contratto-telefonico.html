@@ -9,20 +9,8 @@
 </head>
 <body>
 
-    <header class="header">
-        <h1>Gestione Contratti Telefonici</h1>
-    </header>
-
-    <nav class="nav">
-        <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="contratto-telefonico.html">Contratti</a></li>
-            <li><a href="">Telefonate</a></li>
-            <li><a href="">SIM Attive</a></li>
-            <li><a href="">SIM Non Attive</a></li>
-            <li><a href="">SIM Disattive</a></li>
-        </ul>
-    </nav>
+ <div id="header-placeholder"></div>
+   
 
     <main class="layout-1">
 
@@ -89,12 +77,15 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../JavaScript/contratti.js"></script>
+	
+	<div id="footer-placeholder"></div>
 
-    <footer>
-        <p>
-            Nota: Tutti i dati visualizzati sono generati casualmente a scopo didattico. Realizzato secondo le specifiche del Progetto d'Esame PW. © 2026 Università degli Studi di Bergamo
-        </p>
-    </footer>
+    <script>
+        $(function() {
+            $("#header-placeholder").load("header.html");
+            $("#footer-placeholder").load("footer.html");
+        });
+    </script>
 
 </body>
 </html>
