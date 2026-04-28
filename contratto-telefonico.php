@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/contratti.css">
-    <title>Contratti Telefonici</title>
-</head>
-<body>
-
- <div id="header-placeholder"></div>
-   
+<?php include 'header.php';?>
 
     <main class="layout-1">
 
@@ -77,15 +65,5 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../JavaScript/contratti.js"></script>
-	
-	<div id="footer-placeholder"></div>
 
-    <script>
-        $(function() {
-            $("#header-placeholder").load("header.html");
-            $("#footer-placeholder").load("footer.html");
-        });
-    </script>
-
-</body>
-</html>
+<?php include 'footer.php';?>
