@@ -3,8 +3,8 @@ header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
 $host   = 'localhost';
-$dbname = 'telefonia';
-$user   = 'root';
+$dbname = 'my_saucecode';
+$user   = 'saucecode';
 $pass   = '';
 
 try {
@@ -18,7 +18,7 @@ try {
     exit;
 }
 
-$action = $_GET['action'] ?? '';
+$action = $_GET['action'] ?? 'list';
 
 switch ($action) {
     case 'list':
@@ -30,10 +30,10 @@ switch ($action) {
                 c.tipo, 
                 c.minutiResidui, 
                 c.creditoResiduo,
-                (SELECT COUNT(*) FROM Telefonata WHERE effettuataDa = c.numero) AS numTelefonate,
+                (SELECT COUNT(*) FROM telefonata WHERE effettuataDa = c.numero) AS numTelefonate,
                 sa.codice AS simAttiva
-            FROM ContrattoTelefonico c
-            LEFT JOIN SIMAttiva sa ON sa.associataA = c.numero
+            FROM contrattotelefonico c
+            LEFT JOIN simattiva sa ON sa.associataA = c.numero
             GROUP BY c.numero
             ORDER BY c.dataAttivazione DESC
         ";
@@ -43,21 +43,21 @@ switch ($action) {
 
     case 'telefonate':
         $num = $_GET['numero'] ?? '';
-        $stmt = $pdo->prepare("SELECT data, ora, durata, costo FROM Telefonata WHERE effettuataDa = ? ORDER BY data DESC, ora DESC");
+        $stmt = $pdo->prepare("SELECT data, ora, durata, costo FROM telefonata WHERE effettuataDa = ? ORDER BY data DESC, ora DESC");
         $stmt->execute([$num]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
         break;
 
     case 'sim_attiva':
         $num = $_GET['numero'] ?? '';
-        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione FROM SIMAttiva WHERE associataA = ?");
+        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione FROM simattiva WHERE associataA = ?");
         $stmt->execute([$num]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
         break;
 
     case 'sim_disattive':
         $num = $_GET['numero'] ?? '';
-        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione, dataDisattivazione FROM SIMDisattiva WHERE eraAssociataA = ? ORDER BY dataDisattivazione DESC");
+        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione, dataDisattivazione FROM simdisattiva WHERE eraAssociataA = ? ORDER BY dataDisattivazione DESC");
         $stmt->execute([$num]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
         break;

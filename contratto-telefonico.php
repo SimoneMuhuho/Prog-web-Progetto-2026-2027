@@ -1,5 +1,5 @@
 <?php include 'header.php';?>
-
+<link rel="stylesheet" href="CSS/contratti.css">
     <main class="layout-1">
 
         <aside class="sidebar-filtro">
@@ -64,6 +64,6 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="../JavaScript/contratti.js"></script>
+    <script src="JavaScript/contratti.js"></script>
 
 <?php include 'footer.php';?>
