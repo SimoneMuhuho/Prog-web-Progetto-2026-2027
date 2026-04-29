@@ -15,8 +15,8 @@
 
     <nav class="nav">
         <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="contratto-telefonico.html">Contratti</a></li>
+            <li><a href="index.php">Dashboard</a></li>
+            <li><a href="contratto-telefonico.php">Contratti</a></li>
             <li><a href="#">Telefonate</a></li>
             <li><a href="#">SIM Attive</a></li>
             <li><a href="#">SIM Disattive</a></li>
