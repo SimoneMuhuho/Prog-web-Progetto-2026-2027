@@ -10,7 +10,7 @@
 <body>
 
     <header class="header">
-        <h1>🍣 Salmon Mobile</h1>
+        <h1>SIM Salabim</h1>
     </header>
 
     <nav class="nav">
@@ -19,6 +19,6 @@
             <li><a href="contratto-telefonico.php">Contratti</a></li>
             <li><a href="#">Telefonate</a></li>
             <li><a href="#">SIM Attive</a></li>
-            <li><a href="#">SIM Disattive</a></li>
+            <li><a href="PHP/sim_disattive/sim_disattivate.php">SIM Disattive</a></li>
         </ul>
     </nav>
