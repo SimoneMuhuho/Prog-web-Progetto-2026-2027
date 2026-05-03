@@ -19,6 +19,6 @@
             <li><a href="contratto-telefonico.php">Contratti</a></li>
             <li><a href="#">Telefonate</a></li>
             <li><a href="#">SIM Attive</a></li>
-            <li><a href="PHP/sim_disattive/sim_disattivate.php">SIM Disattive</a></li>
+            <li><a href="sim_disattivate.php">SIM Disattive</a></li>
         </ul>
     </nav>
