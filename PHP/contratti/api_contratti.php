@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 
 $host   = 'localhost';
 $dbname = 'my_saucecode';
-$user   = 'saucecode';
+$user   = 'root';
 $pass   = '';
 
 try {
