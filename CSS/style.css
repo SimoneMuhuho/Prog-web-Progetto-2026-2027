@@ -1,13 +1,10 @@
-
-/* PALETTE COLORI "SALMON MOBILE" */
-
 :root {
-    --bg-dark: #1A2421;      /* Alga Nori (Scuro) */
-    --salmon: #FA8072;       /* Salmone */
-    --salmon-hover: #E95849; /* Salmone Scuro per hover */
-    --bg-light: #FDF5E6;     /* Riso (Lievemente avorio, non bianco puro) */
-    --text-main: #2B1810;    /* Testo Scuro (Soia) */
-    --text-light: #FFFFFF;   /* Testo Bianco */
+    --bg-dark: #1A2421;      /* Definisce una variabile per il Verde Scuro */
+    --salmon: #FA8072;       /* Definisce una variabile per il Salmone */
+    --salmon-hover: #E95849; /* Definisce una variabile per un Salmone più scuro */
+    --bg-light: #FDF5E6;     /* Definisce una variabile per lo sfondo Avorio */
+    --text-main: #2B1810;    /* Definisce una variabile per il testo Scuro */
+    --text-light: #FFFFFF;   /* Definisce una variabile per il testo Bianco */
 }
 
 * {
@@ -15,94 +12,173 @@
 }
 
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    height: 100%; /* Dice alla pagina di essere alta esattamente quanto lo schermo */
+    margin: 0;    /* Rimuove i margini bianchi di default del browser */
+    padding: 0;   /* Rimuove gli spazi interni di default del browser */
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-light);
-    color: var(--text-main);
-    overflow: hidden; 
+    display: flex; /* Attiva il layout "elastico" (Flexbox) per l'intera pagina */
+    flex-direction: column; /* Impila Header, Main e Footer uno sopra l'altro come una colonna */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Sceglie il font del testo */
+    background-color: var(--bg-light); /* Applica lo sfondo color Avorio */
+    color: var(--text-main); /* Applica il colore del testo scuro */
+    overflow: hidden; /* Blocca lo scorrimento (scroll) della finestra principale del browser */
 }
 
-
-/*   HEADER, NAV E FOOTER */
 .header {
-    background-color: var(--bg-dark);
-    color: var(--salmon);
-    padding: 15px;
-    text-align: center;
-    border-bottom: 2px solid var(--salmon-hover);
+    background-color: var(--bg-dark); /* Sfondo Verde scuro */
+    color: var(--salmon); /* Testo Salmone */
+    padding: 15px; /* Crea uno spazio interno di 15px per non far appiccicare il testo ai bordi */
+    text-align: center; /* Centra il testo orizzontalmente */
+    border-bottom: 2px solid var(--salmon-hover); /* Disegna una linea color salmone scuro alla base */
 }
 
 .header h1 {
-    margin: 0;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    margin: 0; /* Rimuove lo spazio extra che i titoli H1 hanno di default */
+    letter-spacing: 1px; /* Aggiunge 1 pixel di spazio tra una lettera e l'altra */
+    text-transform: uppercase; /* Trasforma tutto il testo in MAIUSCOLO */
 }
 
 .nav {
-    background-color: var(--salmon);
+    background-color: var(--salmon); /* Sfondo Salmone per la barra di navigazione */
 }
 
 .nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex; 
-    justify-content: center; 
+    list-style-type: none; /* Rimuove i "pallini" tipici degli elenchi puntati */
+    margin: 0; /* Rimuove i margini dell'elenco */
+    padding: 0; /* Rimuove il rientro dell'elenco */
+    display: flex; /* Mette gli elementi dell'elenco uno di fianco all'altro (in riga) */
+    justify-content: center; /* Centra tutti i link al centro della barra */
 }
 
 .nav li a {
-    display: block;
-    color: var(--text-light);
-    text-align: center;
-    padding: 12px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    display: block; /* Rende il link un "blocco", permettendo di dargli larghezza/altezza e padding */
+    color: var(--text-light); /* Testo bianco */
+    text-align: center; /* Centra il testo nel suo blocco */
+    padding: 12px 20px; /* Spazio interno: 12px sopra/sotto, 20px destra/sinistra. Crea un'area cliccabile ampia */
+    text-decoration: none; /* Toglie la sottolineatura standard dai link */
+    font-weight: bold; /* Mette in grassetto i link */
+    transition: background-color 0.3s; /* Fa in modo che il cambio di colore passando col mouse duri 0.3 secondi (effetto sfumato) */
 }
 
 .nav li a:hover {
-    background-color: var(--salmon-hover);
+    background-color: var(--salmon-hover); /* Quando passi il mouse, lo sfondo diventa salmone scuro */
 }
 
 footer {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 0.85rem;
-    border-top: 3px solid var(--salmon);
+    background-color: var(--bg-dark); /* Sfondo Verde scuro */
+    color: var(--text-light); /* Testo bianco */
+    padding: 10px 20px; /* Spazio interno: 10px sopra/sotto, 20px lati */
+    text-align: center; /* Centra il testo */
+    font-size: 0.85rem; /* Rimpicciolisce il testo (85% della grandezza normale) */
+    border-top: 3px solid var(--salmon); /* Disegna una linea spessa 3px color salmone in alto */
 }
 
-
-/* LAYOUT PRINCIPALE & COMPONENTI GLOBALI (BOTTONI)  */
-
-
 main {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto; 
+    flex: 1; /* Dice al tag <main> di espandersi per occupare tutto lo spazio rimasto tra header e footer */
+    padding: 20px; /* Distanzia i contenuti dai bordi di 20px */
+    overflow-y: auto; /* Se il contenuto è troppo lungo, fa apparire la barra di scorrimento verticale solo per quest'area */
 }
 
 .btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    padding: 10px 15px; /* Crea un bottone cicciotto (10px sopra/sotto, 15px ai lati) */
+    border: none; /* Rimuove il brutto bordino 3D di default del browser */
+    border-radius: 4px; /* Arrotonda leggermente gli angoli del bottone */
+    cursor: pointer; /* Fa comparire la "manina" quando passi il mouse sul bottone */
+    font-weight: bold; /* Scritta in grassetto */
+    transition: background-color 0.3s; /* Effetto sfumato sul cambio colore */
 }
 
-.btn-block { display: block; width: 100%; margin-bottom: 10px; }
-.btn-primary { background-color: var(--bg-dark); color: var(--text-light); }
-.btn-primary:hover { background-color: var(--salmon-hover); }
-.btn-outline { background-color: transparent; border: 2px solid var(--bg-dark); color: var(--bg-dark); }
-.btn-outline:hover { background-color: #eee; }
-.btn-info { background-color: var(--salmon); color: var(--text-light); border-radius: 20px; padding: 6px 12px;}
-.btn-info:hover { background-color: var(--bg-dark); }
+/* Stili specifici per diverse varianti di bottoni */
+.btn-block { display: block; width: 100%; margin-bottom: 10px; } /* Bottone largo tutto lo schermo (100%) con un po' di spazio sotto */
+.btn-primary { background-color: var(--bg-dark); color: var(--text-light); } /* Bottone verde scuro, testo bianco */
+.btn-primary:hover { background-color: var(--salmon-hover); } /* Passandoci sopra diventa salmone scuro */
+.btn-outline { background-color: transparent; border: 2px solid var(--bg-dark); color: var(--bg-dark); } /* Bottone vuoto con solo bordo verde scuro */
+.btn-outline:hover { background-color: #eee; } /* Passandoci sopra si riempie di grigio chiaro */
+.btn-info { background-color: var(--salmon); color: var(--text-light); border-radius: 20px; padding: 6px 12px;} /* Bottoncino stondato (tipo pillola) */
+.btn-info:hover { background-color: var(--bg-dark); } /* Passandoci sopra diventa verde scuro */
+
+main.layout-1 {
+    display: flex; /* Dispone gli elementi interni (Filtri e Tabella) orizzontalmente */
+    flex-direction: row; /* Affianca gli elementi da sinistra verso destra */
+    padding: 0; /* Azzera lo spazio interno per attaccare le colonne ai bordi dello schermo */
+    overflow: hidden; /* Impedisce che questa zona causi uno scroll generale della pagina */
+}
+
+/* Colonna sinistra */
+.sidebar-filtro {
+    flex: 0 0 25%; /* Blocca l'elemento a non crescere (0), non rimpicciolirsi (0) e occupare esattamente il 25% dello spazio */
+    width: 25%; /* Ribadisce che la larghezza è 25% */
+    background-color: #FFFFFF; /* Sfondo bianco */
+    padding: 20px; /* Spazio interno */
+    border-right: 2px solid #ddd; /* Riga grigia a destra per separare dalla tabella */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05); /* Crea una leggerissima ombra verso destra */
+    overflow-y: auto; /* Se i filtri sono troppi, la rotellina del mouse farà scorrere solo questa colonnina */
+}
+
+/* Form dentro i filtri */
+.filtro-group { margin-bottom: 15px; } /* Distanzia un filtro dall'altro */
+.filtro-group label { display: block; margin-bottom: 5px; font-weight: bold; color: var(--bg-dark); } /* Rende le etichette un blocco a sé stante mettendole SOPRA il campo di testo */
+.filtro-group input, .filtro-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; } /* Allarga i campi di testo al 100% della colonna, gli dà un bordino grigio e angoli stondati */
+.filtro-actions { margin-top: 20px; } /* Spinge giù i bottoni Cerca/Azzera per staccarli dagli input */
+
+/* Colonna destra */
+.contenuto-risultati {
+    flex: 0 0 75%; /* Occupa il restante 75% dello spazio */
+    width: 75%; /* Ribadisce la larghezza al 75% */
+    padding: 20px; /* Distanzia il contenuto dai bordi */
+    display: flex; /* Usa il layout elastico anche internamente... */
+    flex-direction: column; /* ...per mettere Titolo (H2) sopra e Tabella sotto */
+}
+
+.contenuto-risultati h2 { margin-top: 0; color: var(--bg-dark); } /* Sistema il titolo "Contratti Telefonici" togliendo lo spazio inutile sopra */
+
+.table-wrap {
+    flex: 1; /* Si espande verticalmente per occupare tutto lo spazio rimanente sotto al titolo H2 */
+    background: #FFFFFF; /* Sfondo bianco */
+    border: 1px solid #ddd; /* Bordo grigio chiaro attorno alla tabella */
+    border-radius: 5px; /* Angoli stondati per il contenitore della tabella */
+    overflow-y: auto; /* IMPORTANTE: Fa apparire la barra di scorrimento DENTRO la tabella quando ci sono troppe righe */
+    margin-top: 10px; /* Lo stacca dal titolo */
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Ombra interna per dare profondità */
+}
+
+table { width: 100%; border-collapse: collapse; } /* La tabella occupa tutto il wrap; border-collapse unisce i bordi delle celle per renderli una singola linea */
+thead { position: sticky; top: 0; background-color: var(--bg-dark); color: var(--text-light); z-index: 10; } /* STICKY TOP 0: Mentre scorri verso il basso, l'intestazione (thead) resta incollata in alto. z-index 10 assicura che passi SOPRA le altre righe senza farsi coprire. */
+th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; } /* Distanzia il testo all'interno delle celle e mette una riga grigia in fondo ad ognuna */
+tr:hover { background-color: var(--bg-light); } /* Quando passi il mouse sopra una riga, si evidenzia di color Avorio */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; /* Si "sgancia" dalla pagina e copre per intero tutto lo schermo */
+    background: rgba(26, 36, 33, 0.85); /* Crea uno sfondo verde scuro scuro, opaco all'85% (effetto vetro oscurato) */
+    z-index: 2000; /* Lo mette sopra a ogni altra cosa del sito */
+    display: flex; justify-content: center; align-items: center; /* Centra orizzontalmente e verticalmente il riquadro bianco al suo interno */
+}
+
+.modal {
+    background: #FFFFFF; border: 4px solid var(--salmon); border-radius: 8px; /* Crea il riquadro bianco con bordo spesso e arrotondato */
+    width: 90%; max-width: 800px; max-height: 90vh; /* Larghezza adattabile, ma ferma a massimo 800px. Altezza massima 90% dello schermo (90vh) per evitare che diventi troppo alta e invisibile */
+    display: flex; flex-direction: column; /* Struttura interna a colonna (Header-Body-Footer) */
+}
+
+.modal-header {
+    background-color: var(--bg-dark); color: var(--salmon); padding: 15px 20px; /* Sfondo e testi dell'intestazione della modale */
+    display: flex; justify-content: space-between; align-items: center; /* Mette il Titolo a sinistra e la X di chiusura all'estrema destra */
+}
+.modal-header h3 { margin: 0; } /* Rimuove margini al titolo della modale */
+.modal-close { background: none; border: none; color: var(--text-light); font-size: 1.5rem; cursor: pointer; } /* Rende il tasto "X" invisibile tranne che per la scritta, ingrandisce il font */
+
+.modal-body { padding: 20px; overflow-y: auto; } /* Il corpo centrale dove vanno i dati. Se ce ne sono tanti, si crea una barra di scorrimento qui dentro. */
+.modal-footer { padding: 15px 20px; border-top: 1px solid #ddd; text-align: right; } /* Il piedino della modale dove sta il tasto "Chiudi", testo allineato a destra. */
+
+/* Dettagli all'interno della modale */
+.detail-section { margin-bottom: 20px; } /* Stacca un blocco di dettagli dall'altro */
+.detail-section h4 { border-bottom: 2px solid var(--salmon); padding-bottom: 5px; color: var(--bg-dark); } /* Stile per i sotto-titoli interni ("Dati SIM", ecc.) */
+.detail-grid { display: grid; grid-template-columns: auto 1fr; gap: 10px; } /* Organizza i dati come una griglia Excel. Prima colonna "auto" (larga quanto la parola), seconda colonna "1fr" (si prende tutto il resto dello spazio) */
+.detail-grid dt { font-weight: bold; } /* Rende i nomi dei campi in grassetto (es. "Numero Contratto:") */
+.detail-grid dd { margin: 0; } /* Rimuove i margini dai valori veri e propri (es. "+39 333...") */
+
+#msg-box { display: none; } /* Di base, il riquadro degli avvisi è invisibile. Lo renderà visibile il Javascript */
+.msg-box { padding: 10px; margin-bottom: 10px; border-radius: 4px; font-weight: bold; } /* Regole base se il box appare */
+.msg-error { background-color: #fee; border: 1px solid #fcc; color: red; } /* Colori specifici se è un ERRORE (sfondo rosa chiaro, bordo rosso, testo rosso) */
+.loading, .no-data { text-align: center; font-style: italic; } /* Mette al centro e in corsivo scritte come "Caricamento in corso..." o "Nessun dato trovato." all'interno della tabella */
