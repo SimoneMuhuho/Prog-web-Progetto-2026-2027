@@ -65,7 +65,11 @@ $(function () {
         const dataDa = $('#search-data-da').val();
         const dataA  = $('#search-data-a').val();
 
-        if (numero) righe = righe.filter(r => r.numero.toLowerCase().includes(numero));
+        if (numero) righe = righe.filter(r => {
+            const val = r.numero || r.NUMERO || "";
+            return val.toString().toLowerCase().includes(numero);
+        });
+        
         if (tipo)   righe = righe.filter(r => r.tipo === tipo);
         if (dataDa) righe = righe.filter(r => r.dataAttivazione >= dataDa);
         if (dataA)  righe = righe.filter(r => r.dataAttivazione <= dataA);

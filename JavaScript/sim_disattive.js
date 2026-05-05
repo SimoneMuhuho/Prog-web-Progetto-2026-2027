@@ -82,9 +82,18 @@ $(function () {
         const dataDa    = $('#search-data-disatt-da').val();   // data disattivazione dal
         const dataA     = $('#search-data-disatt-a').val();    // data disattivazione al
 
-        if (codice)    righe = righe.filter(r => r.codice.toLowerCase().includes(codice));
+        if (codice)    righe = righe.filter(r => {
+            const val = r.codice || r.CODICE || "";
+            return val.toString().toLowerCase().includes(codice);
+        });
+
         if (tipoSIM)   righe = righe.filter(r => r.tipoSIM === tipoSIM);
-        if (contratto) righe = righe.filter(r => r.eraAssociataA.toLowerCase().includes(contratto));
+
+        if (contratto) righe = righe.filter(r => {
+            const val = r.eraAssociataA || r.ERAASSOCIATAA || "";
+            return val.toString().toLowerCase().includes(contratto);
+        });
+        
         if (dataDa)    righe = righe.filter(r => r.dataDisattivazione >= dataDa);
         if (dataA)     righe = righe.filter(r => r.dataDisattivazione <= dataA);
 
