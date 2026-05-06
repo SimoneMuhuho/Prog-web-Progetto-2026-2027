@@ -20,6 +20,6 @@
             <li><a href="#">Telefonate</a></li>
             <li><a href="#">SIM Attive</a></li>
             <li><a href="sim_disattivate.php">SIM Disattive</a></li>
-            <li><a href="w">SIM Non attive</a></li>
+            <li><a href="sim_non_attive.php">SIM Non attive</a></li>
         </ul>
     </nav>
