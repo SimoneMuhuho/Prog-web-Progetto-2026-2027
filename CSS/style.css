@@ -5,6 +5,7 @@
     --bg-light: #FDF5E6;     /* sfondo Avorio */
     --text-main: #2B1810;    /* testo Scuro */
     --text-light: #FFFFFF;   /* testo Bianco */
+    --zebra-stripe: #e7e7e7; /* Colore alternativo per le righe della tabella (Zebra Striping) */
 }
 
 * {
@@ -154,7 +155,7 @@ table { width: 100%; border-collapse: collapse; } /* La tabella occupa tutto il 
 thead { position: sticky; top: 0; background-color: var(--bg-dark); color: var(--text-light); z-index: 10; } /* STICKY TOP 0: Mentre scorri verso il basso, l'intestazione (thead) resta incollata in alto. z-index 10 assicura che passi SOPRA le altre righe senza farsi coprire. */
 th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; } /* Distanzia il testo all'interno delle celle e mette una riga grigia in fondo ad ognuna */
 /* Righe Alternate */
-tr:nth-child(even) { background-color: #f1f1f1; }
+tr:nth-child(even) { background-color: var(--zebra-stripe); }
 .tbl-body tr:hover { outline: 3px solid var(--salmon); outline-offset: -2px; border-radius: 10px;}
 
 
