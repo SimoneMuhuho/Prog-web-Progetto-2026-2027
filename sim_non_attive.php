@@ -42,7 +42,7 @@
                         <th>Dettaglio</th>
                     </tr>
                 </thead>
-                <tbody id="tbl-body">
+                <tbody id="tbl-body" class="tbl-body">
                     <tr><td colspan="7" class="loading">Caricamento…</td></tr>
                 </tbody>
             </table>
