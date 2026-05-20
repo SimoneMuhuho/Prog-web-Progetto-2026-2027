@@ -14,6 +14,11 @@
             <input type="text" id="search-codice" placeholder="es. 6261142…" autocomplete="off">
         </div>
 
+         <div class="filtro-group">
+            <label for="search-contratto">N° Contratto</label>
+            <input type="text" id="search-contratto" placeholder="es. +39 335…" autocomplete="off">
+        </div>
+
         <div class="filtro-group">
             <label for="search-tipo-sim">Tipo SIM</label>
             <select id="search-tipo-sim">
@@ -25,10 +30,6 @@
             </select>
         </div>
 
-        <div class="filtro-group">
-            <label for="search-contratto">N° Contratto</label>
-            <input type="text" id="search-contratto" placeholder="es. +39 335…" autocomplete="off">
-        </div>
 
         <div class="filtro-group">
             <label for="search-data-disatt-da">Disattivazione dal</label>
@@ -57,9 +58,8 @@
                 <thead>
                     <tr>
                         <th>Codice SIM</th>
-                        <th>Tipo SIM</th>
                         <th>N° Contratto</th>
-                        <th>Tipo Contratto</th>
+                        <th>Tipo SIM</th>
                         <th>Data Attivazione</th>
                         <th>Data Disattivazione</th>
                         <th>Dettaglio</th>
@@ -89,9 +89,8 @@
                     <h4>Dati SIM</h4>
                     <dl class="detail-grid">
                         <dt>Codice SIM</dt>        <dd id="d-codice">—</dd>
-                        <dt>Tipo SIM</dt>           <dd id="d-tipo-sim">—</dd>
                         <dt>N° Contratto</dt>       <dd id="d-contratto">—</dd>
-                        <dt>Tipo Contratto</dt>     <dd id="d-tipo-contratto">—</dd>
+                        <dt>Tipo SIM</dt>           <dd id="d-tipo-sim">—</dd>
                         <dt>Data Attivazione</dt>   <dd id="d-data-att">—</dd>
                         <dt>Data Disattivazione</dt><dd id="d-data-disatt">—</dd>
                     </dl>

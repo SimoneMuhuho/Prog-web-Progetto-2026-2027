@@ -15,6 +15,11 @@
         </div>
 
         <div class="filtro-group">
+            <label for="search-contratto">N° Contratto</label>
+            <input type="text" id="search-numero" placeholder="es. +39 335…" autocomplete="off">
+        </div>
+
+        <div class="filtro-group">
             <label for="search-tipo-sim">Tipo SIM</label>
             <select id="search-tipo-sim">
                 <option value="">Tutti</option>
@@ -23,11 +28,6 @@
                 <option value="standard">Standard</option>
                 <option value="eSIM">eSIM</option>
             </select>
-        </div>
-
-        <div class="filtro-group">
-            <label for="search-contratto">N° Contratto</label>
-            <input type="text" id="search-numero" placeholder="es. +39 335…" autocomplete="off">
         </div>
 
         <div class="filtro-group">
@@ -57,8 +57,8 @@
                 <thead>
                     <tr>
                         <th>Codice SIM</th>
-                        <th>Tipo SIM</th>
                         <th>N° Contratto</th>
+                        <th>Tipo SIM</th>
                         <th>Attivazione dal</th>
                         <th>Dettaglio</th>
                     </tr>

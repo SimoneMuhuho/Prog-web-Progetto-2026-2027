@@ -83,8 +83,8 @@ function caricaERicorda() {
          const html = righe.map(r => `
             <tr>
                 <td><code>${r.codice}</code></td>
+                 <td><strong>${r.numero}</strong></td>
                 <td>${badgeSIM(r.tipoSIM)}</td>
-                <td><strong>${r.numero}</strong></td>
                 <td>${fmtData(r.dataAttivazione)}</td>
                 <td style="text-align:center;">
                     <button class="btn btn-info btn-sm btn-dettaglio"
@@ -166,8 +166,8 @@ function caricaERicorda() {
                 const d = r.data;
                 $('#modal-title').text('Dettaglio SIM: ' + d.codice);
                 $('#d-codice').text(d.codice);
-                $('#d-tipo-sim').html(badgeSIM(d.tipoSIM));
                 $('#d-numero').text(d.numero);
+                $('#d-tipo-sim').html(badgeSIM(d.tipoSIM));
                 $('#d-data').text(fmtData(d.dataAttivazione));
                 $('#d-data').text(fmtData(d.s.dataDisattivazione));
             },
