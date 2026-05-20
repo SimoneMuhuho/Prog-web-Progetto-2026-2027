@@ -2,7 +2,7 @@
     --bg-dark: #1A2421;      /* Verde Scuro */
     --salmon: #FA8072;       /* Salmone */
     --salmon-hover: #E95849; /* Salmone più scuro */
-    --bg-light: #FDF5E6;     /* sfondo Avorio */
+    --bg-light: #F6F1EA;     /* Beige Chiaro */
     --text-main: #2B1810;    /* testo Scuro */
     --text-light: #FFFFFF;   /* testo Bianco */
     --zebra-stripe: #e7e7e7; /* Colore alternativo per le righe della tabella (Zebra Striping) */
@@ -30,7 +30,7 @@ body {
 .header {
     background-color: var(--bg-dark);
     color: var(--salmon);
-    padding: 15px;
+    padding: 15px 30px;
     text-align: center;
 }
 
@@ -65,6 +65,7 @@ body {
 
 .nav li a:hover {
     background-color: var(--salmon-hover);
+    border-radius: 100px;
 }
 
 footer {
@@ -84,11 +85,20 @@ main {
 
 /* BOTTONE GENERALE */
 .btn {
-    padding: 10px 15px;
+    padding: 0px 24px;
+    height: 40px;
+
+    font-family: roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
-    border-radius: 4px;
+    border-radius: 100px;
     cursor: pointer; /* Fa comparire la "manina" quando passi il mouse sul bottone */
-    font-weight: bold;
     transition: background-color 0.3s;
 }
 
@@ -99,7 +109,9 @@ main {
 .btn-outline { background-color: transparent; border: 2px solid var(--bg-dark); color: var(--bg-dark); } /* Bottone vuoto con solo bordo */
 .btn-outline:hover { background-color: var(--bg-dark); color: var(--text-light); } /* Passandoci sopra diventa scuro */
 .btn-info { background-color: var(--salmon); color: var(--text-light); border-radius: 20px; padding: 6px 12px;} /* Bottoncino stondato (tipo pillola) */
-.btn-info:hover { background-color: var(--bg-dark); } /* Passandoci sopra diventa verde scuro */
+.btn-info:hover { background-color: var(--salmon-hover); } /* Passandoci sopra diventa verde scuro */
+.btn-dettaglio { font-size: 13px; padding: 0px 18px; height: 28px; } /* Bottoncino più piccolo per i dettagli */
+
 
 main.layout-1 {
     display: flex; /* Dispone gli elementi interni (Filtri e Tabella) orizzontalmente */
@@ -136,6 +148,7 @@ main.layout-1 {
     padding: 20px;
     display: flex;
     flex-direction: column; /* Dispone il titolo e la tabella in verticale, uno sopra l'altro */
+    overflow: hidden;
 }
 
 .contenuto-risultati h2 { margin-top: 0; color: var(--bg-dark); }

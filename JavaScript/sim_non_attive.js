@@ -82,7 +82,7 @@ $(function () {
                 <td style="text-align:center;">
                     <button class="btn btn-info btn-sm btn-dettaglio"
                             data-codice="${r.codice}"
-                            title="Visualizza dettaglio">🔍 Apri</button>
+                            title="Visualizza dettaglio">Apri</button>
                 </td>
             </tr>`).join('');
 

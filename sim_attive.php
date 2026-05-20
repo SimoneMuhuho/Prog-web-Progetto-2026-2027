@@ -1,4 +1,7 @@
-<?php include 'header.php'; ?>
+<?php 
+    $pagina_corrente = 'sim_attive';
+    include 'header.php';
+?>
 
 <main class="layout-1">
 

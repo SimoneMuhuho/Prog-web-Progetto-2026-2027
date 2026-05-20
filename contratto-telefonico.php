@@ -1,7 +1,10 @@
-<?php include 'header.php';?>
+<?php
+    $pagina_corrente = 'contratti';
+    include 'header.php';
+?>
     <main class="layout-1">
 
-        <aside class="sidebar-filtro">
+        <aside class="sidebar-filtro card">
             <h3>Ricerca</h3>
 
             <div class="filtro-group">

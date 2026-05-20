@@ -1,0 +1,564 @@
+:root {
+    --light-salmon: #fff1ed;
+    --white: #ffffff;
+    --red: #de5543;
+    --red-hover: #c54f3a;
+    --pastel-green: #ddf5ea;
+    --green: #10b981;
+    --pastel-blue: #d3e9ef;
+    --blue: #459ce8;
+    --pastel-red: #f4e0d9;
+    --text-gray: #677b8a;
+    --text-dark: #2c3e50;
+    --zebra: #f8f9fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Forza il body a essere alto esattamente come lo schermo */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Impedisce TOTALMENTE alla pagina principale di scorrere */
+    background-color: var(--light-salmon) !important;
+    font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+button, .btn, input, select {
+    border-radius: 100px !important;
+}
+
+.header {
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.01em;
+    font-weight: 900 !important;
+    background-color: var(--white) !important;
+    color: var(--red) !important;
+    padding: 15px 30px;
+    text-align: left;
+    border-bottom: 5px solid var(--red) !important;
+}
+
+.header h1 {
+    margin: 0;
+    letter-spacing: 1px; /* Aggiunge un po' di spazio tra le lettere */
+    text-transform: uppercase;
+}
+
+/* Barra di navigazione */
+.nav {
+    background-color: var(--white) !important;
+    border-bottom: 1px solid #EAE5DC; /* linea sottile grigio/beige */
+    padding: 10px 0;
+}
+
+.nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 20px;
+    display: flex; 
+    justify-content: flex-start; 
+    gap: 10px; /* Distanzia i pulsanti tra loro senza usare padding vuoti */
+}
+
+/* link della navigazione (Stile Base) */
+.nav li a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray); /* Un grigio scuro morbido per i link non attivi */
+    text-align: center;
+    padding: 9px 20px; 
+    text-decoration: none;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    font-size: 15px;
+    border-radius: 100px; /* Tutti i link sono potenzialmente delle pillole */
+    transition: all 0.3s ease;
+}
+.nav li a:hover, .nav li a.active {
+    background-color: var(--light-salmon) !important;
+    color: var(--red) !important;
+}
+
+.nav li a.active {
+    background-color: var(--red) !important;
+    color: var(--white) !important;
+    font-weight: 500 !important;
+    box-shadow: 0 6px 20px rgba(250, 128, 114, 0.4) !important; 
+}
+
+footer {
+    background-color: var(--white) !important;
+    color: var(--text-gray) !important;
+    padding: 7px 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 400 !important;
+    border-top: 2px solid var(--pastel-red) !important;
+}
+
+/* AREA PRINCIPALE */
+main {
+    flex: 1; /* Dice al tag <main> di espandersi per occupare tutto lo spazio rimasto tra header e footer */
+    padding: 20px;
+    overflow-y: auto; /* Se il contenuto è troppo lungo, fa apparire la barra di scorrimento verticale solo per quest'area */
+}
+
+/* BOTTONE GENERALE */
+.btn {
+    padding: 0 20px;
+    height: 36px; /* Sintonizzato a 36px per entrare perfettamente nella card */
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px; /* Leggermente più piccolo per un look più raffinata */
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    
+    /* Flexbox: Mantiene icona e testo perfettamente allineati al centro */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Crea lo spazio perfetto tra l'icona e il testo */
+
+    border: none;
+    border-radius: 100px; /* Pillola perfetta */
+    cursor: pointer; 
+    transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Effetto micro-pressione al click per tutti i bottoni */
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Variante blocco: Largo al 100% ma MANTIENE l'allineamento flex interno */
+.btn-block { 
+    display: flex;
+    width: 100%; 
+    margin-bottom: 8px; 
+} 
+
+/* 1. Bottone Cerca */
+.btn-primary { 
+    background-color: var(--red);
+    color: var(--white); 
+} 
+.btn-primary:hover { 
+    background-color: var(--red-hover);
+}
+
+/* 2. Bottone Azzera */
+.btn-outline { 
+    background-color: transparent; 
+    border: 1px solid var(--text-gray);
+    color: var(--text-gray);
+} 
+.btn-outline:hover { 
+    background-color: var(--text-gray); 
+    color: var(--white); 
+}
+
+/* 3. Bottoni Tabella */
+.btn-info {
+    background-color: var(--red);
+    color: var(--white);
+    border-radius: 100px;
+    padding: 0 14px;
+    height: 30px;
+    font-size: 12px;
+} 
+.btn-info:hover {
+    background-color: var(--red-hover);
+} 
+
+.btn-dettaglio {
+    font-size: 12px;
+    padding: 0 14px;
+    height: 30px;
+}
+
+
+main.layout-1 {
+    flex: 1; /* Prende tutto lo spazio rimasto libero tra navbar e footer */
+    display: flex; /* Mette sidebar e tabella una di fianco all'altra */
+    padding: 0;
+    overflow: hidden; /* Sicurezza: niente scorrimento qui dentro */
+    align-items: flex-start; /* Allinea tutto in alto (utile se una colonna è più corta dell'altra) */
+    height: 100%;
+    padding-bottom: 20px;
+}
+
+/* COLONNA SINISTRA */
+.sidebar-filtro {
+    flex: 0 0 20%; /* Blocca l'elemento a non crescere (0), non rimpicciolirsi (0) e occupare esattamente il 20% dello spazio */
+    width: 20%;
+    background-color: var(--white) !important;
+
+    padding: 0 0 24px 0;
+
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04) !important;
+
+    margin: 30px 15px 30px 30px;
+    border-radius: 24px !important;
+
+    overflow-y: auto; /* Se il filtro è troppo lungo, fa apparire la barra di scorrimento verticale solo per questa colonna */
+    max-height: calc(100% - 30px); /* Altezza massima: altezza dello schermo meno header (60px) e footer (30px) e margini verticali (30px sopra + 30px sotto) */
+}
+
+.sidebar-filtro h3 {
+    background-color: var(--red);
+    color: var(--white);
+    margin: 0 0 24px 0;
+    padding: 16px 14px;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-filtro h3::before {
+    content: "\f0b0"; /* Codice FontAwesome per l'icona del filtro (sliders) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.filtro-group, .filtro-actions {
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.filtro-group {
+    margin-bottom: 10px;
+    padding: 0 24px;
+}
+
+.filtro-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--red);
+}
+
+.filtro-group input, .filtro-group select {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-gray);
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 100px;
+    outline: none;
+    transition: all 0.2s ease;
+    -webkit-appearance: none; /* Rimuove lo stile nativo di Safari/Chrome */
+    appearance: none;
+}
+
+/* Mette la freccetta personalizzata pulita */
+.filtro-group select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d65b45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center; /* Posiziona la freccia a destra */
+    cursor: pointer;
+}
+
+.filtro-group input[type="date"] {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* quando l'utente clicca su un campo (Focus) */
+.filtro-group input:focus, 
+.filtro-group select:focus {
+    background-color: #ffffff;
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(214, 91, 69, 0.15); /* Leggero alone sfumato */
+}
+
+/* COLONNA DESTRA */
+.contenuto-risultati {
+    flex: 0 0 75%;
+    width: 75%;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    
+    /* Spazio intorno alla colonna */
+    margin: 30px 30px 30px 15px;
+    
+    display: flex;
+    flex-direction: column;
+
+    height: calc(100% - 30px); /* Altezza totale meno i margini verticali (30px sopra + 30px sotto) */
+    overflow: hidden; /* Impedisce a tutto il blocco di allungare la pagina */
+}
+
+.contenuto-risultati h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding-left: 10px;
+    color: var(--text-dark);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.table-wrap {
+    flex: 1; /* Dice alla card di prendersi tutto lo spazio verticale rimasto sotto al titolo */
+    background-color: var(--white) !important;
+    border: none;
+    border-radius: 28px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    
+    overflow-y: auto;
+    margin-top: 0;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-family: 'Roboto', sans-serif;
+} 
+
+/* intestazione della tabella */
+thead { 
+    position: sticky; 
+    top: 0; 
+    background-color: var(--red);
+    color: var(--white);
+    z-index: 10; 
+}
+
+th { 
+    padding: 24px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    text-align: left; 
+}
+
+/* le righe dei dati */
+td { 
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--pastel-blue); 
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Prima colonna: aggiunge spazio a sinistra */
+th:first-child, 
+td:first-child {
+    padding-left: 32px; /* Allontana il testo dal bordo sinistro della card */
+}
+
+/* Ultima colonna: aggiunge spazio a destra */
+th:last-child, 
+td:last-child {
+    padding-right: 32px;
+}
+
+/* Righe Alternate (Zebra Striping) */
+tr:nth-child(even) { 
+    background-color: var(--zebra); 
+}
+.tbl-body tr {
+    transition: background-color 0.15s ease;
+}
+.tbl-body tr:hover { 
+    background-color: #FFF5F2 !important;
+    cursor: pointer;
+}
+
+
+/* BARRA DI SCORRIMENTO */
+/* 1. Per Chrome, Edge, Safari e Opera */
+::-webkit-scrollbar {
+    width: 4px;  
+    height: 4px; 
+}
+
+/* cancella freccette su e giu della barra */
+::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(103, 123, 138, 0.2); 
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--red); 
+}
+
+
+/* 2. Per Firefox */
+* {
+    scrollbar-width: thin; 
+    scrollbar-color: rgba(103, 123, 138, 0.2) transparent;
+}
+
+/* ------------------------------------ */
+
+/* FINESTRA MODALE */
+
+/* 1. LO SFONDO OSCURATO DIETRO IL POPUP */
+.modal-overlay {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(43, 24, 16, 0.5); /* Effetto vetro oscurato marrone/grigio caldo anziché verde scuro */
+    z-index: 2000; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    backdrop-filter: blur(4px); /* sfoca leggermente il sito dietro la modale */
+}
+
+/* 2. IL RIQUADRO BIANCO DEL POPUP */
+.modal {
+    background: #FFFFFF; 
+    border: none;
+    border-radius: 24px;
+    width: 90%; 
+    max-width: 700px; 
+    max-height: 85vh; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    overflow: hidden; /* Taglia l'header sugli angoli arrotondati */
+}
+
+/* 3. L'HEADER DELLA MODALE (La striscia in alto nel popup) */
+.modal-header {
+    background-color: #F8F9FA;
+    color: var(--text-main); 
+    padding: 20px 24px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #E9ECEF;
+}
+
+.modal-header h3 { 
+    margin: 0; 
+    font-size: 18px;
+    font-weight: 700;
+} 
+
+/* Il tasto X per chiudere */
+.modal-close { 
+    background: none; 
+    border: none; 
+    color: #8A92A6; 
+    font-size: 1.3rem; 
+    cursor: pointer; 
+    transition: color 0.2s;
+} 
+.modal-close:hover {
+    color: var(--red); /* Diventa salmone quando ci passi sopra */
+}
+
+/* 4. IL CORPO CENTRALE (I dati dentro il popup) */
+.modal-body { 
+    padding: 24px; 
+    overflow-y: auto; 
+} 
+
+/* Il piedino in basso */
+.modal-footer { 
+    padding: 16px 24px; 
+    border-top: 1px solid #E9ECEF; 
+    text-align: right; 
+    background-color: #F8F9FA;
+} 
+
+/* 5. STRUTTURA DEI DETTAGLI INTERNI */
+.detail-section { 
+    margin-bottom: 24px; 
+} 
+
+/* I sottotitoli interni (es. "Dati SIM") */
+.detail-section h4 { 
+    border-bottom: 2px solid #F1F3F5; 
+    padding-bottom: 6px; 
+    color: var(--red);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0;
+} 
+
+/* La griglia dei dati chiave-valore */
+.detail-grid { 
+    display: grid; 
+    grid-template-columns: auto 1fr; 
+    gap: 8px 16px; 
+    font-size: 14px;
+} 
+.detail-grid dt { 
+    font-weight: 600; 
+    color: #626260; /* Nome del campo leggermente grigio */
+} 
+.detail-grid dd { 
+    margin: 0; 
+    color: var(--text-main); /* Il valore vero e proprio è scuro e leggibile */
+} 
+
+/* 6. BOX DI NOTIFICA E AVVISI */
+#msg-box { display: none; } 
+.msg-box { 
+    padding: 12px 16px; 
+    margin-bottom: 16px; 
+    border-radius: 12px; 
+    font-weight: 600; 
+    font-size: 14px;
+} 
+
+/* Se c'è un errore (es. connessione fallita) */
+.msg-error { 
+    background-color: #FFF0EE; 
+    border: 1px solid #FFD0CB; 
+    color: #D65B45; 
+} 
+
+/* Testi di caricamento nella tabella */
+.loading, .no-data { 
+    text-align: center; 
+    font-style: italic; 
+    color: #8A92A6;
+    padding: 30px !important;
+}

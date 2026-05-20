@@ -1,4 +1,7 @@
-<?php include 'header.php';?>
+<?php
+    $pagina_corrente = 'dashboard';
+    include 'header.php';
+?>
 
 <main>
 

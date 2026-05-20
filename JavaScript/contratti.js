@@ -96,7 +96,7 @@ $(function () {
                     <td style="text-align:center;">
                         <button class="btn btn-info btn-sm btn-dettaglio"
                                 data-numero="${r.numero}"
-                                title="Visualizza dettaglio">🔍 Apri</button>
+                                title="Visualizza dettaglio">Apri</button>
                     </td>
                 </tr>`;
         }).join('');
