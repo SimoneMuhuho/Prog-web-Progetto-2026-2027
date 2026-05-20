@@ -13,8 +13,10 @@ switch ($action) {
                 sd.tipoSIM,
                 sd.eraAssociataA,
                 sd.dataAttivazione,
-                sd.dataDisattivazione
+                sd.dataDisattivazione,
+                c.tipo           AS tipoContratto
             FROM simdisattiva sd
+            LEFT JOIN contrattotelefonico c ON c.numero = sd.eraAssociataA
             ORDER BY sd.dataDisattivazione DESC
         ";
         $stmt = $pdo->query($sql);
@@ -34,8 +36,10 @@ switch ($action) {
                 sd.tipoSIM,
                 sd.eraAssociataA,
                 sd.dataAttivazione,
-                sd.dataDisattivazione
+                sd.dataDisattivazione,
+                c.tipo AS tipoContratto
             FROM simdisattiva sd
+            LEFT JOIN contrattotelefonico c ON c.numero = sd.eraAssociataA
             WHERE sd.codice = ?
         ");
         $stmt->execute([$codice]);

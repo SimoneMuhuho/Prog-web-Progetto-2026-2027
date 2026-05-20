@@ -29,6 +29,11 @@ $(function () {
         return `<span class="badge ${cls[tipo] ?? ''}">${tipo ?? '—'}</span>`;
     }
 
+    /** Badge colorato per il tipo contratto */
+    function badgeContratto(tipo) {
+        if (!tipo) return '—';
+        return `<span class="badge badge-${tipo}">${tipo}</span>`;
+    }
 
     /** Mostra messaggio di errore (auto-dismiss dopo 4s) */
     function showErr(testo) {
@@ -73,6 +78,7 @@ $(function () {
     function applicaFiltri(righe) {
         const codice    = $('#search-codice').val().trim().toLowerCase();
         const tipoSIM   = $('#search-tipo-sim').val();
+        const contratto = $('#search-contratto').val().trim().toLowerCase();
         const dataDa    = $('#search-data-disatt-da').val();   // data disattivazione dal
         const dataA     = $('#search-data-disatt-a').val();    // data disattivazione al
 
@@ -83,6 +89,10 @@ $(function () {
 
         if (tipoSIM)   righe = righe.filter(r => r.tipoSIM === tipoSIM);
 
+        if (contratto) righe = righe.filter(r => {
+            const val = r.eraAssociataA || r.ERAASSOCIATAA || "";
+            return val.toString().toLowerCase().includes(contratto);
+        });
         
         if (dataDa)    righe = righe.filter(r => r.dataDisattivazione >= dataDa);
         if (dataA)     righe = righe.filter(r => r.dataDisattivazione <= dataA);
@@ -97,6 +107,7 @@ $(function () {
                 <td><code>${r.codice}</code></td>
                 <td>${badgeSIM(r.tipoSIM)}</td>
                 <td><strong>${r.eraAssociataA}</strong></td>
+                <td>${badgeContratto(r.tipoContratto)}</td>
                 <td>${fmtData(r.dataAttivazione)}</td>
                 <td>${fmtData(r.dataDisattivazione)}</td>
                 <td style="text-align:center;">
@@ -121,7 +132,7 @@ $(function () {
     });
 
     // Cerca anche premendo Invio su qualsiasi campo del filtro
-    $('#search-codice, #search-tipo-sim, #search-data-disatt-da, #search-data-disatt-a')
+    $('#search-codice, #search-tipo-sim, #search-contratto, #search-data-disatt-da, #search-data-disatt-a')
         .on('keydown', function (e) {
             if (e.key === 'Enter') applicaFiltri(_tutteLeSIM);
         });
@@ -129,6 +140,7 @@ $(function () {
     $('#btn-reset').on('click', function () {
         $('#search-codice').val('');
         $('#search-tipo-sim').val('');
+        $('#search-contratto').val('');
         $('#search-data-disatt-da').val('');
         $('#search-data-disatt-a').val('');
         applicaFiltri(_tutteLeSIM);
@@ -141,7 +153,7 @@ $(function () {
     function apriDettaglio(codice) {
         // Resetta campi
         $('#modal-title').text('Dettaglio SIM Disattivata');
-        $('#d-codice, #d-tipo-sim, #d-data-att, #d-data-disatt').text('—');
+        $('#d-codice, #d-tipo-sim, #d-contratto, #d-tipo-contratto, #d-data-att, #d-data-disatt').text('—');
 
         $('#modal-overlay').fadeIn(150);
         caricaDettaglioSIM(codice);
@@ -188,6 +200,8 @@ $(function () {
                 $('#modal-title').text('Dettaglio SIM: ' + d.codice);
                 $('#d-codice').text(d.codice);
                 $('#d-tipo-sim').html(badgeSIM(d.tipoSIM));
+                $('#d-contratto').text(d.eraAssociataA);
+                $('#d-tipo-contratto').html(badgeContratto(d.tipoContratto));
                 $('#d-data-att').text(fmtData(d.dataAttivazione));
                 $('#d-data-disatt').text(fmtData(d.dataDisattivazione));
             },
