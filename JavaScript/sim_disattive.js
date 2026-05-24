@@ -4,6 +4,12 @@
  * Gestisce: caricamento tabella, filtri multipli (client-side), modal dettaglio
  */
 $(function () {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('contratto')) {
+        // Inserisce automaticamente il valore nel campo di ricerca contratto
+        $('#search-contratto').val(urlParams.get('contratto'));
+    }
 
     const API = 'PHP/sim_disattive/api_sim_disattive.php';
 
@@ -100,7 +106,13 @@ $(function () {
         const html = righe.map(r => `
             <tr>
                 <td><code>${r.codice}</code></td>
-                <td><strong>${r.eraAssociataA}</strong></td>
+                <td><strong>
+                    <a href="contratto-telefonico.php?numero=${encodeURIComponent(r.eraAssociataA)}"
+                        style="color: #de5543; font-weight: bold; text-decoration: underline;"
+                        title="Vai al contratto e cerca">
+                        ${r.eraAssociataA}
+                    </a>
+                </strong></td>
                 <td>${badgeSIM(r.tipoSIM)}</td>
                 <td>${fmtData(r.dataAttivazione)}</td>
                 <td>${fmtData(r.dataDisattivazione)}</td>

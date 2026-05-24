@@ -3,6 +3,12 @@
  * Gestisce: caricamento tabella, filtri multipli (client-side), modal dettaglio
  */
 $(function () {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('codice')) {
+        // Inserisce automaticamente il valore nel campo di ricerca
+        $('#search-codice').val(urlParams.get('codice'));
+    }
 
     const API = 'PHP/sim_attive/api_sim_attive.php';
 
@@ -81,17 +87,23 @@ function caricaERicorda() {
         }
 
          const html = righe.map(r => `
-            <tr>
-                <td><code>${r.codice}</code></td>
-                 <td><strong>${r.numero}</strong></td>
-                <td>${badgeSIM(r.tipoSIM)}</td>
-                <td>${fmtData(r.dataAttivazione)}</td>
-                <td style="text-align:center;">
-                    <button class="btn btn-info btn-sm btn-dettaglio"
-                            data-codice="${r.codice}"
-                            title="Visualizza dettaglio">Apri</button>
-                </td>
-            </tr>`).join('');
+   <tr>
+       <td><code>${r.codice}</code></td>
+       <td><strong>
+           <a href="contratto-telefonico.php?numero=${encodeURIComponent(r.numero)}"
+              style="color: #de5543; font-weight: bold; text-decoration: underline;"
+              title="Vai al contratto e cerca">
+              ${r.numero}
+           </a>
+       <strong/></td>
+       <td>${badgeSIM(r.tipoSIM)}</td>
+       <td>${fmtData(r.dataAttivazione)}</td>
+       <td style="text-align:center;">
+           <button class="btn btn-info btn-sm btn-dettaglio"
+                   data-codice="${r.codice}"
+                   title="Visualizza dettaglio">Apri</button>
+       </td>
+   </tr>`).join('');
 
         $('#tbl-body').html(html);
     }

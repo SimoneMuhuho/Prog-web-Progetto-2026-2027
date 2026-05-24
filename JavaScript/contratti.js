@@ -4,8 +4,17 @@
  * Gestisce: caricamento tabella, filtri multipli, modal dettaglio
  */
 $(function () {
-    const API = 'PHP/contratti/api_contratti.php'
+    
+     const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('numero')) {
+        // Inserisce il numero nel campo di input della ricerca dei contratti
+        $('#search-numero').val(urlParams.get('numero'));
+        
+        // Se vuoi che la ricerca parta anche in automatico all'apertura:
+        // applicaFiltri(_tuttiIContratti); 
+    }
 
+    const API = 'PHP/contratti/api_contratti.php'
     /* ══════════════════════════════════════════════════════════════════════
        UTILITY
     ═════════════════════════════════════════════════════════════════════ */
@@ -79,27 +88,56 @@ $(function () {
             return;
         }
 
-        const html = righe.map(r => {
-            const minuti  = r.tipo === 'consumo'  ? r.minutiResidui : '—';
-            const credito = r.tipo === 'ricarica' ? parseFloat(r.creditoResiduo).toFixed(2) + ' €' : '—';
-            const sim     = r.simAttiva ? r.simAttiva : '<em>nessuna</em>';
+   const html = righe.map(r => {
+    const minuti  = r.tipo === 'consumo' ? r.minutiResidui : '—';
+    const credito = r.tipo === 'ricarica' ? parseFloat(r.creditoResiduo).toFixed(2) + ' €' : '—';
+    
+    let sim = '';
+    
+    if (r.simAttiva) {
+        // CASO 1: C'è una SIM attiva (Link Rosso)
+        sim = `
+            <a href="sim_attive.php?codice=${encodeURIComponent(r.simAttiva)}"
+               style="color: var(--red); font-weight: bold; text-decoration: none;"
+               title="Vai alla SIM attiva">
+               ${r.simAttiva}
+            </a>`;
+    } else if (parseInt(r.numDisattive) > 0) { 
+        // CASO 2: Nessuna attiva, MA ci sono SIM disattivate nello storico (Link Grigio Sottolineato)
+        sim = `
+            <a href="sim_disattivate.php?contratto=${encodeURIComponent(r.numero)}"
+               style="color: var(--text-gray); font-style: italic; text-decoration: underline;"
+               title="Vedi storico disattivazioni">
+               Nessuna
+            </a>`;
+    } else {
+        // CASO 3: Nessuna attiva e MAI avuta una SIM in passato (Testo statico, NON cliccabile)
+        sim = `
+            <span style="color: #bbb; font-style: italic; cursor: not-allowed;" 
+                  title="Nessuno storico SIM per questo contratto">
+               Nessuna
+            </span>`;
+    }
 
-            return `
-                <tr>
-                    <td><strong>${r.numero}</strong></td>
-                    <td>${fmtData(r.dataAttivazione)}</td>
-                    <td>${badge(r.tipo)}</td>
-                    <td>${minuti}</td>
-                    <td>${credito}</td>
-                    <td>${r.numTelefonate}</td>
-                    <td>${sim}</td>
-                    <td style="text-align:center;">
-                        <button class="btn btn-info btn-sm btn-dettaglio"
-                                data-numero="${r.numero}"
-                                title="Visualizza dettaglio">Apri</button>
-                    </td>
-                </tr>`;
-        }).join('');
+    return `
+        <tr>
+            <td><strong>${r.numero}</strong></td>
+            <td>${fmtData(r.dataAttivazione)}</td>
+            <td>${badge(r.tipo)}</td>
+            <td>${minuti}</td>
+            <td>${credito}</td>
+            <td>${r.numTelefonate}</td>
+            <td>${sim}</td>
+
+            <td style="text-align:center;">
+                <button class="btn btn-info btn-sm btn-dettaglio"
+                        data-numero="${r.numero}"
+                        title="Visualizza dettaglio">
+                    Apri
+                </button>
+            </td>
+        </tr>`;
+}).join('');
 
         $('#tbl-body').html(html);
     }

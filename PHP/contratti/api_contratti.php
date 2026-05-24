@@ -4,7 +4,7 @@ $action = $_GET['action'] ?? 'list';
 
 switch ($action) {
     case 'list':
-        // Recupera tutti i contratti con il conteggio delle telefonate e lo stato SIM
+        // Recupera tutti i contratti con il conteggio delle telefonate, lo stato SIM e SIM disattive
         $sql = "
             SELECT 
                 c.numero, 
@@ -13,6 +13,7 @@ switch ($action) {
                 c.minutiResidui, 
                 c.creditoResiduo,
                 (SELECT COUNT(*) FROM telefonata WHERE effettuataDa = c.numero) AS numTelefonate,
+                (SELECT COUNT(*) FROM simdisattiva WHERE eraAssociataA = c.numero) AS numDisattive,
                 sa.codice AS simAttiva
             FROM contrattotelefonico c
             LEFT JOIN simattiva sa ON sa.associataA = c.numero
