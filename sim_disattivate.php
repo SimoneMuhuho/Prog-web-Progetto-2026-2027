@@ -6,12 +6,17 @@
 <main class="layout-1">
 
     <!-- ── Colonna sinistra: Filtro / Ricerca ────────────────────────────── -->
-    <aside class="sidebar-filtro">
+    <aside class="sidebar-filtro card">
         <h3>Ricerca</h3>
 
         <div class="filtro-group">
             <label for="search-codice">Codice SIM</label>
             <input type="text" id="search-codice" placeholder="es. 6261142…" autocomplete="off">
+        </div>
+
+         <div class="filtro-group">
+            <label for="search-contratto">N° Contratto</label>
+            <input type="text" id="search-contratto" placeholder="es. +39 335…" autocomplete="off">
         </div>
 
         <div class="filtro-group">
@@ -25,21 +30,15 @@
             </select>
         </div>
 
+
         <div class="filtro-group">
-            <label for="search-contratto">N° Contratto</label>
-            <input type="text" id="search-contratto" placeholder="es. +39 335…" autocomplete="off">
+            <label for="search-data-disatt-da">Disattivazione dal</label>
+            <input type="date" id="search-data-disatt-da">
         </div>
 
-        <div class="filtro-group-inline">
-            <div class="filtro-group-half">
-                <label for="search-data-disatt-da">Disattivazione dal</label>
-                <input type="date" id="search-data-disatt-da">
-            </div>
-
-            <div class="filtro-group-half">
-                <label for="search-data-disatt-a">Disattivazione al</label>
-                <input type="date" id="search-data-disatt-a">
-            </div>
+        <div class="filtro-group">
+            <label for="search-data-disatt-a">Disattivazione al</label>
+            <input type="date" id="search-data-disatt-a">
         </div>
 
         <div class="filtro-actions">
@@ -59,9 +58,8 @@
                 <thead>
                     <tr>
                         <th>Codice SIM</th>
-                        <th>Tipo SIM</th>
                         <th>N° Contratto</th>
-                        <th>Tipo Contratto</th>
+                        <th>Tipo SIM</th>
                         <th>Data Attivazione</th>
                         <th>Data Disattivazione</th>
                         <th>Dettaglio</th>
@@ -91,9 +89,8 @@
                     <h4>Dati SIM</h4>
                     <dl class="detail-grid">
                         <dt>Codice SIM</dt>        <dd id="d-codice">—</dd>
-                        <dt>Tipo SIM</dt>           <dd id="d-tipo-sim">—</dd>
                         <dt>N° Contratto</dt>       <dd id="d-contratto">—</dd>
-                        <dt>Tipo Contratto</dt>     <dd id="d-tipo-contratto">—</dd>
+                        <dt>Tipo SIM</dt>           <dd id="d-tipo-sim">—</dd>
                         <dt>Data Attivazione</dt>   <dd id="d-data-att">—</dd>
                         <dt>Data Disattivazione</dt><dd id="d-data-disatt">—</dd>
                     </dl>
