@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+
 :root {
     --light-salmon: #fff1ed;
     --white: #ffffff;
@@ -8,6 +11,7 @@
     --pastel-blue: #d3e9ef;
     --blue: #459ce8;
     --pastel-red: #f4e0d9;
+    --light-gray: #8d96a8;
     --text-gray: #677b8a;
     --text-dark: #2c3e50;
     --zebra: #f8f9fa;
@@ -31,7 +35,7 @@ body {
     flex-direction: column;
     overflow: hidden; /* Impedisce TOTALMENTE alla pagina principale di scorrere */
     background-color: var(--light-salmon) !important;
-    font-family: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
 }
 
 button, .btn, input, select {
@@ -39,7 +43,7 @@ button, .btn, input, select {
 }
 
 .header {
-    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
     letter-spacing: -0.01em;
     font-weight: 900 !important;
     background-color: var(--white) !important;
@@ -47,6 +51,14 @@ button, .btn, input, select {
     padding: 15px 30px;
     text-align: left;
     border-bottom: 5px solid var(--red) !important;
+}
+
+.header h1::before {
+    content: "\f7c4";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 800;
+    font-size: 30px;
+    margin-right: 10px;
 }
 
 .header h1 {
@@ -152,8 +164,17 @@ main {
 /* 1. Bottone Cerca */
 .btn-primary { 
     background-color: var(--red);
-    color: var(--white); 
-} 
+    color: var(--white);
+    box-shadow: 0 6px 20px rgba(250, 128, 114, 0.4) !important;
+}
+
+.btn-primary::before {
+    content: "\f002"; /* Codice FontAwesome per la lente di ingrandimento */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
 .btn-primary:hover { 
     background-color: var(--red-hover);
 }
@@ -161,7 +182,6 @@ main {
 /* 2. Bottone Azzera */
 .btn-outline { 
     background-color: transparent; 
-    border: 1px solid var(--text-gray);
     color: var(--text-gray);
 } 
 .btn-outline:hover { 
@@ -201,8 +221,8 @@ main.layout-1 {
 
 /* COLONNA SINISTRA */
 .sidebar-filtro {
-    flex: 0 0 20%; /* Blocca l'elemento a non crescere (0), non rimpicciolirsi (0) e occupare esattamente il 20% dello spazio */
-    width: 20%;
+    flex: 0 0 22%; /* Blocca l'elemento a non crescere (0), non rimpicciolirsi (0) e occupare esattamente il 22% dello spazio */
+    width: 22%;
     background-color: var(--white) !important;
 
     padding: 0 0 24px 0;
@@ -232,10 +252,11 @@ main.layout-1 {
 }
 
 .sidebar-filtro h3::before {
-    content: "\f0b0"; /* Codice FontAwesome per l'icona del filtro (sliders) */
+    content: "\f1de"; /* Codice FontAwesome per l'icona del filtro (sliders) */
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 16px;
+    padding-left: 10px;
 }
 
 .filtro-group, .filtro-actions {
@@ -248,7 +269,28 @@ main.layout-1 {
     padding: 0 24px;
 }
 
-.filtro-group label {
+.filtro-group-inline {
+    display: flex;
+    gap: 10px;
+    padding: 0 24px;
+    margin-bottom: 10px;
+}
+
+/* I singoli sotto-blocchi */
+.filtro-group-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.filtro-group-half input[type="date"] {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.filtro-group-half label {
     display: block;
     margin-bottom: 4px;
     font-size: 11px;
@@ -256,6 +298,38 @@ main.layout-1 {
     text-transform: uppercase;
     letter-spacing: 0.8px;
     color: var(--red);
+}
+
+.filtro-group-half input, .filtro-group-half select {
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-gray);
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 100px;
+    outline: none;
+    transition: all 0.2s ease;
+    -webkit-appearance: none; /* Rimuove lo stile nativo di Safari/Chrome */
+    appearance: none;
+}
+
+.filtro-group label, .filtro-group h2 {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--red);
+    background-color: transparent;
+}
+
+.filtro-group h2 {
+    font-size: 12px;
+    margin-bottom: 25px;
 }
 
 .filtro-group input, .filtro-group select {
@@ -296,10 +370,80 @@ main.layout-1 {
     box-shadow: 0 0 0 3px rgba(214, 91, 69, 0.15); /* Leggero alone sfumato */
 }
 
+/* DASHBOARD */
+.sidebar-filtro-panoramica h3::before {
+    content: "\f201";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.filtro-group p {
+    color: var(--text-gray);
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Alert di informazione */
+.sidebar-results-footer {
+    padding: 0 20px 0;
+}
+
+.results-block, .results-num {
+    border-top: 1px solid var(--pastel-blue);
+    padding-top: 20px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.results-block::before {
+    content: "\f05a";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+
+    color: var(--red);
+    font-size: 14px;
+
+    margin-top: 3px;
+}
+
+.results-block .info {
+    color: var(--light-gray);
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 400;
+    margin: 0;
+}
+
+.results-num {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.label {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--text-gray);
+}
+
+.count {
+    font-weight: bold;
+    color: var(--red); /* Il colore rosso del tuo box */
+}
+
 /* COLONNA DESTRA */
 .contenuto-risultati {
-    flex: 0 0 75%;
-    width: 75%;
+    flex: 0 0 72%;
+    width: 72%;
     background-color: transparent;
     padding: 0;
     box-shadow: none;
@@ -316,13 +460,24 @@ main.layout-1 {
 }
 
 .contenuto-risultati h2 {
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
     margin-top: 0;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     padding-left: 10px;
     color: var(--text-dark);
-    font-size: 30px;
+    font-size: 40px;
     font-weight: 700;
     letter-spacing: -0.5px;
+}
+
+.contenuto-risultati p {
+    color: var(--text-gray);
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    margin-top: 0;
+    margin-bottom: 4px;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .table-wrap {
@@ -339,7 +494,7 @@ main.layout-1 {
 table { 
     width: 100%; 
     border-collapse: collapse; 
-    font-family: 'Roboto', sans-serif;
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
 } 
 
 /* intestazione della tabella */
@@ -348,11 +503,11 @@ thead {
     top: 0; 
     background-color: var(--red);
     color: var(--white);
-    z-index: 10; 
+    z-index: 10;
 }
 
 th { 
-    padding: 24px 16px;
+    padding: 24px 10px;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
@@ -365,7 +520,7 @@ td {
     padding: 12px 20px;
     border-bottom: 1px solid var(--pastel-blue); 
     color: var(--text-dark);
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
 }
 
@@ -391,6 +546,50 @@ tr:nth-child(even) {
 .tbl-body tr:hover { 
     background-color: #FFF5F2 !important;
     cursor: pointer;
+}
+
+/* Tasti modifia ed elimina */
+.btn-modifica, .btn-elimina {
+    width: 32px !important;    
+    height: 32px !important;
+    border-radius: 50% !important;
+}
+
+.btn-elimina {
+    background-color: transparent !important;
+    color: var(--red) !important;
+    margin-left: 6px;
+}
+
+.btn-elimina:hover {
+    background-color: var(--red) !important;
+    color: var(--white) !important;
+}
+
+.btn-modifica {
+    background-color: transparent !important;
+    color: var(--text-gray) !important;
+}
+
+.btn-modifica:hover {
+    background-color: var(--text-gray) !important;
+    color: var(--white) !important;
+}
+
+/* Icona per il tasto Modifica */
+.btn-modifica::before {
+    content: "\f303"; /* Codice FontAwesome per la matita (pen-to-square) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 13px;
+}
+
+/* Icona per il tasto Elimina */
+.btn-elimina::before {
+    content: "\f2ed"; /* Codice FontAwesome per il cestino (trash-can) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 13px;
 }
 
 

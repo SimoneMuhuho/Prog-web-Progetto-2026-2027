@@ -4,7 +4,7 @@
 ?>
     <main class="layout-1">
 
-        <aside class="sidebar-filtro card">
+        <aside class="sidebar-filtro">
             <h3>Ricerca</h3>
 
             <div class="filtro-group">
@@ -21,20 +21,30 @@
                 </select>
             </div>
 
-            <div class="filtro-group">
-                <label for="search-data-da">Attivazione dal</label>
-                <input type="date" id="search-data-da">
-            </div>
+            <div class="filtro-group-inline">
+                <div class="filtro-group-half">
+                    <label for="search-data-da">Attivazione dal</label>
+                    <input type="date" id="search-data-da">
+                </div>
 
-            <div class="filtro-group">
-                <label for="search-data-a">Attivazione al</label>
-                <input type="date" id="search-data-a">
+                <div class="filtro-group-half">
+                    <label for="search-data-a">Attivazione al</label>
+                    <input type="date" id="search-data-a">
+                </div>
             </div>
 
             <div class="filtro-actions">
                 <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
                 <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
             </div>
+
+            <div class="sidebar-results-footer">
+                <div class="results-num">
+                    <span class="label">Risultati</span>
+                    <span class="count" id="contatore-risultati">0</span>
+                </div>
+            </div>
+            
         </aside>
 
         <section class="contenuto-risultati">

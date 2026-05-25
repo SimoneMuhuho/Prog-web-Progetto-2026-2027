@@ -23,14 +23,16 @@
                 </select>
             </div>
 
-            <div class="filtro-group">
-                <label for="search-data-da">Chiamate dal</label>
-                <input type="date" id="search-data-da">
-            </div>
+            <div class="filtro-group-inline">
+                <div class="filtro-group-half">
+                    <label for="search-data-da">Chiamate dal</label>
+                    <input type="date" id="search-data-da">
+                </div>
 
-            <div class="filtro-group">
-                <label for="search-data-a">Chiamate al</label>
-                <input type="date" id="search-data-a">
+                <div class="filtro-group-half">
+                    <label for="search-data-a">Chiamate al</label>
+                    <input type="date" id="search-data-a">
+                </div>
             </div>
 
             <div class="filtro-group">

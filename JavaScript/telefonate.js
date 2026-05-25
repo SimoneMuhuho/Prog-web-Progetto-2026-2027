@@ -119,17 +119,16 @@ $(function () {
                 <td class="cell-durata">${fmtDurata(r.durata)}</td>
                 <td class="cell-costo">${fmtCosto(r.costo)}</td>
                 <td style="text-align:center; white-space:nowrap;">
-                    <button class="btn btn-info btn-sm btn-modifica"
+                    <button class="btn btn-info btn-modifica"
                             data-id="${r.id}"
                             data-durata="${r.durata}"
                             data-costo="${r.costo}"
-                            title="Modifica durata e costo">✏️ Modifica</button>
-                    <button class="btn btn-sm btn-elimina"
+                            title="Modifica durata e costo"></button>
+                            
+                    <button class="btn btn-info btn-elimina"
                             data-id="${r.id}"
                             data-label="${r.effettuataDa} – ${fmtData(r.data)} ${r.ora ?? ''}"
-                            title="Elimina telefonata"
-                            style="background-color:#dc3545; color:#fff; margin-left:6px;">
-                        🗑️ Elimina</button>
+                            title="Elimina telefonata"></button>
                 </td>
             </tr>`).join('');
 

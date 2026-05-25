@@ -15,11 +15,6 @@
         </div>
 
         <div class="filtro-group">
-            <label for="search-contratto">N° Contratto</label>
-            <input type="text" id="search-numero" placeholder="es. +39 335…" autocomplete="off">
-        </div>
-
-        <div class="filtro-group">
             <label for="search-tipo-sim">Tipo SIM</label>
             <select id="search-tipo-sim">
                 <option value="">Tutti</option>
@@ -31,14 +26,21 @@
         </div>
 
         <div class="filtro-group">
-                <label for="search-data-da">Attivazione dal</label>
-                <input type="date" id="search-data-da">
+            <label for="search-contratto">N° Contratto</label>
+            <input type="text" id="search-numero" placeholder="es. +39 335…" autocomplete="off">
         </div>
 
-        <div class="filtro-group">
-                <label for="search-data-a">Attivazione al</label>
-                <input type="date" id="search-data-a">
-         </div>
+        <div class="filtro-group-inline">
+            <div class="filtro-group-half">
+                    <label for="search-data-da">Attivazione dal</label>
+                    <input type="date" id="search-data-da">
+            </div>
+
+            <div class="filtro-group-half">
+                    <label for="search-data-a">Attivazione al</label>
+                    <input type="date" id="search-data-a">
+            </div>
+        </div>
 
          <div class="filtro-actions">
             <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
@@ -57,8 +59,8 @@
                 <thead>
                     <tr>
                         <th>Codice SIM</th>
-                        <th>N° Contratto</th>
                         <th>Tipo SIM</th>
+                        <th>N° Contratto</th>
                         <th>Attivazione dal</th>
                         <th>Dettaglio</th>
                     </tr>

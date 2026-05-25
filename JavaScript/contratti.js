@@ -83,6 +83,9 @@ $(function () {
         if (dataDa) righe = righe.filter(r => r.dataAttivazione >= dataDa);
         if (dataA)  righe = righe.filter(r => r.dataAttivazione <= dataA);
 
+        // Aggiorna lo span col numero di elementi filtrati
+        $('#contatore-risultati').text(righe.length);
+
         if (righe.length === 0) {
             $('#tbl-body').html('<tr><td colspan="8" class="no-data">Nessun contratto trovato.</td></tr>');
             return;
