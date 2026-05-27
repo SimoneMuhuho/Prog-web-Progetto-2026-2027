@@ -21,7 +21,13 @@ switch ($action) {
             ORDER BY c.dataAttivazione DESC
         ";
         $stmt = $pdo->query($sql);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            if ($row['simAttiva'] !== null) {
+                $row['simAttiva'] = (string)$row['simAttiva'];
+            }
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     case 'telefonate':
@@ -35,14 +41,22 @@ switch ($action) {
         $num = $_GET['numero'] ?? '';
         $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione FROM simattiva WHERE associataA = ?");
         $stmt->execute([$num]);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            $row['codice'] = (string)$row['codice'];
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     case 'sim_disattive':
         $num = $_GET['numero'] ?? '';
         $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione, dataDisattivazione FROM simdisattiva WHERE eraAssociataA = ? ORDER BY dataDisattivazione DESC");
         $stmt->execute([$num]);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            $row['codice'] = (string)$row['codice'];
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     default:

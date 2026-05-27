@@ -29,6 +29,31 @@
         <h2>Dashboard</h2>
         <p>Panoramica in tempo reale di SIM, contratti e chiamate.</p>
 
+        <div class="dashboard-panels">
+            <div class="panel">
+                <i class="fa-solid fa-signal"></i>
+                <h3>500</h3>
+                <p>Contratti Totali</p>
+            </div>
+            <div class="panel">
+                <i class="fa-solid fa-sim-card"></i>
+                <h3>120</h3>
+                <p>SIM Attive</p>
+            </div>
+            <div class="panel">
+                <i class="fa-solid fa-box"></i>
+                <h3>10</h3>
+                <p>SIM Non Attive</p>
+            </div>
+        </div> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <div class="dashboard-charts-container">
+            <div class="chart-box">
+                <h3>Distribuzione Tipi Contratto</h3>
+                <canvas id="chartContratti"></canvas>
+            </div>
+        </div>
+
     </section>
 
 </main>

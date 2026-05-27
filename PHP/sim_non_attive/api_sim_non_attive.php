@@ -13,7 +13,11 @@ switch ($action) {
             FROM simnonattiva sd
         ";
         $stmt = $pdo->query($sql);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            $row['codice'] = (string)$row['codice'];
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     /* ── Dettaglio singola SIM ────────────────────────────────────────── */
@@ -32,6 +36,7 @@ switch ($action) {
         $row = $stmt->fetch();
 
         if ($row) {
+            $row['codice'] = (string)$row['codice'];
             echo json_encode(['success' => true, 'data' => $row]);
         } else {
             echo json_encode(['success' => false, 'message' => 'SIM non trovata']);

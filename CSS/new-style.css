@@ -11,6 +11,8 @@
     --pastel-blue: #d3e9ef;
     --blue: #459ce8;
     --pastel-red: #f4e0d9;
+    --pastel-yellow: #fff5e1;
+    --yellow: #fbbf24;
     --light-gray: #8d96a8;
     --text-gray: #677b8a;
     --text-dark: #2c3e50;
@@ -440,6 +442,99 @@ main.layout-1 {
     color: var(--red); /* Il colore rosso del tuo box */
 }
 
+.dashboard-panels {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Fa andare i pannelli a capo sugli schermi piccoli */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.panel {
+    flex: 1;
+    min-width: 200px;
+    background-color: var(--white) !important;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
+.panel h3 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--red);
+    padding: 10px;
+}
+
+.panel p {
+    margin: 5px 0 0 0;
+    font-size: 12px;
+    color: var(--text-gray);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.fa-signal {
+    font-size: 24px;
+    color: var(--green);
+    margin-left: 10px;
+    background-color: var(--pastel-green);
+    padding: 10px;
+    border-radius: 35%;
+}
+
+.fa-sim-card {
+    font-size: 24px;
+    color: var(--blue);
+    margin-left: 10px;
+    background-color: var(--pastel-blue);
+    padding: 10px;
+    border-radius: 35%;
+}
+
+.fa-box {
+    font-size: 24px;
+    color: var(--yellow);
+    margin-left: 10px;
+    background-color: var(--pastel-yellow);
+    padding: 10px;
+    border-radius: 35%;
+}
+
+/* distribuzione contratti */
+.dashboard-charts-container {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.chart-box {
+    flex: 1;
+    max-width: 400px; /* Evita che il grafico a torta diventi gigantesco */
+    background-color: var(--white) !important;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.chart-box h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-gray);
+}
+
+
 /* COLONNA DESTRA */
 .contenuto-risultati {
     flex: 0 0 72%;
@@ -456,7 +551,8 @@ main.layout-1 {
     flex-direction: column;
 
     height: calc(100% - 30px); /* Altezza totale meno i margini verticali (30px sopra + 30px sotto) */
-    overflow: hidden; /* Impedisce a tutto il blocco di allungare la pagina */
+    overflow-y: auto; 
+    padding-right: 10px;
 }
 
 .contenuto-risultati h2 {

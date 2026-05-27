@@ -20,7 +20,11 @@ switch ($action) {
             ORDER BY sd.dataDisattivazione DESC
         ";
         $stmt = $pdo->query($sql);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            $row['codice'] = (string)$row['codice'];
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     /* ── Dettaglio singola SIM tramite codice ─────────────────────────── */
@@ -45,6 +49,7 @@ switch ($action) {
         $stmt->execute([$codice]);
         $row = $stmt->fetch();
         if ($row) {
+            $row['codice'] = (string)$row['codice'];
             echo json_encode(['success' => true, 'data' => $row]);
         } else {
             echo json_encode(['success' => false, 'message' => 'SIM non trovata']);
@@ -65,7 +70,11 @@ switch ($action) {
             ORDER BY dataDisattivazione DESC
         ");
         $stmt->execute([$numero]);
-        echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
+        $data = $stmt->fetchAll();
+        foreach ($data as &$row) {
+            $row['codice'] = (string)$row['codice'];
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
         break;
 
     default:
