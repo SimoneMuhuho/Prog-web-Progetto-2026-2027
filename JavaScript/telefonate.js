@@ -105,6 +105,9 @@ $(function () {
         if (dataA)     righe = righe.filter(r => r.data <= dataA);
         if (costoMax)  righe = righe.filter(r => parseFloat(r.costo) <= parseFloat(costoMax));
 
+        // Aggiorna lo span col numero di elementi filtrati
+        $('#contatore-risultati').text(righe.length);
+
         if (righe.length === 0) {
             $('#tbl-body').html('<tr><td colspan="7" class="no-data">Nessuna telefonata trovata.</td></tr>');
             return;

@@ -46,6 +46,13 @@
             <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
+
+        <div class="sidebar-results-footer">
+            <div class="results-num">
+                <span class="label">Risultati</span>
+                <span class="count" id="contatore-risultati">0</span>
+            </div>
+        </div>
         
     </aside>
 

@@ -76,6 +76,9 @@ $(function () {
         if (codice)  righe = righe.filter(r => (r.codice || '').toString().toLowerCase().includes(codice));
         if (tipoSIM) righe = righe.filter(r => r.tipoSIM === tipoSIM);
 
+        // Aggiorna lo span col numero di elementi filtrati
+        $('#contatore-risultati').text(righe.length);
+
         if (righe.length === 0) {
             $('#tbl-body').html('<tr><td colspan="3" class="no-data">Nessuna SIM non attiva trovata.</td></tr>');
             return;

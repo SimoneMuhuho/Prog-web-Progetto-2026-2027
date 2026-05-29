@@ -98,6 +98,9 @@ $(function () {
         if (dataDa)    righe = righe.filter(r => r.dataDisattivazione >= dataDa);
         if (dataA)     righe = righe.filter(r => r.dataDisattivazione <= dataA);
 
+        // Aggiorna lo span col numero di elementi filtrati
+        $('#contatore-risultati').text(righe.length);
+
         if (righe.length === 0) {
             $('#tbl-body').html('<tr><td colspan="6" class="no-data">Nessuna SIM disattivata trovata.</td></tr>');
             return;

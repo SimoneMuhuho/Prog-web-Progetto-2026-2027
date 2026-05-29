@@ -31,13 +31,12 @@
         </div>
 
         <div class="sidebar-results-footer">
-            <div class="results-block">
-                <p class="info">
-                    Le SIM non attive sono schede disponibili non ancora assegnate ad alcun contratto.
-                    Premi <strong>Attiva</strong> per associarla a un contratto esistente.
-                </p>
+            <div class="results-num">
+                <span class="label">Risultati</span>
+                <span class="count" id="contatore-risultati">0</span>
             </div>
         </div>
+        
     </aside>
 
     <!-- ── Colonna destra: Contenuto / Risultati ─────────────────────────── -->
