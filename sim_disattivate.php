@@ -30,15 +30,16 @@
             </select>
         </div>
 
+        <div class="filtro-group-inline">
+            <div class="filtro-group-half">
+                <label for="search-data-disatt-da">Disattivazione dal</label>
+                <input type="date" id="search-data-disatt-da">
+            </div>
 
-        <div class="filtro-group">
-            <label for="search-data-disatt-da">Disattivazione dal</label>
-            <input type="date" id="search-data-disatt-da">
-        </div>
-
-        <div class="filtro-group">
-            <label for="search-data-disatt-a">Disattivazione al</label>
-            <input type="date" id="search-data-disatt-a">
+            <div class="filtro-group-half">
+                <label for="search-data-disatt-a">Disattivazione al</label>
+                <input type="date" id="search-data-disatt-a">
+            </div>
         </div>
 
         <div class="filtro-actions">
