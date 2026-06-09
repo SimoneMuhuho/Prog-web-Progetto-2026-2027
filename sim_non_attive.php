@@ -29,14 +29,6 @@
             <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
-
-        <div class="sidebar-results-footer">
-            <div class="results-num">
-                <span class="label">Risultati</span>
-                <span class="count" id="contatore-risultati">0</span>
-            </div>
-        </div>
-        
     </aside>
 
     <!-- ── Colonna destra: Contenuto / Risultati ─────────────────────────── -->
@@ -51,7 +43,7 @@
                     <tr>
                         <th>Codice SIM</th>
                         <th>Tipo SIM</th>
-                        <th style="text-align:center;">Azioni</th>
+                        <th>Dettaglio</th>
                     </tr>
                 </thead>
                 <tbody id="tbl-body" class="tbl-body">
@@ -85,64 +77,6 @@
             <div class="modal-footer">
                 <button class="btn btn-outline" id="btn-chiudi">Chiudi</button>
             </div>
-
-        </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Attivazione SIM
-    ═══════════════════════════════════════════════════════════════════════ -->
-    <div id="modal-attiva-overlay" class="modal-overlay" style="display:none;">
-        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="att-modal-title">
-
-            <div class="modal-header">
-                <h3 id="att-modal-title">Attiva SIM</h3>
-                <button class="modal-close" id="att-close-btn" aria-label="Chiudi">&times;</button>
-            </div>
-
-            <form id="att-form">
-                <div class="modal-body">
-
-                    <div id="att-errors" class="msg-box msg-error" style="display:none;"></div>
-
-                    <!-- Riepilogo SIM che si sta attivando -->
-                    <section class="detail-section">
-                        <h4>SIM da attivare</h4>
-                        <dl class="detail-grid">
-                            <dt>Codice SIM</dt> <dd id="att-codice-display">—</dd>
-                            <dt>Tipo SIM</dt>   <dd id="att-tipo-display">—</dd>
-                        </dl>
-                    </section>
-
-                    <!-- Input richiesti -->
-                    <section class="detail-section" style="margin-bottom:0;">
-                        <h4>Dati di attivazione</h4>
-
-                        <input type="hidden" id="att-codice">
-
-                        <div class="filtro-group" style="padding:0; margin-bottom:14px;">
-                            <label for="att-contratto">Numero Contratto *</label>
-                            <input type="text" id="att-contratto"
-                                   placeholder="es. +39 333 1234567"
-                                   autocomplete="off" required>
-                        </div>
-
-                        <div class="filtro-group" style="padding:0; margin-bottom:0;">
-                            <label for="att-data">Data di Attivazione *</label>
-                            <input type="date" id="att-data" required>
-                        </div>
-                    </section>
-
-                </div><!-- /.modal-body -->
-
-                <div class="modal-footer">
-                    <button type="button" id="att-btn-annulla" class="btn btn-outline">Annulla</button>
-                    <button type="submit" id="att-btn-conferma" class="btn btn-primary"
-                            style="background-color: var(--green);">
-                        Conferma Attivazione
-                    </button>
-                </div>
-            </form>
 
         </div>
     </div>
