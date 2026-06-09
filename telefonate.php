@@ -56,9 +56,11 @@
     </aside>
 
     <section class="contenuto-risultati">
-        <h2>Registro Telefonate</h2>
         
-        <div id="msg-box"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Registro Telefonate</h2>
+            <button type="button" id="btn-apri-crea" class="btn btn-primary">+ Nuova Telefonata</button>
+        </div>
         
         <div class="table-wrap">
             <table>
@@ -83,6 +85,50 @@
     </section>
 
 </main>
+
+<div id="modal-crea-overlay" class="modal-overlay" style="display: none;">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Registra Nuova Telefonata</h3>
+            <button type="button" id="crea-close-btn" class="modal-close">&times;</button>
+        </div>
+        <form id="crea-form">
+            <div class="modal-body">
+                <div id="crea-errors" class="msg-box msg-error" style="display: none;"></div>
+                
+                <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
+                    <label for="crea-effettuataDa">Numero SIM</label>
+                    <input type="text" id="crea-effettuataDa" required placeholder="es. 3605188442" autocomplete="off">
+                </div>
+
+                <div class="filtro-group-inline" style="margin-bottom: 15px;">
+                    <div class="filtro-group-half">
+                        <label for="crea-data">Data Chiamata</label>
+                        <input type="date" id="crea-data" required>
+                    </div>
+                    <div class="filtro-group-half">
+                        <label for="crea-ora">Ora</label>
+                        <input type="time" id="crea-ora" step="1" required>
+                    </div>
+                </div>
+                
+                <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
+                    <label for="crea-durata">Durata (in secondi)</label>
+                    <input type="number" id="crea-durata" required min="1" placeholder="es. 120">
+                </div>
+                
+                <div class="filtro-group" style="padding: 0; margin-bottom: 5px;">
+                    <label for="crea-costo">Costo (€)</label>
+                    <input type="number" id="crea-costo" step="0.01" required min="0" placeholder="es. 1.50">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="crea-btn-annulla" class="btn btn-outline">Annulla</button>
+                <button type="submit" id="crea-btn-salva" class="btn btn-primary">Salva</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div id="modal-modifica-overlay" class="modal-overlay" style="display: none;">
     <div class="modal">

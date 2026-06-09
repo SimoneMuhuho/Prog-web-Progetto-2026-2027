@@ -70,9 +70,8 @@ switch ($action) {
         }
         break;
 
-         /* ── CREATE: Inserimento di una nuova telefonata ── */
+    /* ── CREATE: Inserimento di una nuova telefonata ── */
     case 'create':
-        // Assicurarsi che i nomi delle variabili corrispondano a quelli usati nel file js 
         $effettuataDa = $_POST['effettuataDa'] ?? null;
         $data         = $_POST['data'] ?? null;
         $ora          = $_POST['ora'] ?? null;
@@ -85,18 +84,32 @@ switch ($action) {
         }
 
         try {
+            // Controllo validità del contratto e recupero automatico del tipo
+            $stmtCheck = $pdo->prepare("SELECT tipo FROM contrattotelefonico WHERE numero = ?");
+            $stmtCheck->execute([$effettuataDa]);
+            $contratto = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+
+            if (!$contratto) {
+                echo json_encode(['success' => false, 'message' => 'Errore: Il numero SIM inserito non corrisponde a un contratto valido.']);
+                break;
+            }
+
+            $tipoContratto = $contratto['tipo'];
+
+            // Inserimento della telefonata
             $stmt = $pdo->prepare("INSERT INTO telefonata (effettuataDa, data, ora, durata, costo) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$effettuataDa, $data, $ora, $durata, $costo]);
             
             $newId = $pdo->lastInsertId();
-            echo json_encode(['success' => true, 'id' => $newId]);
+            
+            // Restituiamo anche il tipoContratto per permettere al JS di fare l'inserimento immediato nel client
+            echo json_encode([
+                'success' => true, 
+                'id' => $newId, 
+                'tipoContratto' => $tipoContratto
+            ]);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'message' => 'Errore creazione: ' . $e->getMessage()]);
         }
-        break;
-
-
-    default:
-        echo json_encode(['success' => false, 'message' => 'Azione non valida']);
         break;
 }

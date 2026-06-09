@@ -157,6 +157,97 @@ $(function () {
         applicaFiltri(_tutteLeTelefonate);
     });
 
+   /* ══════════════════════════════════════════════════════════════════════
+       MODAL CREAZIONE  –  Aggiunta nuova telefonata con controllo contratto
+    ═════════════════════════════════════════════════════════════════════ */
+
+    // Apre il modal compilando data e ora corrente per facilitare l'inserimento
+    $('#btn-apri-crea').on('click', function () {
+        $('#crea-form')[0].reset();
+        
+        const oggi = new Date().toISOString().split('T')[0];
+        const oraCorrente = new Date().toTimeString().split(' ')[0]; // Formato hh:mm:ss
+        
+        $('#crea-data').val(oggi);
+        $('#crea-ora').val(oraCorrente);
+        $('#crea-errors').hide().text('');
+        $('#modal-crea-overlay').fadeIn(150);
+        $('#crea-effettuataDa').trigger('focus');
+    });
+
+    function chiudiCrea() {
+        $('#modal-crea-overlay').fadeOut(150);
+    }
+
+    // Chiusura modal creazione
+    $('#crea-close-btn, #crea-btn-annulla').on('click', chiudiCrea);
+    $('#modal-crea-overlay').on('click', function (e) {
+        if ($(e.target).is('#modal-crea-overlay')) chiudiCrea();
+    });
+
+    /** Salva la nuova telefonata via POST */
+    $('#crea-form').on('submit', function (e) {
+        e.preventDefault();
+
+        const effettuataDa = $('#crea-effettuataDa').val().trim();
+        const data         = $('#crea-data').val();
+        const ora          = $('#crea-ora').val();
+        const durata       = parseInt($('#crea-durata').val(), 10);
+        const costo        = parseFloat($('#crea-costo').val());
+
+        // Validazione client-side rapida
+        if (!effettuataDa) {
+            $('#crea-errors').text('Inserire un numero SIM valido.').show();
+            return;
+        }
+        if (isNaN(durata) || durata < 1) {
+            $('#crea-errors').text('La durata deve essere maggiore di zero.').show();
+            return;
+        }
+        if (isNaN(costo) || costo < 0) {
+            $('#crea-errors').text('Il costo non può essere negativo.').show();
+            return;
+        }
+
+        $('#crea-btn-salva').prop('disabled', true).text('Salvataggio…');
+
+        $.ajax({
+            url: API,
+            method: 'POST',
+            data: { action: 'create', effettuataDa, data, ora, durata, costo: costo.toFixed(4) },
+            dataType: 'json',
+            success: function (r) {
+                $('#crea-btn-salva').prop('disabled', false).text('Salva');
+                if (!r.success) {
+                    // Qui viene stampato l'errore del database o se il contratto non è valido
+                    $('#crea-errors').text(r.message).show();
+                    return;
+                }
+                chiudiCrea();
+
+                // Costruiamo l'oggetto iniettando il tipoContratto validato dal PHP
+                const nuovaChiamata = {
+                    id: r.id,
+                    effettuataDa: effettuataDa,
+                    data: data,
+                    ora: ora,
+                    durata: durata,
+                    costo: costo.toFixed(4),
+                    tipoContratto: r.tipoContratto
+                };
+
+                // Inseriamo in cima alla cache locale e ri-applichiamo i filtri
+                _tutteLeTelefonate.unshift(nuovaChiamata);
+                applicaFiltri(_tutteLeTelefonate);
+                showOk('Nuova telefonata registrata con successo.');
+            },
+            error: function () {
+                $('#crea-btn-salva').prop('disabled', false).text('Salva');
+                $('#crea-errors').text('Errore di rete. Riprova.').show();
+            }
+        });
+    });
+    
     /* ══════════════════════════════════════════════════════════════════════
        MODAL MODIFICA  –  durata (secondi) e costo
     ═════════════════════════════════════════════════════════════════════ */
@@ -306,6 +397,7 @@ $(function () {
 
     $(document).on('keydown', function (e) {
         if (e.key !== 'Escape') return;
+        if ($('#modal-aggiungi-overlay').is(':visible'))  chiudiAggiungi();
         if ($('#modal-modifica-overlay').is(':visible'))  chiudiModifica();
         if ($('#modal-elimina-overlay').is(':visible'))   chiudiConfermaElimina();
     });
