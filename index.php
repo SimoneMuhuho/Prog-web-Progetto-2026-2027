@@ -1,6 +1,7 @@
 <?php
     $pagina_corrente = 'dashboard';
     include 'header.php';
+    include 'PHP/dashboard/get_dashboard_data.php';
 ?>
 
 <main class="layout-1">
@@ -8,11 +9,23 @@
         <h3>Panoramica</h3>
 
         <div class="filtro-group">
-            <h2>Panoramica Rapida</h2>
-            <p>Contratti Totali</p>
-            <p>SIM Attive</p>
-            <p>SIM Disattive</p>
-            <p>SIM Non Attive</p>
+            <div class="sidebar-progress-box">
+                <h3>Proporzione Contratti</h3>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-segment ricarica" style="width: <?php echo $stats_dashboard['perc_ricarica']; ?>%;">
+                        <?php echo $stats_dashboard['perc_ricarica']; ?>%
+                    </div>
+                    <div class="progress-segment consumo" style="width: <?php echo $stats_dashboard['perc_consumo']; ?>%;">
+                        <?php echo $stats_dashboard['perc_consumo']; ?>%
+                    </div>
+                </div>
+                
+                <div class="progress-legend">
+                    <span><i class="fa-solid fa-circle" style="color: var(--red);"></i> Ricarica (<?php echo $stats_dashboard['num_ricarica']; ?>)</span>
+                    <span><i class="fa-solid fa-circle" style="color: var(--light-gray);"></i> Consumo (<?php echo $stats_dashboard['num_consumo']; ?>)</span>
+                </div>
+            </div>
         </div>
 
         <div class="sidebar-results-footer">
@@ -22,7 +35,6 @@
                 </div>
             </div>
         </div>
-        
     </aside>
 
     <section class="contenuto-risultati">
@@ -32,7 +44,7 @@
         <div class="dashboard-panels">
             <div class="panel">
                 <i class="fa-solid fa-signal"></i>
-                <h3>500</h3>
+                <h3><?php echo $stats_dashboard['totale_contratti']; ?></h3>
                 <p>Contratti Totali</p>
             </div>
             <div class="panel">
@@ -45,17 +57,8 @@
                 <h3>10</h3>
                 <p>SIM Non Attive</p>
             </div>
-        </div> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-        <div class="dashboard-charts-container">
-            <div class="chart-box">
-                <h3>Distribuzione Tipi Contratto</h3>
-                <canvas id="chartContratti"></canvas>
-            </div>
         </div>
-
     </section>
-
 </main>
 
 <?php include 'footer.php';?>

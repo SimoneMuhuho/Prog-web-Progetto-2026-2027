@@ -4,12 +4,12 @@
 :root {
     --light-salmon: #fff1ed;
     --white: #ffffff;
-    --red: #de5543;
-    --red-hover: #c54f3a;
+    --red: #ff7667;
+    --red-hover: #d84d3d;
     --pastel-green: #ddf5ea;
-    --green: #10b981;
+    --green: #67e49f;
     --pastel-blue: #d3e9ef;
-    --blue: #459ce8;
+    --blue: #7cb9fa;
     --pastel-red: #f4e0d9;
     --pastel-yellow: #fff5e1;
     --yellow: #fbbf24;
@@ -459,6 +459,7 @@ main.layout-1 {
     border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     padding: 20px;
+    margin-bottom: 20px;
 }
 
 .panel h3 {
@@ -507,30 +508,39 @@ main.layout-1 {
 }
 
 /* distribuzione contratti */
-.dashboard-charts-container {
-    margin-top: 30px;
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.chart-box {
-    flex: 1;
-    max-width: 400px; /* Evita che il grafico a torta diventi gigantesco */
-    background-color: var(--white) !important;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-    padding: 25px;
-    box-sizing: border-box;
-}
-
-.chart-box h3 {
-    margin: 0 0 20px 0;
-    font-size: 16px;
+.sidebar-progress-box h3{    
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 10px;
+    color: var(--text-dark);
+    font-size: 20px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: -0.5px;
+}
+
+.progress-bar-container {
+    display: flex;
+    height: 24px;
+    background-color: #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden; /* Taglia i segmenti interni per seguire l'arrotondamento */
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    line-height: 24px;
+}
+
+.progress-segment.ricarica { background-color: var(--green); }
+.progress-segment.consumo { background-color: var(--blue); }
+
+.progress-legend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text-gray);
 }
 
