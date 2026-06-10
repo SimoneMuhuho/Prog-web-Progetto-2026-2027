@@ -185,6 +185,65 @@ $(function () {
         if ($(e.target).is('#modal-crea-overlay')) chiudiCrea();
     });
 
+// Variabile per salvare temporaneamente il tipo contratto rilevato nella modale crea
+    let _tipoContrattoRilevato = null;
+
+    /** Rileva il tipo di contratto inserito digitando il numero SIM */
+    $('#crea-effettuataDa').on('blur change input', function () {
+        const numero = $(this).val().trim();
+        
+        // Se il numero è troppo corto (es. meno di 9 cifre), svuota lo stato e mostra il costo
+        if (numero.length < 9) {
+            _tipoContrattoRilevato = null;
+            $('#crea-contratto-info').hide().text('');
+            $('#wrapper-crea-costo').slideDown(150);
+            $('#crea-costo').prop('required', true);
+            return;
+        }
+
+        // Interroga l'API per verificare il tipo di contratto in tempo reale
+        $.ajax({
+            url: API,
+            method: 'GET',
+            data: { action: 'get_tipo_contratto', numero: numero },
+            dataType: 'json',
+            success: function (r) {
+                if (r.success && r.tipo) {
+                    _tipoContrattoRilevato = r.tipo;
+                    
+                    // Mostra un feedback all'utente
+                    $('#crea-contratto-info').css('color', r.tipo === 'consumo' ? '#e67e22' : '#2ecc71')
+                        .text('Contratto rilevato: ' + r.tipo.toUpperCase()).show();
+
+                    if (r.tipo === 'consumo') {
+                        // Nasconde il campo costo, azzera il valore e toglie il required
+                        $('#wrapper-crea-costo').slideUp(150);
+                        $('#crea-costo').val('').prop('required', false);
+                    } else {
+                        // Ripristina il campo costo se è ricarica
+                        $('#wrapper-crea-costo').slideDown(150);
+                        $('#crea-costo').prop('required', true);
+                    }
+                } else {
+                    // Numero non trovato o errore
+                    _tipoContrattoRilevato = null;
+                    $('#crea-contratto-info').css('color', '#d65b45').text('Numero SIM non censito nel sistema.').show();
+                    $('#wrapper-crea-costo').slideDown(150);
+                    $('#crea-costo').prop('required', true);
+                }
+            }
+        });
+    });
+
+    // Modifica anche il reset all'apertura della modale per ripulire lo stato precedente
+    $('#btn-apri-crea').on('click', function () {
+        // ... tuo codice di reset esistente ...
+        _tipoContrattoRilevato = null;
+        $('#crea-contratto-info').hide().text('');
+        $('#wrapper-crea-costo').show();
+        $('#crea-costo').prop('required', true);
+    });
+    
     /** Salva la nuova telefonata via POST */
     $('#crea-form').on('submit', function (e) {
         e.preventDefault();
@@ -193,7 +252,8 @@ $(function () {
         const data         = $('#crea-data').val();
         const ora          = $('#crea-ora').val();
         const durata       = parseInt($('#crea-durata').val(), 10);
-        const costo        = parseFloat($('#crea-costo').val());
+        
+        let costoInviato = $('#crea-costo').val();
 
         // Validazione client-side rapida
         if (!effettuataDa) {
@@ -204,9 +264,17 @@ $(function () {
             $('#crea-errors').text('La durata deve essere maggiore di zero.').show();
             return;
         }
-        if (isNaN(costo) || costo < 0) {
-            $('#crea-errors').text('Il costo non può essere negativo.').show();
-            return;
+
+        // Se il contratto è a consumo il costo viene forzato a null, altrimenti si valida
+        if (_tipoContrattoRilevato === 'consumo') {
+            costoInviato = null; 
+        } else {
+            const costoNum = parseFloat(costoInviato);
+            if (isNaN(costoNum) || costoNum < 0) {
+                $('#crea-errors').text('Il costo deve essere maggiore o uguale a zero per i contratti ricarica.').show();
+                return;
+            }
+            costoInviato = costoNum.toFixed(4);
         }
 
         $('#crea-btn-salva').prop('disabled', true).text('Salvataggio…');
@@ -214,25 +282,24 @@ $(function () {
         $.ajax({
             url: API,
             method: 'POST',
-            data: { action: 'create', effettuataDa, data, ora, durata, costo: costo.toFixed(4) },
+            data: { action: 'create', effettuataDa, data, ora, durata, costo: costoInviato },
             dataType: 'json',
             success: function (r) {
                 $('#crea-btn-salva').prop('disabled', false).text('Salva');
                 if (!r.success) {
-                    // Qui viene stampato l'errore del database o se il contratto non è valido
                     $('#crea-errors').text(r.message).show();
                     return;
                 }
                 chiudiCrea();
 
-                // Costruiamo l'oggetto iniettando il tipoContratto validato dal PHP
+                // Costruiamo l'oggetto includendo il costo (che sarà null o stringa formattata)
                 const nuovaChiamata = {
                     id: r.id,
                     effettuataDa: effettuataDa,
                     data: data,
                     ora: ora,
                     durata: durata,
-                    costo: costo.toFixed(4),
+                    costo: costoInviato, // Mantiene il valore null o il float formattato
                     tipoContratto: r.tipoContratto
                 };
 
@@ -253,27 +320,38 @@ $(function () {
     ═════════════════════════════════════════════════════════════════════ */
 
     /** Apre il modal di modifica pre-compilato con i valori attuali */
-    function apriModifica(id, durata, costo) {
+    function apriModifica(id, durata, costo, tipoContratto) {
         $('#mod-id').val(id);
         $('#mod-durata').val(durata);
-        $('#mod-costo').val(parseFloat(costo).toFixed(2));
+        
+        // Controllo speculare: se il contratto è a consumo, nascondi il campo costo
+        if (tipoContratto === 'consumo') {
+            $('#wrapper-mod-costo').hide();
+            $('#mod-costo').val('').prop('required', false);
+        } else {
+            $('#wrapper-mod-costo').show();
+            $('#mod-costo').val(parseFloat(costo).toFixed(2)).prop('required', true);
+        }
+
         $('#mod-errors').hide().text('');
         $('#modal-modifica-overlay').fadeIn(150);
         $('#mod-durata').trigger('focus');
     }
 
+    // Apri modifica al click sul pulsante ✏️ (Aggiornato per passare anche il tipoContratto)
+    $('#tbl-body').on('click', '.btn-modifica', function () {
+        // Recuperiamo la riga cliccata per estrarre le info dalla cache locale
+        const idSelezionato = $(this).data('id');
+        const record = _tutteLeTelefonate.find(t => String(t.id) === String(idSelezionato));
+        
+        if (record) {
+            apriModifica(record.id, record.durata, record.costo, record.tipoContratto);
+        }
+    });
+
     function chiudiModifica() {
         $('#modal-modifica-overlay').fadeOut(150);
     }
-
-    // Apri modifica al click sul pulsante ✏️
-    $('#tbl-body').on('click', '.btn-modifica', function () {
-        apriModifica(
-            $(this).data('id'),
-            $(this).data('durata'),
-            $(this).data('costo')
-        );
-    });
 
     // Chiusura modal modifica
     $('#mod-close-btn, #mod-btn-annulla').on('click', chiudiModifica);
@@ -287,16 +365,27 @@ $(function () {
 
         const id     = $('#mod-id').val();
         const durata = parseInt($('#mod-durata').val(), 10);
-        const costo  = parseFloat($('#mod-costo').val());
+        
+        // Troviamo il record in cache per capire se è a consumo o ricarica
+        const record = _tutteLeTelefonate.find(t => String(t.id) === String(id));
+        let costoInviato = $('#mod-costo').val();
 
-        // Validazione client-side
+        // Validazione client-side della durata
         if (isNaN(durata) || durata < 1) {
             $('#mod-errors').text('La durata deve essere un numero intero positivo (in secondi).').show();
             return;
         }
-        if (isNaN(costo) || costo < 0) {
-            $('#mod-errors').text('Il costo deve essere un numero positivo.').show();
-            return;
+
+        // Se il contratto è a consumo il costo è forzato a null, altrimenti si valida
+        if (record && record.tipoContratto === 'consumo') {
+            costoInviato = null;
+        } else {
+            const costoNum = parseFloat(costoInviato);
+            if (isNaN(costoNum) || costoNum < 0) {
+                $('#mod-errors').text('Il costo deve essere un numero positivo per i contratti ricarica.').show();
+                return;
+            }
+            costoInviato = costoNum.toFixed(4);
         }
 
         $('#mod-btn-salva').prop('disabled', true).text('Salvataggio…');
@@ -304,7 +393,7 @@ $(function () {
         $.ajax({
             url: API,
             method: 'POST',
-            data: { action: 'update', id, durata, costo: costo.toFixed(4) },
+            data: { action: 'update', id, durata, costo: costoInviato },
             dataType: 'json',
             success: function (r) {
                 $('#mod-btn-salva').prop('disabled', false).text('Salva');
@@ -313,9 +402,13 @@ $(function () {
                     return;
                 }
                 chiudiModifica();
-                // Aggiorna la cache e ridisegna senza ricaricare dal server
-                const rec = _tutteLeTelefonate.find(t => String(t.id) === String(id));
-                if (rec) { rec.durata = durata; rec.costo = costo.toFixed(4); }
+                
+                // Aggiorna la cache locale mantenendo la consistenza dell'interfaccia al volo
+                if (record) { 
+                    record.durata = durata; 
+                    record.costo = costoInviato; // Sarà null o stringa formattata
+                }
+                
                 applicaFiltri(_tutteLeTelefonate);
                 showOk('Telefonata #' + id + ' aggiornata con successo.');
             },
@@ -325,7 +418,6 @@ $(function () {
             }
         });
     });
-
     /* ══════════════════════════════════════════════════════════════════════
        MODAL CONFERMA ELIMINAZIONE
     ═════════════════════════════════════════════════════════════════════ */

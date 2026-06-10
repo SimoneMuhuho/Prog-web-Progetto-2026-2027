@@ -71,6 +71,30 @@ switch ($action) {
         break;
 
     /* ── CREATE: Inserimento di una nuova telefonata ── */
+    case 'get_tipo_contratto':
+        $numero = $_GET['numero'] ?? '';
+        if (empty($numero)) {
+            echo json_encode(['success' => false]);
+            break;
+        }
+        try {
+            $stmt = $pdo->prepare("SELECT tipo FROM contrattotelefonico WHERE numero = ?");
+            $stmt->execute([$numero]);
+            $contratto = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($contratto) {
+                echo json_encode(['success' => true, 'tipo' => $contratto['tipo']]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Contratto non trovato']);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        break;
+
+    /* ... case 'list', case 'update', case 'delete' rimangono uguali ... */
+
+    /* ── CREATE: Inserimento di una nuova telefonata ── */
     case 'create':
         $effettuataDa = $_POST['effettuataDa'] ?? null;
         $data         = $_POST['data'] ?? null;
@@ -78,7 +102,8 @@ switch ($action) {
         $durata       = $_POST['durata'] ?? null;
         $costo        = $_POST['costo'] ?? null;
 
-        if (!$effettuataDa || !$data || !$ora || $durata === null || $costo === null) {
+        // MODIFICATO: Rimosso il controllo vincolante su $costo === null qui all'inizio, lo verifichiamo dopo
+        if (!$effettuataDa || !$data || !$ora || $durata === null) {
             echo json_encode(['success' => false, 'message' => 'Dati incompleti per la creazione']);
             break;
         }
@@ -96,13 +121,24 @@ switch ($action) {
 
             $tipoContratto = $contratto['tipo'];
 
-            // Inserimento della telefonata
+            // LOGICA DI CONTROLLO: se a consumo, azzera qualsiasi input e forza a NULL
+            if ($tipoContratto === 'consumo') {
+                $costoSalvabile = null;
+            } else {
+                // Se ricarica, validiamo che il costo sia effettivamente pervenuto ed accettabile
+                if ($costo === null || $costo === '') {
+                    echo json_encode(['success' => false, 'message' => 'Il costo è obbligatorio per i contratti ricarica.']);
+                    break;
+                }
+                $costoSalvabile = (float)$costo;
+            }
+
+            // Inserimento della telefonata (usando la variabile normalizzata $costoSalvabile)
             $stmt = $pdo->prepare("INSERT INTO telefonata (effettuataDa, data, ora, durata, costo) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$effettuataDa, $data, $ora, $durata, $costo]);
+            $stmt->execute([$effettuataDa, $data, $ora, $durata, $costoSalvabile]);
             
             $newId = $pdo->lastInsertId();
             
-            // Restituiamo anche il tipoContratto per permettere al JS di fare l'inserimento immediato nel client
             echo json_encode([
                 'success' => true, 
                 'id' => $newId, 
@@ -112,4 +148,5 @@ switch ($action) {
             echo json_encode(['success' => false, 'message' => 'Errore creazione: ' . $e->getMessage()]);
         }
         break;
+
 }

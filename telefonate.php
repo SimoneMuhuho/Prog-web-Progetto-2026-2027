@@ -99,6 +99,7 @@
                 <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
                     <label for="crea-effettuataDa">Numero SIM</label>
                     <input type="text" id="crea-effettuataDa" required placeholder="es. 3605188442" autocomplete="off">
+                    <small id="crea-contratto-info" style="display:none; margin-top: 5px; font-weight: bold;"></small>
                 </div>
 
                 <div class="filtro-group-inline" style="margin-bottom: 15px;">
@@ -117,7 +118,7 @@
                     <input type="number" id="crea-durata" required min="1" placeholder="es. 120">
                 </div>
                 
-                <div class="filtro-group" style="padding: 0; margin-bottom: 5px;">
+                <div class="filtro-group" id="wrapper-crea-costo" style="padding: 0; margin-bottom: 5px;">
                     <label for="crea-costo">Costo (€)</label>
                     <input type="number" id="crea-costo" step="0.01" required min="0" placeholder="es. 1.50">
                 </div>
@@ -146,7 +147,7 @@
                     <input type="number" id="mod-durata" required min="1">
                 </div>
                 
-                <div class="filtro-group" style="padding: 0; margin-bottom: 5px;">
+                <div class="filtro-group" id="wrapper-mod-costo" style="padding: 0; margin-bottom: 5px;">
                     <label for="mod-costo">Costo (€)</label>
                     <input type="number" id="mod-costo" step="0.01" required min="0">
                 </div>
