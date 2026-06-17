@@ -115,23 +115,23 @@ $(function () {
 
         const html = righe.map(r => `
             <tr data-id="${r.id}">
-                <td><strong>${r.effettuataDa}</strong></td>
-                <td>${badgeContratto(r.tipoContratto)}</td>
-                <td>${fmtData(r.data)}</td>
-                <td>${r.ora ?? '—'}</td>
-                <td class="cell-durata">${fmtDurata(r.durata)}</td>
-                <td class="cell-costo">${fmtCosto(r.costo)}</td>
-                <td style="text-align:center; white-space:nowrap;">
-                    <button class="btn btn-info btn-modifica"
+                <td class="text-left"><strong>${r.effettuataDa}</strong></td>
+                <td class="text-left">${badgeContratto(r.tipoContratto)}</td>
+                <td class="text-right">${fmtData(r.data)}</td>
+                <td class="text-right">${r.ora ?? '—'}</td>
+                <td class="cell-durata text-right">${fmtDurata(r.durata)}</td>
+                <td class="cell-costo text-right">${fmtCosto(r.costo)}</td>
+                <td class="text-center" style="white-space:nowrap;">
+                    <button class="btn-modifica"
                             data-id="${r.id}"
                             data-durata="${r.durata}"
                             data-costo="${r.costo}"
-                            title="Modifica durata e costo"></button>
+                            title="Modifica durata e costo">Modifica</button>
                             
-                    <button class="btn btn-info btn-elimina"
+                    <button class="btn-elimina"
                             data-id="${r.id}"
                             data-label="${r.effettuataDa} – ${fmtData(r.data)} ${r.ora ?? ''}"
-                            title="Elimina telefonata"></button>
+                            title="Elimina telefonata">Elimina</button>
                 </td>
             </tr>`).join('');
 
@@ -212,7 +212,7 @@ $(function () {
                     _tipoContrattoRilevato = r.tipo;
                     
                     // Mostra un feedback all'utente
-                    $('#crea-contratto-info').css('color', r.tipo === 'consumo' ? '#e67e22' : '#2ecc71')
+                    $('#crea-contratto-info').css('color', r.tipo === 'consumo' ? 'var(--orange)' : 'var(--green)')
                         .text('Contratto rilevato: ' + r.tipo.toUpperCase()).show();
 
                     if (r.tipo === 'consumo') {
@@ -227,7 +227,7 @@ $(function () {
                 } else {
                     // Numero non trovato o errore
                     _tipoContrattoRilevato = null;
-                    $('#crea-contratto-info').css('color', '#d65b45').text('Numero SIM non censito nel sistema.').show();
+                    $('#crea-contratto-info').css('color', 'var(--red)').text('Numero SIM non censito nel sistema.').show();
                     $('#wrapper-crea-costo').slideDown(150);
                     $('#crea-costo').prop('required', true);
                 }

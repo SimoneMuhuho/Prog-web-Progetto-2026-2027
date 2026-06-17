@@ -5,8 +5,8 @@
 
 <main class="layout-1">
 
-    <!-- ── Colonna sinistra: Filtro / Ricerca ────────────────────────────── -->
-    <aside class="sidebar-filtro card">
+    <!-- Colonna sinistra: Filtro / Ricerca -->
+    <aside class="sidebar-filtro">
         <h3>Ricerca</h3>
 
         <div class="filtro-group">
@@ -56,7 +56,7 @@
         
     </aside>
 
-    <!-- ── Colonna destra: Contenuto / Risultati ─────────────────────────── -->
+    <!-- Colonna destra: Contenuto / Risultati -->
     <section class="contenuto-risultati">
         <h2>SIM Disattivate</h2>
 
@@ -81,9 +81,8 @@
         </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Dettaglio SIM Disattivata
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!--MODAL  –  Dettaglio SIM Disattivata -->
+
     <div id="modal-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 

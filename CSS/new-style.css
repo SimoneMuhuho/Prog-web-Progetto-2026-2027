@@ -6,17 +6,21 @@
     --white: #ffffff;
     --red: #ff7667;
     --red-hover: #d84d3d;
-    --pastel-green: #ddf5ea;
-    --green: #67e49f;
+    --orange: #e67e22;
+    --pastel-green: #d7f6e2;
+    --dark-green: #50bf68;
+    --green: #68de7c;
     --pastel-blue: #d3e9ef;
-    --blue: #7cb9fa;
+    --blue: #6ab6fd;
     --pastel-red: #f4e0d9;
     --pastel-yellow: #fff5e1;
     --yellow: #fbbf24;
     --light-gray: #8d96a8;
     --text-gray: #677b8a;
     --text-dark: #2c3e50;
+    --lighter-gray: #e4e6e8;
     --zebra: #f8f9fa;
+    --tbl-hover: #f1f5f8;
 }
 
 * {
@@ -35,7 +39,7 @@ body {
     height: 100vh; /* Forza il body a essere alto esattamente come lo schermo */
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Impedisce TOTALMENTE alla pagina principale di scorrere */
+    overflow: hidden; /* Impedisce alla pagina principale di scorrere */
     background-color: var(--light-salmon) !important;
     font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
 }
@@ -82,11 +86,11 @@ button, .btn, input, select {
     padding: 0 20px;
     display: flex; 
     justify-content: flex-start; 
-    gap: 10px; /* Distanzia i pulsanti tra loro senza usare padding vuoti */
+    gap: 20px; /* Distanzia i pulsanti tra loro senza usare padding vuoti */
 }
 
 /* link della navigazione (Stile Base) */
-.nav li a {
+.nav li a, .dropbtn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -100,7 +104,7 @@ button, .btn, input, select {
     border-radius: 100px; /* Tutti i link sono potenzialmente delle pillole */
     transition: all 0.3s ease;
 }
-.nav li a:hover, .nav li a.active {
+.nav li a:hover, .nav li a.active, .dropbtn:hover {
     background-color: var(--light-salmon) !important;
     color: var(--red) !important;
 }
@@ -111,6 +115,65 @@ button, .btn, input, select {
     font-weight: 500 !important;
     box-shadow: 0 6px 20px rgba(250, 128, 114, 0.4) !important; 
 }
+
+/* Dropdown */
+.dropbtn {
+    background-color: var(--white);
+    color: var(--text-gray);
+    border: none;
+    font-family: inherit;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 100; /* Assicura che il dropdown sia sopra altri elementi */
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    min-width: 180px;
+    box-shadow: 0px 8px 24px rgba(0,0,0,0.12);
+    z-index: 999;
+    border-radius: 24px;
+    top: 100%;
+    padding: 6px 0;
+    opacity: 0.95;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px 18px;
+    margin: 4px 8px;
+    text-decoration: none;
+    color: var(--text-gray);
+    font-size: 14px;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.dropdown-content a:hover {
+    background-color: var(--light-salmon);
+    color: var(--red);
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    background-color: var(--light-salmon);
+    color: var(--red);
+}
+
+.dropbtn::after {
+    content: "\f078"; /* Codice FontAwesome per la freccia verso il basso */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+
 
 footer {
     background-color: var(--white) !important;
@@ -164,10 +227,13 @@ main {
 } 
 
 /* 1. Bottone Cerca */
-.btn-primary { 
+.btn-primary, .btn-crea { 
     background-color: var(--red);
     color: var(--white);
     box-shadow: 0 6px 20px rgba(250, 128, 114, 0.4) !important;
+}
+.btn-primary:hover, .btn-crea:hover { 
+    background-color: var(--red-hover);
 }
 
 .btn-primary::before {
@@ -177,9 +243,13 @@ main {
     font-size: 14px;
 }
 
-.btn-primary:hover { 
-    background-color: var(--red-hover);
+.btn-crea::before {
+    content: "\f067"; /* Codice FontAwesome per il simbolo + */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 14px;
 }
+
 
 /* 2. Bottone Azzera */
 .btn-outline { 
@@ -202,12 +272,6 @@ main {
 } 
 .btn-info:hover {
     background-color: var(--red-hover);
-} 
-
-.btn-dettaglio {
-    font-size: 12px;
-    padding: 0 14px;
-    height: 30px;
 }
 
 
@@ -372,6 +436,8 @@ main.layout-1 {
     box-shadow: 0 0 0 3px rgba(214, 91, 69, 0.15); /* Leggero alone sfumato */
 }
 
+/* --------------------------------------------------------------- */
+
 /* DASHBOARD */
 .sidebar-filtro-panoramica h3::before {
     content: "\f201";
@@ -382,12 +448,22 @@ main.layout-1 {
 }
 
 .filtro-group p {
+    display: flex;
     color: var(--text-gray);
     font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
     margin-top: 0;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
+}
+
+.filtro-group span {
+    float: right;
+    margin-left: auto;
+    margin-top: -45px;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--red);
 }
 
 /* Alert di informazione */
@@ -460,6 +536,7 @@ main.layout-1 {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
     padding: 20px;
     margin-bottom: 20px;
+    height: fit-content;
 }
 
 .panel h3 {
@@ -507,12 +584,28 @@ main.layout-1 {
     border-radius: 35%;
 }
 
+.fa-ban {
+    font-size: 24px;
+    color: var(--red);
+    margin-left: 10px;
+    background-color: var(--pastel-red);
+    padding: 10px;
+    border-radius: 35%;
+}
+
 /* distribuzione contratti */
+.sidebar-progress-box {
+    background-color: var(--white) !important;
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
 .sidebar-progress-box h3{    
     font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
     margin-top: 0;
     margin-bottom: 12px;
-    padding-left: 10px;
     color: var(--text-dark);
     font-size: 20px;
     font-weight: 700;
@@ -544,6 +637,135 @@ main.layout-1 {
     color: var(--text-gray);
 }
 
+/* barra di distribuzione posizionata in alto a tutto schermo */
+.dashboard-progress-top {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+}
+
+/* riga inferiore flessibile (50% matrice, 50% tabella) */
+.dashboard-lower-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: stretch; /* Allinea le due colonne in altezza */
+}
+
+/* contenitore matrice 2x2 per i 4 pannelli */
+.dashboard-panels-matrix {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* crea due colonne uguali */
+    gap: 20px; /* spazio uniforme tra i pannelli */
+}
+
+/* reset del margine dei pannelli dentro la matrice */
+.dashboard-panels-matrix .panel {
+    margin-bottom: 0;
+}
+
+/* struttura della tabella (lunga 1/2 come la matrice) */
+.dashboard-table-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* titolo esterno sopra alla tabella */
+.dashboard-table-header {
+    margin-bottom: 12px;
+    padding-left: 5px;
+}
+
+.dashboard-table-header h3 {
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+}
+
+.dashboard-table-header h3 i {
+    color: var(--red);
+}
+
+/* blocco bianco della tabella */
+.dashboard-table-panel {
+    width: 100%;
+    padding: 0 !important;
+    overflow: hidden;
+    margin-bottom: 0;
+    flex: 1; /* permette al pannello di espandersi se c'è spazio */
+    display: flex;
+    flex-direction: column;
+}
+
+/* blocco dell'altezza e gestione scorrimento righe */
+.dashboard-table-scroll {
+    max-height: 380px; /* pareggia l altezza visiva della matrice 2x2 */
+    overflow-y: auto;
+    flex: 1; /* permette al pannello di espandersi se c'è spazio */
+}
+
+.dashboard-table-scroll table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* allineamento e stili interni della tabella */
+.dashboard-table-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+
+.dashboard-table-panel th {
+    border-right: none !important;
+    padding: 15px 20px;
+    font-size: 14px;
+}
+
+.dashboard-table-panel td {
+    padding: 15px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--zebra);
+    color: var(--text-dark);
+}
+
+.dashboard-table-panel tr:last-child td {
+    border-bottom: none;
+}
+
+/* pulizia della cella quando non ci sono dati */
+.tabella-vuota-dashboard {
+    text-align: center;
+    color: var(--light-gray);
+    padding: 40px !important;
+    background-color: var(--white);
+    border: none;
+}
+
+/* Classi di allineamento universali per le tabelle */
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+/* --------------------------------------------------------------- */
 
 /* COLONNA DESTRA */
 .contenuto-risultati {
@@ -584,6 +806,14 @@ main.layout-1 {
     padding-left: 10px;
     font-size: 16px;
     font-weight: 500;
+}
+
+/* Tasto aggiungi telefonata */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 0 0;
 }
 
 .table-wrap {
@@ -650,37 +880,145 @@ tr:nth-child(even) {
     transition: background-color 0.15s ease;
 }
 .tbl-body tr:hover { 
-    background-color: #FFF5F2 !important;
+    background-color: var(--tbl-hover) !important; 
+}
+
+/* Tasti dettaglio/modifica, disattiva/elimina */
+.btn-dettaglio, .btn-modifica {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    height: 32px;
+    border: none;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: bold;
     cursor: pointer;
+    background-color: var(--pastel-blue);
+    color: var(--blue);
+    transition: all 0.2s ease-in-out;
+}
+.btn-dettaglio:hover, .btn-modifica:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(124, 185, 250, 0.25);
 }
 
-/* Tasti modifia ed elimina */
-.btn-modifica, .btn-elimina {
-    width: 32px !important;    
-    height: 32px !important;
-    border-radius: 50% !important;
+.btn-disattiva, .btn-elimina {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    height: 32px;
+    border: none;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: var(--pastel-red);
+    color: var(--red);
+    margin-left: 10px;
+    transition: all 0.2s ease-in-out;
+}
+.btn-disattiva:hover, .btn-elimina:hover {
+    background-color: var(--red);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 118, 103, 0.25);
 }
 
-.btn-elimina {
-    background-color: transparent !important;
-    color: var(--red) !important;
-    margin-left: 6px;
+.btn-dettaglio + .btn-disattiva, .btn-modifica + .btn-elimina {
+    margin-left: 40px;
 }
 
-.btn-elimina:hover {
-    background-color: var(--red) !important;
-    color: var(--white) !important;
+/* Tasto attiva SIM */
+.btn-attiva-sim {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    height: 32px;
+    border: none;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: var(--pastel-green);
+    color: var(--green);
+    transition: all 0.2s ease-in-out;
+}
+.btn-attiva-sim:not(:disabled):hover {
+    background-color: var(--green);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(114, 255, 164, 0.25);
+}
+/* Tasto attiva SIM disabilitato */
+.btn-attiva-sim:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    transform: none !important;
+    box-shadow: none !important;
 }
 
-.btn-modifica {
-    background-color: transparent !important;
-    color: var(--text-gray) !important;
+
+/* Link contratti, sim attive, sim disattivate */
+.link-contratto, .link-sim-attiva, .link-sim-disattivata, .link-sim-non-attiva {
+    padding: 8px 16px;
+    height: 32px;
+    border: none;
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
-.btn-modifica:hover {
-    background-color: var(--text-gray) !important;
-    color: var(--white) !important;
+.link-contratto {
+    text-decoration: none;
+    color: var(--green);
+    background-color: var(--pastel-green);
+    border-radius: 20px;
 }
+.link-contratto:hover {
+    background-color: var(--green);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(114, 255, 164, 0.25);
+}
+
+.link-sim-attiva {
+    text-decoration: none;
+    color: var(--blue);
+    background-color: var(--pastel-blue);
+    border-radius: 20px;
+}
+.link-sim-attiva:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(106, 182, 253, 0.25);
+}
+
+.link-sim-disattivata {
+    text-decoration: none;
+    color: var(--red);
+    background-color: var(--pastel-red);
+    border-radius: 20px;
+}
+.link-sim-disattivata:hover {
+    background-color: var(--red);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 118, 103, 0.25);
+}
+
+.link-sim-non-attiva {
+    text-decoration: none;
+    font-style: italic;
+    color: var(--light-gray);
+}
+
 
 /* Icona per il tasto Modifica */
 .btn-modifica::before {
@@ -688,6 +1026,7 @@ tr:nth-child(even) {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 13px;
+    margin-right: 6px;
 }
 
 /* Icona per il tasto Elimina */
@@ -696,8 +1035,35 @@ tr:nth-child(even) {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     font-size: 13px;
+    margin-right: 6px;
 }
 
+/* Icona per il tasto Disattiva */
+.btn-disattiva::before {
+    content: "\f00d"; /* Codice FontAwesome per la croce (times) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+/* Icona per il tasto Dettaglio */
+.btn-dettaglio::before {
+    content: "\f05a"; /* Codice FontAwesome per l'occhio (eye) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 13px;
+    margin-right: 6px;
+}
+
+/* Icona per il tasto Attiva */
+.btn-attiva-sim::before {
+    content: "\f00c"; /* Codice FontAwesome per il segno più (plus) */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 13px;
+    margin-right: 6px;
+}
 
 /* BARRA DI SCORRIMENTO */
 /* 1. Per Chrome, Edge, Safari e Opera */

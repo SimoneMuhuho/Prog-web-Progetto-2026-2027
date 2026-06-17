@@ -5,7 +5,7 @@
 
 <main class="layout-1">
 
-    <!-- ── Colonna sinistra: Filtro / Ricerca ────────────────────────────── -->
+    <!-- Colonna sinistra: Filtro / Ricerca -->
     <aside class="sidebar-filtro">
         <h3>Ricerca</h3>
 
@@ -29,9 +29,17 @@
             <button id="btn-cerca" class="btn btn-primary btn-block">Cerca</button>
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
+
+        <div class="sidebar-results-footer">
+            <div class="results-num">
+                <span class="label">Risultati</span>
+                <span class="count" id="contatore-risultati">0</span>
+            </div>
+        </div>
+        
     </aside>
 
-    <!-- ── Colonna destra: Contenuto / Risultati ─────────────────────────── -->
+    <!-- Colonna destra: Contenuto / Risultati -->
     <section class="contenuto-risultati">
         <h2>SIM Non Attive</h2>
 
@@ -53,9 +61,8 @@
         </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Dettaglio SIM Non Attiva
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MODAL  –  Dettaglio SIM Non Attiva -->
+
     <div id="modal-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 

@@ -10,7 +10,7 @@
         
         <div id="form-filtri-telefonate">
             <div class="filtro-group">
-                <label for="search-contratto">Numero SIM</label>
+                <label for="search-contratto">N° Contratto</label>
                 <input type="text" id="search-contratto" placeholder="es. 3605188442…" autocomplete="off">
             </div>
 
@@ -57,22 +57,22 @@
 
     <section class="contenuto-risultati">
         
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="margin: 0;">Registro Telefonate</h2>
-            <button type="button" id="btn-apri-crea" class="btn btn-primary">+ Nuova Telefonata</button>
+        <div class="results-header">
+            <h2>Registro Telefonate</h2>
+            <button type="button" id="btn-apri-crea" class="btn btn-crea">Nuova Telefonata</button>
         </div>
         
         <div class="table-wrap">
             <table>
                 <thead>
                     <tr>
-                        <th>Numero SIM</th>
-                        <th>Tipo</th>
-                        <th>Data</th>
-                        <th>Ora</th>
-                        <th>Durata</th>
-                        <th>Costo</th>
-                        <th style="text-align: center;">Azioni</th>
+                        <th class="text-left">N° Contratto</th>
+                        <th class="text-left">Tipo</th>
+                        <th class="text-right">Data</th>
+                        <th class="text-right">Ora</th>
+                        <th class="text-right">Durata</th>
+                        <th class="text-right">Costo</th>
+                        <th class="text-center">Azioni</th>
                     </tr>
                 </thead>
                 <tbody id="tbl-body" class="tbl-body">
@@ -97,7 +97,7 @@
                 <div id="crea-errors" class="msg-box msg-error" style="display: none;"></div>
                 
                 <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
-                    <label for="crea-effettuataDa">Numero SIM</label>
+                    <label for="crea-effettuataDa">N° Contratto</label>
                     <input type="text" id="crea-effettuataDa" required placeholder="es. 3605188442" autocomplete="off">
                     <small id="crea-contratto-info" style="display:none; margin-top: 5px; font-weight: bold;"></small>
                 </div>
@@ -168,7 +168,7 @@
         </div>
         <div class="modal-body">
             <p>Sei sicuro di voler eliminare definitivamente questa telefonata?</p>
-            <p><strong id="del-label" style="color: #d65b45;"></strong></p>
+            <p><strong id="del-label" style="color: var(--red);"></strong></p>
         </div>
         <div class="modal-footer">
             <button type="button" id="del-btn-annulla" class="btn btn-outline">No, annulla</button>

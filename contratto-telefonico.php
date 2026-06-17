@@ -54,15 +54,15 @@
             <table id="tbl-contratti">
                 <thead>
                     <tr>
-                        <th>Numero</th>
-                        <th>Data Attivazione</th>
-                        <th>Tipo</th>
-                        <th>Minuti Residui</th>
-                        <th>Credito Residuo (€)</th>
-                        <th>N° Telefonate</th>
-                        <th>SIM Attiva</th>
-                        <th style="text-align:center;">Attiva SIM</th>
-                        <th style="text-align:center;">Dettaglio</th>
+                        <th class="text-left">Numero</th>
+                        <th class="text-right">Data Attivazione</th>
+                        <th class="text-left">Tipo</th>
+                        <th class="text-right">Minuti Residui</th>
+                        <th class="text-right">Credito Residuo (€)</th>
+                        <th class="text-right">N° Telefonate</th>
+                        <th class="text-center">SIM Attiva</th>
+                        <th class="text-center">Attiva SIM</th>
+                        <th class="text-center">Dettaglio</th>
                     </tr>
                 </thead>
                 <tbody id="tbl-body" class="tbl-body">
@@ -72,9 +72,8 @@
         </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Dettaglio Contratto
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MODAL  –  Dettaglio Contratto -->
+
     <div id="modal-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 
@@ -128,9 +127,8 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Attivazione SIM per contratto
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MODAL  –  Attivazione SIM per contratto -->
+
     <div id="modal-attiva-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" style="max-width:480px;" role="dialog" aria-modal="true" aria-labelledby="att-modal-title">
 

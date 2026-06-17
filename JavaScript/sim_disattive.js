@@ -111,7 +111,7 @@ $(function () {
                 <td><code>${r.codice}</code></td>
                 <td><strong>
                     <a href="contratto-telefonico.php?numero=${encodeURIComponent(r.eraAssociataA)}"
-                        style="color: #de5543; font-weight: bold; text-decoration: underline;"
+                        class="link-contratto"
                         title="Vai al contratto e cerca">
                         ${r.eraAssociataA}
                     </a>

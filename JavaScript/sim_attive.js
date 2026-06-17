@@ -1,7 +1,7 @@
 /**
  * JavaScript/sim_attive.js
  * Gestisce: caricamento tabella, filtri multipli (client-side),
- *           modal dettaglio, modal disattivazione SIM
+ * modal dettaglio, modal disattivazione SIM
  */
 $(function () {
 
@@ -12,9 +12,7 @@ $(function () {
 
     const API = 'PHP/sim_attive/api_sim_attive.php';
 
-    /* ══════════════════════════════════════════════════════════════════════
-       UTILITY
-    ═════════════════════════════════════════════════════════════════════ */
+    /* UTILITY */
 
     function fmtData(iso) {
         if (!iso) return '—';
@@ -50,9 +48,7 @@ $(function () {
         window._msgTimer = setTimeout(() => $('#msg-box').slideUp(200), 3000);
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CARICAMENTO E CACHE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* CARICAMENTO E CACHE */
 
     let _tutteLeSIM = [];
 
@@ -76,9 +72,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       FILTRI CLIENT-SIDE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* FILTRI CLIENT-SIDE */
 
     function applicaFiltri(righe) {
         const codice  = $('#search-codice').val().trim().toLowerCase();
@@ -103,27 +97,26 @@ $(function () {
 
         const html = righe.map(r => `
             <tr>
-                <td><code>${r.codice}</code></td>
-                <td><strong>
+                <td class="text-right"><code>${r.codice}</code></td>
+                <td class="text-right"><strong>
                     <a href="contratto-telefonico.php?numero=${encodeURIComponent(r.numero)}"
-                       style="color: #de5543; font-weight: bold; text-decoration: underline;"
+                       class="link-contratto"
                        title="Vai al contratto">
                        ${r.numero}
                     </a>
                 </strong></td>
-                <td>${badgeSIM(r.tipoSIM)}</td>
-                <td>${fmtData(r.dataAttivazione)}</td>
-                <td style="text-align:center; white-space:nowrap;">
-                    <button class="btn btn-info btn-sm btn-dettaglio"
+                <td class="text-left">${badgeSIM(r.tipoSIM)}</td>
+                <td class="text-right">${fmtData(r.dataAttivazione)}</td>
+                <td class="text-center" style="white-space:nowrap;">
+                    <button class="btn-dettaglio"
                             data-codice="${r.codice}"
-                            title="Visualizza dettaglio">Dettaglio</button>
-                    <button class="btn btn-info btn-sm btn-disattiva"
+                            title="Visualizza dettaglio">Dettagli</button>
+                    <button class="btn-disattiva"
                             data-codice="${r.codice}"
                             data-tipo="${r.tipoSIM}"
                             data-numero="${r.numero}"
                             data-attivazione="${r.dataAttivazione}"
-                            title="Disattiva questa SIM"
-                            style="background-color: #e07b35; margin-left:6px;">Disattiva</button>
+                            title="Disattiva questa SIM">Disattiva</button>
                 </td>
             </tr>`).join('');
 
@@ -132,9 +125,7 @@ $(function () {
 
     caricaERicorda();
 
-    /* ══════════════════════════════════════════════════════════════════════
-       EVENTI FILTRO SIDEBAR
-    ═════════════════════════════════════════════════════════════════════ */
+    /* EVENTI FILTRO SIDEBAR */
 
     $('#btn-cerca').on('click', () => applicaFiltri(_tutteLeSIM));
 
@@ -148,9 +139,7 @@ $(function () {
         applicaFiltri(_tutteLeSIM);
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL DETTAGLIO  –  apertura / chiusura
-    ═════════════════════════════════════════════════════════════════════ */
+    /* MODAL DETTAGLIO  –  apertura / chiusura */
 
     function apriDettaglio(codice) {
         $('#modal-title').text('Dettaglio SIM Attiva');
@@ -198,9 +187,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL DISATTIVAZIONE SIM
-    ═════════════════════════════════════════════════════════════════════ */
+    /* MODAL DISATTIVAZIONE SIM */
 
     function apriDisattivazione(codice, tipoSIM, numero, dataAttivazione) {
         // Popola il riepilogo informativo
@@ -276,7 +263,7 @@ $(function () {
                     return;
                 }
                 chiudiDisattivazione();
-                // Rimuovi dalla cache locale e ridisegna senza ricaricare dal server
+                // Rimuovi dalla cache locale and ridisegna senza ricaricare dal server
                 _tutteLeSIM = _tutteLeSIM.filter(s => s.codice !== codice);
                 applicaFiltri(_tutteLeSIM);
                 showOk('SIM ' + codice + ' disattivata con successo!');
@@ -288,9 +275,7 @@ $(function () {
         });
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       TASTO ESCAPE  –  chiude qualsiasi modal aperta
-    ═════════════════════════════════════════════════════════════════════ */
+    /* TASTO ESCAPE  –  chiude qualsiasi modal aperta */
 
     $(document).on('keydown', function (e) {
         if (e.key !== 'Escape') return;

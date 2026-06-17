@@ -4,7 +4,7 @@ $action = $_GET['action'] ?? $_POST['action'] ?? 'list';
 
 switch ($action) {
 
-    /* ── Lista completa delle SIM attive ─────────────────────────────── */
+    /* Lista completa delle SIM attive */
     case 'list':
         $sql = "
             SELECT
@@ -23,7 +23,7 @@ switch ($action) {
         echo json_encode(['success' => true, 'data' => $data]);
         break;
 
-    /* ── Dettaglio singola SIM attiva ─────────────────────────────────── */
+    /* Dettaglio singola SIM attiva */
     case 'get':
         $codice = $_GET['codice'] ?? '';
         if ($codice === '') {
@@ -50,7 +50,7 @@ switch ($action) {
         }
         break;
 
-    /* ── Disattiva SIM: simattiva → simdisattiva ─────────────────────── */
+    /* Disattiva SIM: simattiva → simdisattiva */
     case 'deactivate':
         $codice             = $_POST['codice']             ?? '';
         $dataDisattivazione = $_POST['dataDisattivazione'] ?? '';

@@ -5,7 +5,7 @@
 
 <main class="layout-1">
 
-    <!-- ── Colonna sinistra: Filtro / Ricerca ────────────────────────────── -->
+    <!-- Colonna sinistra: Filtro / Ricerca -->
     <aside class="sidebar-filtro">
         <h3>Ricerca</h3>
 
@@ -56,7 +56,7 @@
         
     </aside>
 
-    <!-- ── Colonna destra: Contenuto / Risultati ─────────────────────────── -->
+    <!-- Colonna destra: Contenuto / Risultati -->
     <section class="contenuto-risultati">
         <h2>SIM Attive</h2>
 
@@ -80,9 +80,7 @@
         </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Dettaglio SIM Attiva
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MODAL  –  Dettaglio SIM Attiva -->
     <div id="modal-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
 
@@ -110,9 +108,7 @@
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MODAL  –  Disattivazione SIM
-    ═══════════════════════════════════════════════════════════════════════ -->
+    <!-- MODAL  –  Disattivazione SIM -->
     <div id="modal-disattiva-overlay" class="modal-overlay" style="display:none;">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dis-modal-title">
 

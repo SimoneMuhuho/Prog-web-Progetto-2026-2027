@@ -6,9 +6,7 @@ $(function () {
 
     const API = 'PHP/sim_non_attive/api_sim_non_attive.php';
 
-    /* ══════════════════════════════════════════════════════════════════════
-       UTILITY
-    ═════════════════════════════════════════════════════════════════════ */
+    /* UTILITY */
 
     function badgeSIM(tipo) {
         const cls = {
@@ -29,9 +27,7 @@ $(function () {
         window._msgTimer = setTimeout(() => $('#msg-box').slideUp(200), 4000);
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CARICAMENTO E CACHE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* CARICAMENTO E CACHE */
 
     let _tutteLeSIM = [];
 
@@ -55,9 +51,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       FILTRI CLIENT-SIDE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* FILTRI CLIENT-SIDE */
 
     function applicaFiltri(righe) {
         const codice  = $('#search-codice').val().trim().toLowerCase();
@@ -65,6 +59,9 @@ $(function () {
 
         if (codice)  righe = righe.filter(r => (r.codice || '').toString().toLowerCase().includes(codice));
         if (tipoSIM) righe = righe.filter(r => r.tipoSIM === tipoSIM);
+
+        // Aggiorna lo span col numero di elementi filtrati
+        $('#contatore-risultati').text(righe.length);
 
         if (righe.length === 0) {
             $('#tbl-body').html('<tr><td colspan="3" class="no-data">Nessuna SIM non attiva trovata.</td></tr>');
@@ -87,9 +84,7 @@ $(function () {
 
     caricaERicorda();
 
-    /* ══════════════════════════════════════════════════════════════════════
-       EVENTI FILTRO SIDEBAR
-    ═════════════════════════════════════════════════════════════════════ */
+    /* EVENTI FILTRO SIDEBAR */
 
     $('#btn-cerca').on('click', () => applicaFiltri(_tutteLeSIM));
 
@@ -102,9 +97,7 @@ $(function () {
         applicaFiltri(_tutteLeSIM);
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL DETTAGLIO  –  apertura / chiusura
-    ═════════════════════════════════════════════════════════════════════ */
+    /* MODAL DETTAGLIO  –  apertura / chiusura */
 
     function apriDettaglio(codice) {
         $('#modal-title').text('Dettaglio SIM non attiva');
@@ -127,9 +120,7 @@ $(function () {
         if (e.key === 'Escape') chiudiModal();
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CHIAMATA API PER IL DETTAGLIO
-    ═════════════════════════════════════════════════════════════════════ */
+    /* CHIAMATA API PER IL DETTAGLIO */
 
     function caricaDettaglioSIM(codice) {
         $.ajax({

@@ -13,7 +13,7 @@ switch ($action) {
                 c.creditoResiduo,
                 (SELECT COUNT(*) FROM telefonata WHERE effettuataDa = c.numero) AS numTelefonate,
                 (SELECT COUNT(*) FROM simdisattiva WHERE eraAssociataA = c.numero) AS numDisattive,
-                sa.codice AS simAttiva
+                CAST(sa.codice AS CHAR) AS simAttiva
             FROM contrattotelefonico c
             LEFT JOIN simattiva sa ON sa.associataA = c.numero
             GROUP BY c.numero

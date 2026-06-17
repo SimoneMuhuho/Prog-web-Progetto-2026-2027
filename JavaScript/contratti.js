@@ -13,9 +13,7 @@ $(function () {
 
     const API = 'PHP/contratti/api_contratti.php';
 
-    /* ══════════════════════════════════════════════════════════════════════
-       UTILITY
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- UTILITY ----- */
 
     function fmtData(iso) {
         if (!iso) return '—';
@@ -44,9 +42,7 @@ $(function () {
         window._msgTimer = setTimeout(() => $('#msg-box').slideUp(200), 3000);
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CARICAMENTO E CACHE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- CARICAMENTO E CACHE ----- */
 
     let _tuttiIContratti = [];
 
@@ -68,9 +64,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       FILTRI CLIENT-SIDE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- FILTRI CLIENT-SIDE ----- */
 
     function applicaFiltri(righe) {
         const numero = $('#search-numero').val().trim().toLowerCase();
@@ -98,43 +92,41 @@ $(function () {
             let sim = '';
             if (r.simAttiva) {
                 sim = `<a href="sim_attive.php?codice=${encodeURIComponent(r.simAttiva)}"
-                          style="color:var(--red);font-weight:bold;text-decoration:none;"
+                          class="link-sim-attiva"
                           title="Vai alla SIM attiva">${r.simAttiva}</a>`;
             } else if (parseInt(r.numDisattive) > 0) {
                 sim = `<a href="sim_disattivate.php?contratto=${encodeURIComponent(r.numero)}"
-                          style="color:var(--text-gray);font-style:italic;text-decoration:underline;"
-                          title="Vedi storico disattivazioni">Nessuna</a>`;
+                          class="link-sim-disattivata"
+                          title="Vedi storico disattivazioni">Sim Disattivate</a>`;
             } else {
-                sim = `<span style="color:#bbb;font-style:italic;" title="Nessuno storico SIM">Nessuna</span>`;
+                sim = `<span class="link-sim-non-attiva" title="Nessuno storico SIM">Nessuna</span>`;
             }
 
             // Pulsante "Attiva SIM": abilitato solo se NON c'è già una SIM attiva
             const btnAttiva = r.simAttiva
-                ? `<button class="btn btn-info btn-sm btn-attiva-sim"
+                ? `<button class="btn-attiva-sim"
                            data-numero="${r.numero}"
                            title="Questo contratto ha già una SIM attiva"
-                           disabled
-                           style="opacity:0.35;cursor:not-allowed;background-color:var(--green);">
-                       Attiva SIM
+                           disabled>
+                       Attiva
                    </button>`
-                : `<button class="btn btn-info btn-sm btn-attiva-sim"
+                : `<button class="btn-attiva-sim"
                            data-numero="${r.numero}"
-                           title="Attiva una SIM per questo contratto"
-                           style="background-color:var(--green);">
-                       Attiva SIM
+                           title="Attiva una SIM per questo contratto">
+                       Attiva
                    </button>`;
 
             return `
                 <tr>
-                    <td><strong>${r.numero}</strong></td>
-                    <td>${fmtData(r.dataAttivazione)}</td>
-                    <td>${badge(r.tipo)}</td>
-                    <td>${minuti}</td>
-                    <td>${credito}</td>
-                    <td>${r.numTelefonate}</td>
-                    <td>${sim}</td>
-                    <td style="text-align:center;">${btnAttiva}</td>
-                    <td style="text-align:center;">
+                    <td class="text-left"><strong>${r.numero}</strong></td>
+                    <td class="text-right">${fmtData(r.dataAttivazione)}</td>
+                    <td class="text-left">${badge(r.tipo)}</td>
+                    <td class="text-right">${minuti}</td>
+                    <td class="text-right">${credito}</td>
+                    <td class="text-right">${r.numTelefonate}</td>
+                    <td class="text-left">${sim}</td>
+                    <td class="text-center">${btnAttiva}</td>
+                    <td class="text-center">
                         <button class="btn btn-info btn-sm btn-dettaglio"
                                 data-numero="${r.numero}"
                                 title="Visualizza dettaglio">Apri</button>
@@ -147,9 +139,7 @@ $(function () {
 
     caricaERicorda();
 
-    /* ══════════════════════════════════════════════════════════════════════
-       EVENTI FILTRO SIDEBAR
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- EVENTI FILTRO SIDEBAR ----- */
 
     $('#btn-cerca').on('click', () => applicaFiltri(_tuttiIContratti));
 
@@ -162,9 +152,7 @@ $(function () {
         applicaFiltri(_tuttiIContratti);
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL DETTAGLIO  –  apertura / chiusura
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- MODAL DETTAGLIO  –  apertura / chiusura ----- */
 
     function apriDettaglio(numero) {
         $('#modal-title').text('Dettaglio Contratto: ' + numero);
@@ -190,9 +178,7 @@ $(function () {
         if ($(e.target).is('#modal-overlay')) chiudiModal();
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CHIAMATE API PER IL DETTAGLIO
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- CHIAMATE API PER IL DETTAGLIO ----- */
 
     function caricaDatiContratto(numero) {
         $.ajax({
@@ -279,9 +265,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL ATTIVAZIONE SIM  –  da pagina contratti
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- MODAL ATTIVAZIONE SIM  –  da pagina contratti ----- */
 
     function apriAttivaSIM(numeroContratto) {
         $('#att-numero-contratto').val(numeroContratto);
@@ -356,9 +340,7 @@ $(function () {
         });
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       TASTO ESCAPE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- TASTO ESCAPE ----- */
 
     $(document).on('keydown', function (e) {
         if (e.key !== 'Escape') return;
