@@ -113,9 +113,9 @@
                     </div>
                 </div>
                 
-                <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
-                    <label for="crea-durata">Durata (in secondi)</label>
-                    <input type="number" id="crea-durata" required min="1" placeholder="es. 120">
+                <div class="filtro-group">
+                    <label for="durata">Durata (minuti)</label>
+                    <input type="number" id="durata" name="durata" required min="1" placeholder="es. 10 (Minuti)">
                 </div>
                 
                 <div class="filtro-group" id="wrapper-crea-costo" style="padding: 0; margin-bottom: 5px;">
@@ -143,7 +143,7 @@
                 <input type="hidden" id="mod-id">
                 
                 <div class="filtro-group" style="padding: 0; margin-bottom: 15px;">
-                    <label for="mod-durata">Durata (in secondi)</label>
+                    <label for="mod-durata">Durata (in Minuti)</label>
                     <input type="number" id="mod-durata" required min="1">
                 </div>
                 

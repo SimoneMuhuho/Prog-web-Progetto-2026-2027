@@ -2,7 +2,7 @@
  * JavaScript/telefonate.js
  * Logica jQuery per la pagina telefonate.php  –  Layout 1
  * Gestisce: caricamento tabella, filtri multipli (client-side),
- *           modal modifica (durata + costo), modal conferma eliminazione
+ * modal modifica (durata + costo), modal conferma eliminazione
  */
 $(function () {
 
@@ -173,6 +173,11 @@ $(function () {
         $('#crea-errors').hide().text('');
         $('#modal-crea-overlay').fadeIn(150);
         $('#crea-effettuataDa').trigger('focus');
+        
+        _tipoContrattoRilevato = null;
+        $('#crea-contratto-info').hide().text('');
+        $('#wrapper-crea-costo').show();
+        $('#crea-costo').prop('required', true);
     });
 
     function chiudiCrea() {
@@ -185,14 +190,13 @@ $(function () {
         if ($(e.target).is('#modal-crea-overlay')) chiudiCrea();
     });
 
-// Variabile per salvare temporaneamente il tipo contratto rilevato nella modale crea
+    // Variabile per salvare temporaneamente il tipo contratto rilevato nella modale crea
     let _tipoContrattoRilevato = null;
 
     /** Rileva il tipo di contratto inserito digitando il numero SIM */
     $('#crea-effettuataDa').on('blur change input', function () {
         const numero = $(this).val().trim();
         
-        // Se il numero è troppo corto (es. meno di 9 cifre), svuota lo stato e mostra il costo
         if (numero.length < 9) {
             _tipoContrattoRilevato = null;
             $('#crea-contratto-info').hide().text('');
@@ -201,7 +205,6 @@ $(function () {
             return;
         }
 
-        // Interroga l'API per verificare il tipo di contratto in tempo reale
         $.ajax({
             url: API,
             method: 'GET',
@@ -211,21 +214,17 @@ $(function () {
                 if (r.success && r.tipo) {
                     _tipoContrattoRilevato = r.tipo;
                     
-                    // Mostra un feedback all'utente
                     $('#crea-contratto-info').css('color', r.tipo === 'consumo' ? 'var(--orange)' : 'var(--green)')
                         .text('Contratto rilevato: ' + r.tipo.toUpperCase()).show();
 
                     if (r.tipo === 'consumo') {
-                        // Nasconde il campo costo, azzera il valore e toglie il required
                         $('#wrapper-crea-costo').slideUp(150);
                         $('#crea-costo').val('').prop('required', false);
                     } else {
-                        // Ripristina il campo costo se è ricarica
                         $('#wrapper-crea-costo').slideDown(150);
                         $('#crea-costo').prop('required', true);
                     }
                 } else {
-                    // Numero non trovato o errore
                     _tipoContrattoRilevato = null;
                     $('#crea-contratto-info').css('color', 'var(--red)').text('Numero SIM non censito nel sistema.').show();
                     $('#wrapper-crea-costo').slideDown(150);
@@ -233,15 +232,6 @@ $(function () {
                 }
             }
         });
-    });
-
-    // Modifica anche il reset all'apertura della modale per ripulire lo stato precedente
-    $('#btn-apri-crea').on('click', function () {
-        // ... tuo codice di reset esistente ...
-        _tipoContrattoRilevato = null;
-        $('#crea-contratto-info').hide().text('');
-        $('#wrapper-crea-costo').show();
-        $('#crea-costo').prop('required', true);
     });
     
     /** Salva la nuova telefonata via POST */
@@ -251,21 +241,24 @@ $(function () {
         const effettuataDa = $('#crea-effettuataDa').val().trim();
         const data         = $('#crea-data').val();
         const ora          = $('#crea-ora').val();
-        const durata       = parseInt($('#crea-durata').val(), 10);
         
-        let costoInviato = $('#crea-costo').val();
-
-        // Validazione client-side rapida
+        // Lettura corretta dell'elemento con id="durata"
+        const stringaMinuti = $('#durata').val();
+        const minuti        = parseInt(stringaMinuti ? stringaMinuti.trim() : '', 10);
+        
         if (!effettuataDa) {
             $('#crea-errors').text('Inserire un numero SIM valido.').show();
             return;
         }
-        if (isNaN(durata) || durata < 1) {
-            $('#crea-errors').text('La durata deve essere maggiore di zero.').show();
+        if (!stringaMinuti || isNaN(minuti) || minuti <= 0) {
+            $('#crea-errors').text('La durata deve essere maggiore di 0').show();
             return;
         }
 
-        // Se il contratto è a consumo il costo viene forzato a null, altrimenti si valida
+        // Conversione corretta in secondi per il DB
+        const durataSecondi = minuti * 60;
+        let costoInviato = $('#crea-costo').val();
+
         if (_tipoContrattoRilevato === 'consumo') {
             costoInviato = null; 
         } else {
@@ -282,7 +275,7 @@ $(function () {
         $.ajax({
             url: API,
             method: 'POST',
-            data: { action: 'create', effettuataDa, data, ora, durata, costo: costoInviato },
+            data: { action: 'create', effettuataDa, data, ora, durata: durataSecondi, costo: costoInviato },
             dataType: 'json',
             success: function (r) {
                 $('#crea-btn-salva').prop('disabled', false).text('Salva');
@@ -292,18 +285,16 @@ $(function () {
                 }
                 chiudiCrea();
 
-                // Costruiamo l'oggetto includendo il costo (che sarà null o stringa formattata)
                 const nuovaChiamata = {
                     id: r.id,
                     effettuataDa: effettuataDa,
                     data: data,
                     ora: ora,
-                    durata: durata,
-                    costo: costoInviato, // Mantiene il valore null o il float formattato
+                    durata: durataSecondi,
+                    costo: costoInviato,
                     tipoContratto: r.tipoContratto
                 };
 
-                // Inseriamo in cima alla cache locale e ri-applichiamo i filtri
                 _tutteLeTelefonate.unshift(nuovaChiamata);
                 applicaFiltri(_tutteLeTelefonate);
                 showOk('Nuova telefonata registrata con successo.');
@@ -319,12 +310,18 @@ $(function () {
        MODAL MODIFICA  –  durata (secondi) e costo
     ═════════════════════════════════════════════════════════════════════ */
 
-    /** Apre il modal di modifica pre-compilato con i valori attuali */
-    function apriModifica(id, durata, costo, tipoContratto) {
+    /* ══════════════════════════════════════════════════════════════════════
+       MODAL MODIFICA  –  durata (convertita in minuti per l'utente) e costo
+    ═════════════════════════════════════════════════════════════════════ */
+
+    /** Apre il modal di modifica convertendo i secondi in minuti per l'input dell'utente */
+    function apriModifica(id, durataSecondi, costo, tipoContratto) {
         $('#mod-id').val(id);
-        $('#mod-durata').val(durata);
         
-        // Controllo speculare: se il contratto è a consumo, nascondi il campo costo
+        // Converte i secondi del DB in minuti interi da mostrare nella casella
+        const minutiInteri = Math.floor(parseInt(durataSecondi, 10) / 60) || 1;
+        $('#mod-durata').val(minutiInteri);
+        
         if (tipoContratto === 'consumo') {
             $('#wrapper-mod-costo').hide();
             $('#mod-costo').val('').prop('required', false);
@@ -338,9 +335,7 @@ $(function () {
         $('#mod-durata').trigger('focus');
     }
 
-    // Apri modifica al click sul pulsante ✏️ (Aggiornato per passare anche il tipoContratto)
     $('#tbl-body').on('click', '.btn-modifica', function () {
-        // Recuperiamo la riga cliccata per estrarre le info dalla cache locale
         const idSelezionato = $(this).data('id');
         const record = _tutteLeTelefonate.find(t => String(t.id) === String(idSelezionato));
         
@@ -353,30 +348,33 @@ $(function () {
         $('#modal-modifica-overlay').fadeOut(150);
     }
 
-    // Chiusura modal modifica
     $('#mod-close-btn, #mod-btn-annulla').on('click', chiudiModifica);
     $('#modal-modifica-overlay').on('click', function (e) {
         if ($(e.target).is('#modal-modifica-overlay')) chiudiModifica();
     });
 
-    /** Salva le modifiche via POST */
+    /** Salva le modifiche via POST riconvertendo i minuti in secondi */
     $('#mod-form').on('submit', function (e) {
         e.preventDefault();
 
-        const id     = $('#mod-id').val();
-        const durata = parseInt($('#mod-durata').val(), 10);
+        const id = $('#mod-id').val();
         
-        // Troviamo il record in cache per capire se è a consumo o ricarica
+        // Legge i minuti inseriti dall'utente
+        const stringaMinuti = $('#mod-durata').val();
+        const minuti = parseInt(stringaMinuti ? stringaMinuti.trim() : '', 10);
+        
         const record = _tutteLeTelefonate.find(t => String(t.id) === String(id));
         let costoInviato = $('#mod-costo').val();
 
-        // Validazione client-side della durata
-        if (isNaN(durata) || durata < 1) {
-            $('#mod-errors').text('La durata deve essere un numero intero positivo (in secondi).').show();
+        // Validazione della durata in minuti
+        if (!stringaMinuti || isNaN(minuti) || minuti <= 0) {
+            $('#mod-errors').text('La durata deve essere un numero intero maggiore di 0.').show();
             return;
         }
 
-        // Se il contratto è a consumo il costo è forzato a null, altrimenti si valida
+        // Riconversione in secondi per aggiornare correttamente il database
+        const durataSecondi = minuti * 60;
+
         if (record && record.tipoContratto === 'consumo') {
             costoInviato = null;
         } else {
@@ -393,7 +391,7 @@ $(function () {
         $.ajax({
             url: API,
             method: 'POST',
-            data: { action: 'update', id, durata, costo: costoInviato },
+            data: { action: 'update', id, durata: durataSecondi, costo: costoInviato },
             dataType: 'json',
             success: function (r) {
                 $('#mod-btn-salva').prop('disabled', false).text('Salva');
@@ -403,10 +401,9 @@ $(function () {
                 }
                 chiudiModifica();
                 
-                // Aggiorna la cache locale mantenendo la consistenza dell'interfaccia al volo
                 if (record) { 
-                    record.durata = durata; 
-                    record.costo = costoInviato; // Sarà null o stringa formattata
+                    record.durata = durataSecondi; // Aggiorna la cache con i secondi corretti
+                    record.costo = costoInviato;
                 }
                 
                 applicaFiltri(_tutteLeTelefonate);
@@ -418,13 +415,13 @@ $(function () {
             }
         });
     });
+
     /* ══════════════════════════════════════════════════════════════════════
        MODAL CONFERMA ELIMINAZIONE
     ═════════════════════════════════════════════════════════════════════ */
 
     let _idDaEliminare = null;
 
-    /** Apre il pop-up di conferma eliminazione */
     function apriConfermaElimina(id, label) {
         _idDaEliminare = id;
         $('#del-label').text(label);
@@ -436,7 +433,6 @@ $(function () {
         $('#modal-elimina-overlay').fadeOut(150);
     }
 
-    // Apri conferma al click sul pulsante 🗑️
     $('#tbl-body').on('click', '.btn-elimina', function () {
         apriConfermaElimina(
             $(this).data('id'),
@@ -444,13 +440,11 @@ $(function () {
         );
     });
 
-    // Chiusura senza eliminare
     $('#del-close-btn, #del-btn-annulla').on('click', chiudiConfermaElimina);
     $('#modal-elimina-overlay').on('click', function (e) {
         if ($(e.target).is('#modal-elimina-overlay')) chiudiConfermaElimina();
     });
 
-    // Conferma eliminazione
     $('#del-btn-conferma').on('click', function () {
         if (!_idDaEliminare) return;
 
@@ -470,7 +464,6 @@ $(function () {
                     return;
                 }
                 chiudiConfermaElimina();
-                // Rimuove dalla cache e ridisegna
                 _tutteLeTelefonate = _tutteLeTelefonate.filter(t => String(t.id) !== String(id));
                 applicaFiltri(_tutteLeTelefonate);
                 showOk('Telefonata #' + id + ' eliminata con successo.');
@@ -494,4 +487,4 @@ $(function () {
         if ($('#modal-elimina-overlay').is(':visible'))   chiudiConfermaElimina();
     });
 
-}); // fine $(function)
+});

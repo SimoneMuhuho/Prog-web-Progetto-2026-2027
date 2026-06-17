@@ -38,29 +38,52 @@ switch ($action) {
         $durata = $_POST['durata'] ?? null;
         $costo  = $_POST['costo'] ?? null;
 
-        if (!$id || $durata === null || $costo === null) {
-            echo json_encode(['success' => false, 'message' => 'Dati incompleti per l\'aggiornamento']);
+        if (!$id || $durata === null) {
+            echo json_encode(['success' => false, 'message' => 'Parametri mancanti per la modifica.']);
             break;
         }
 
         try {
+            $stmtC = $pdo->prepare("
+                SELECT c.tipo 
+                FROM telefonata t
+                JOIN contrattotelefonico c ON c.numero = t.effettuataDa
+                WHERE t.id = ?
+            ");
+            $stmtC->execute([$id]);
+            $contratto = $stmtC->fetch(PDO::FETCH_ASSOC);
+
+            if (!$contratto) {
+                echo json_encode(['success' => false, 'message' => 'Impossibile determinare il tipo di contratto per questa telefonata.']);
+                break;
+            }
+
+            if ($contratto['tipo'] === 'consumo') {
+                $costoSalvabile = null;
+            } else {
+                if ($costo === null || $costo === '') {
+                    echo json_encode(['success' => false, 'message' => 'Il costo è obbligatorio per i contratti ricarica.']);
+                    break;
+                }
+                $costoSalvabile = (float)$costo;
+            }
+
             $stmt = $pdo->prepare("UPDATE telefonata SET durata = ?, costo = ? WHERE id = ?");
-            $stmt->execute([$durata, $costo, $id]);
-            echo json_encode(['success' => true]);
+            $stmt->execute([$durata, $costoSalvabile, $id]);
+
+            echo json_encode(['success' => true, 'message' => 'Modifica effettuata con successo.']);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'message' => 'Errore aggiornamento: ' . $e->getMessage()]);
         }
         break;
 
-    /* ── DELETE: Cancellazione definitiva di una telefonata ── */
+    /* DELETE Eliminazione di una telefonata */
     case 'delete':
         $id = $_POST['id'] ?? null;
-
         if (!$id) {
-            echo json_encode(['success' => false, 'message' => 'ID mancante per l\'eliminazione']);
+            echo json_encode(['success' => false, 'message' => 'ID mancante.']);
             break;
         }
-
         try {
             $stmt = $pdo->prepare("DELETE FROM telefonata WHERE id = ?");
             $stmt->execute([$id]);
@@ -70,74 +93,101 @@ switch ($action) {
         }
         break;
 
-    /* ── CREATE: Inserimento di una nuova telefonata ── */
+    /* GET_TIPO_CONTRATTO Rilevamento real-time del tipo di contratto associato a un numero */
     case 'get_tipo_contratto':
         $numero = $_GET['numero'] ?? '';
         if (empty($numero)) {
-            echo json_encode(['success' => false]);
+            echo json_encode(['success' => false, 'message' => 'Numero non fornito.']);
             break;
         }
         try {
             $stmt = $pdo->prepare("SELECT tipo FROM contrattotelefonico WHERE numero = ?");
             $stmt->execute([$numero]);
-            $contratto = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($contratto) {
-                echo json_encode(['success' => true, 'tipo' => $contratto['tipo']]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                echo json_encode(['success' => true, 'tipo' => $row['tipo']]);
             } else {
-                echo json_encode(['success' => false, 'message' => 'Contratto non trovato']);
+                echo json_encode(['success' => false, 'message' => 'Contratto non trovato.']);
             }
         } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            echo json_encode(['success' => false, 'message' => 'Errore: ' . $e->getMessage()]);
         }
         break;
 
-    /* ... case 'list', case 'update', case 'delete' rimangono uguali ... */
-
-    /* ── CREATE: Inserimento di una nuova telefonata ── */
+    /* CREATE Inserimento di una nuova telefonata con controlli transazionali */
     case 'create':
         $effettuataDa = $_POST['effettuataDa'] ?? null;
         $data         = $_POST['data'] ?? null;
         $ora          = $_POST['ora'] ?? null;
-        $durata       = $_POST['durata'] ?? null;
+        $durata       = $_POST['durata'] ?? null; // Ricevuta in secondi dal client
         $costo        = $_POST['costo'] ?? null;
 
-        // MODIFICATO: Rimosso il controllo vincolante su $costo === null qui all'inizio, lo verifichiamo dopo
-        if (!$effettuataDa || !$data || !$ora || $durata === null) {
-            echo json_encode(['success' => false, 'message' => 'Dati incompleti per la creazione']);
+        if (!$effettuataDa || !$data || !$ora || !$durata) {
+            echo json_encode(['success' => false, 'message' => 'Tutti i campi obbligatori devono essere compilati.']);
             break;
         }
 
         try {
-            // Controllo validità del contratto e recupero automatico del tipo
-            $stmtCheck = $pdo->prepare("SELECT tipo FROM contrattotelefonico WHERE numero = ?");
-            $stmtCheck->execute([$effettuataDa]);
-            $contratto = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+            // Inizia la transazione per garantire l'atomicità dei controlli sui residui monetari/minuti
+            $pdo->beginTransaction();
+
+            // Blocca la riga del contratto specifico per evitare problemi di concorrenza
+            $stmtC = $pdo->prepare("SELECT tipo, minutiResidui, creditoResiduo FROM contrattotelefonico WHERE numero = ? FOR UPDATE");
+            $stmtC->execute([$effettuataDa]);
+            $contratto = $stmtC->fetch(PDO::FETCH_ASSOC);
 
             if (!$contratto) {
+                $pdo->rollBack();
                 echo json_encode(['success' => false, 'message' => 'Errore: Il numero SIM inserito non corrisponde a un contratto valido.']);
                 break;
             }
 
             $tipoContratto = $contratto['tipo'];
 
-            // LOGICA DI CONTROLLO: se a consumo, azzera qualsiasi input e forza a NULL
+            // Gestione dei vincoli e decremento in base alla tipologia contrattuale
             if ($tipoContratto === 'consumo') {
                 $costoSalvabile = null;
+                
+                // Conversione della durata (in secondi) a minuti effettivi arrotondati per eccesso
+                $minutiTelefonata = (int)ceil($durata / 60);
+
+                if ($contratto['minutiResidui'] < $minutiTelefonata) {
+                    $pdo->rollBack();
+                    echo json_encode(['success' => false, 'message' => 'Minuti insufficienti sul contratto a consumo per coprire la telefonata.']);
+                    break;
+                }
+
+                // Decremento dei minuti spesi
+                $stmtUp = $pdo->prepare("UPDATE contrattotelefonico SET minutiResidui = minutiResidui - ? WHERE numero = ?");
+                $stmtUp->execute([$minutiTelefonata, $effettuataDa]);
+
             } else {
-                // Se ricarica, validiamo che il costo sia effettivamente pervenuto ed accettabile
                 if ($costo === null || $costo === '') {
+                    $pdo->rollBack();
                     echo json_encode(['success' => false, 'message' => 'Il costo è obbligatorio per i contratti ricarica.']);
                     break;
                 }
                 $costoSalvabile = (float)$costo;
+
+                if ($contratto['creditoResiduo'] < $costoSalvabile) {
+                    $pdo->rollBack();
+                    echo json_encode(['success' => false, 'message' => 'Credito residuo insufficiente sul contratto ricarica per coprire il costo della chiamata.']);
+                    break;
+                }
+
+                // Decremento del credito speso
+                $stmtUp = $pdo->prepare("UPDATE contrattotelefonico SET creditoResiduo = creditoResiduo - ? WHERE numero = ?");
+                $stmtUp->execute([$costoSalvabile, $effettuataDa]);
             }
 
-            // Inserimento della telefonata (usando la variabile normalizzata $costoSalvabile)
+            // Inserimento definitivo della telefonata nella cronologia
             $stmt = $pdo->prepare("INSERT INTO telefonata (effettuataDa, data, ora, durata, costo) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$effettuataDa, $data, $ora, $durata, $costoSalvabile]);
             
             $newId = $pdo->lastInsertId();
+            
+            // Applica tutte le modifiche eseguite in modo sicuro
+            $pdo->commit();
             
             echo json_encode([
                 'success' => true, 
@@ -145,8 +195,10 @@ switch ($action) {
                 'tipoContratto' => $tipoContratto
             ]);
         } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => 'Errore creazione: ' . $e->getMessage()]);
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            echo json_encode(['success' => false, 'message' => 'Errore scrittura: ' . $e->getMessage()]);
         }
         break;
-
 }
