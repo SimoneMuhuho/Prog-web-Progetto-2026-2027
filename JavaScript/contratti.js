@@ -157,7 +157,6 @@ $(function () {
     function apriDettaglio(numero) {
         $('#modal-title').text('Dettaglio Contratto: ' + numero);
         $('#d-numero, #d-data, #d-tipo, #d-residuo').text('—');
-        $('#body-telefonate').html('<tr><td colspan="4" class="loading">Caricamento…</td></tr>');
         $('#body-sim-attiva').html('<tr><td colspan="3" class="loading">Caricamento…</td></tr>');
         $('#body-sim-disattive').html('<tr><td colspan="4" class="loading">Caricamento…</td></tr>');
         $('#modal-overlay').fadeIn(150);

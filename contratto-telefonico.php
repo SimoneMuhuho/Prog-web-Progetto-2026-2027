@@ -110,13 +110,7 @@
                     </table>
                 </section>
 
-                <section class="detail-section">
-                    <h4>Telefonate</h4>
-                    <table style="width:100%;font-size:13px;">
-                        <thead><tr><th>Data</th><th>Ora</th><th>Durata (s)</th><th>Costo (€)</th></tr></thead>
-                        <tbody id="body-telefonate"></tbody>
-                    </table>
-                </section>
+                
 
             </div>
 
