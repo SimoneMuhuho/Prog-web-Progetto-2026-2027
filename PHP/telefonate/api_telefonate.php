@@ -1,15 +1,23 @@
 <?php
+/**
+ * PHP/telefonate/api_telefonate.php
+ * Codice completo - Integrazione logica di storno su eliminazione
+ */
 
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
 
 include '../sincronizzazione.php';
 
 $action = $_REQUEST['action'] ?? 'list';
 
 switch ($action) {
-    /* ── READ */
+    /* ══════════════════════════════════════════════════════════════════════
+       1. READ (LIST): Recupera la cronologia delle chiamate
+       ═════════════════════════════════════════════════════════════════════ */
     case 'list':
         $sql = "
             SELECT 
@@ -32,7 +40,9 @@ switch ($action) {
         }
         break;
 
-    /* UPDATE  Modifica di durata e costo di una telefonata*/
+    /* ══════════════════════════════════════════════════════════════════════
+       2. UPDATE: Modifica di durata e costo di una telefonata esistente
+       ═════════════════════════════════════════════════════════════════════ */
     case 'update':
         $id     = $_POST['id'] ?? null;
         $durata = $_POST['durata'] ?? null;
@@ -77,23 +87,76 @@ switch ($action) {
         }
         break;
 
-    /* DELETE Eliminazione di una telefonata */
+    /* ══════════════════════════════════════════════════════════════════════
+       3. DELETE: Eliminazione con RIACCREDITO di minuti o credito monetario
+       ═════════════════════════════════════════════════════════════════════ */
     case 'delete':
         $id = $_POST['id'] ?? null;
         if (!$id) {
             echo json_encode(['success' => false, 'message' => 'ID mancante.']);
             break;
         }
+
         try {
-            $stmt = $pdo->prepare("DELETE FROM telefonata WHERE id = ?");
-            $stmt->execute([$id]);
-            echo json_encode(['success' => true]);
+            $pdo->beginTransaction();
+
+            // 1. Recuperiamo i dettagli della telefonata PRIMA di cancellarla
+            $stmtChiamata = $pdo->prepare("
+                SELECT t.effettuataDa, t.durata, t.costo, c.tipo AS tipoContratto
+                FROM telefonata t
+                LEFT JOIN contrattotelefonico c ON c.numero = t.effettuataDa
+                WHERE t.id = ?
+                FOR UPDATE
+            ");
+            $stmtChiamata->execute([$id]);
+            $chiamata = $stmtChiamata->fetch(PDO::FETCH_ASSOC);
+
+            if (!$chiamata) {
+                $pdo->rollBack();
+                echo json_encode(['success' => false, 'message' => 'Telefonata non trovata o già eliminata.']);
+                break;
+            }
+
+            $numero = $chiamata['effettuataDa'];
+            $tipoContratto = $chiamata['tipoContratto'];
+
+            // 2. Se il contratto esiste ancora a sistema, restituiamo il dovuto
+            if ($tipoContratto) {
+                if ($tipoContratto === 'consumo') {
+                    // Convertiamo la durata memorizzata (in secondi) in minuti arrotondati per eccesso
+                    $minutiDaStornare = (int)ceil($chiamata['durata'] / 60);
+
+                    // Riaggiungiamo i minuti ai minutiResidui
+                    $stmtRestore = $pdo->prepare("UPDATE contrattotelefonico SET minutiResidui = minutiResidui + ? WHERE numero = ?");
+                    $stmtRestore->execute([$minutiDaStornare, $numero]);
+                } else {
+                    $creditoDaStornare = (float)($chiamata['costo'] ?? 0);
+
+                    if ($creditoDaStornare > 0) {
+                        // Riaggiungiamo gli euro al creditoResiduo
+                        $stmtRestore = $pdo->prepare("UPDATE contrattotelefonico SET creditoResiduo = creditoResiduo + ? WHERE numero = ?");
+                        $stmtRestore->execute([$creditoDaStornare, $numero]);
+                    }
+                }
+            }
+
+            // 3. Cancellazione fisica del record della chiamata
+            $stmtDel = $pdo->prepare("DELETE FROM telefonata WHERE id = ?");
+            $stmtDel->execute([$id]);
+
+            $pdo->commit();
+            echo json_encode(['success' => true, 'message' => 'Telefonata eliminata e contatori ripristinati correttamente.']);
         } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => 'Errore eliminazione: ' . $e->getMessage()]);
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            echo json_encode(['success' => false, 'message' => 'Errore eliminazione e storno: ' . $e->getMessage()]);
         }
         break;
 
-    /* GET_TIPO_CONTRATTO Rilevamento real-time del tipo di contratto associato a un numero */
+    /* ══════════════════════════════════════════════════════════════════════
+       4. GET_TIPO_CONTRATTO: Controllo asincrono real-time del numero
+       ═════════════════════════════════════════════════════════════════════ */
     case 'get_tipo_contratto':
         $numero = $_GET['numero'] ?? '';
         if (empty($numero)) {
@@ -114,12 +177,14 @@ switch ($action) {
         }
         break;
 
-    /* CREATE Inserimento di una nuova telefonata con controlli transazionali */
+    /* ══════════════════════════════════════════════════════════════════════
+       5. CREATE: Inserimento transazionale con controllo "simattiva"
+       ═════════════════════════════════════════════════════════════════════ */
     case 'create':
         $effettuataDa = $_POST['effettuataDa'] ?? null;
         $data         = $_POST['data'] ?? null;
         $ora          = $_POST['ora'] ?? null;
-        $durata       = $_POST['durata'] ?? null; // Ricevuta in secondi dal client
+        $durata       = $_POST['durata'] ?? null;
         $costo        = $_POST['costo'] ?? null;
 
         if (!$effettuataDa || !$data || !$ora || !$durata) {
@@ -128,10 +193,18 @@ switch ($action) {
         }
 
         try {
-            // Inizia la transazione per garantire l'atomicità dei controlli sui residui monetari/minuti
             $pdo->beginTransaction();
 
-            // Blocca la riga del contratto specifico per evitare problemi di concorrenza
+            $stmtSim = $pdo->prepare("SELECT 1 FROM simattiva WHERE associataA = ? LIMIT 1 FOR UPDATE");
+            $stmtSim->execute([$effettuataDa]);
+            $simEsistente = $stmtSim->fetch();
+
+            if (!$simEsistente) {
+                $pdo->rollBack();
+                echo json_encode(['success' => false, 'message' => 'Il numero inserito non ha SIM associate.']);
+                break;
+            }
+
             $stmtC = $pdo->prepare("SELECT tipo, minutiResidui, creditoResiduo FROM contrattotelefonico WHERE numero = ? FOR UPDATE");
             $stmtC->execute([$effettuataDa]);
             $contratto = $stmtC->fetch(PDO::FETCH_ASSOC);
@@ -144,11 +217,8 @@ switch ($action) {
 
             $tipoContratto = $contratto['tipo'];
 
-            // Gestione dei vincoli e decremento in base alla tipologia contrattuale
             if ($tipoContratto === 'consumo') {
                 $costoSalvabile = null;
-                
-                // Conversione della durata (in secondi) a minuti effettivi arrotondati per eccesso
                 $minutiTelefonata = (int)ceil($durata / 60);
 
                 if ($contratto['minutiResidui'] < $minutiTelefonata) {
@@ -157,7 +227,6 @@ switch ($action) {
                     break;
                 }
 
-                // Decremento dei minuti spesi
                 $stmtUp = $pdo->prepare("UPDATE contrattotelefonico SET minutiResidui = minutiResidui - ? WHERE numero = ?");
                 $stmtUp->execute([$minutiTelefonata, $effettuataDa]);
 
@@ -175,18 +244,14 @@ switch ($action) {
                     break;
                 }
 
-                // Decremento del credito speso
                 $stmtUp = $pdo->prepare("UPDATE contrattotelefonico SET creditoResiduo = creditoResiduo - ? WHERE numero = ?");
                 $stmtUp->execute([$costoSalvabile, $effettuataDa]);
             }
 
-            // Inserimento definitivo della telefonata nella cronologia
             $stmt = $pdo->prepare("INSERT INTO telefonata (effettuataDa, data, ora, durata, costo) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$effettuataDa, $data, $ora, $durata, $costoSalvabile]);
             
             $newId = $pdo->lastInsertId();
-            
-            // Applica tutte le modifiche eseguite in modo sicuro
             $pdo->commit();
             
             echo json_encode([
@@ -202,3 +267,4 @@ switch ($action) {
         }
         break;
 }
+exit;
