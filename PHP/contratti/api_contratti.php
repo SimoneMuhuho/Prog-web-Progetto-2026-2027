@@ -40,14 +40,14 @@ switch ($action) {
 
     case 'sim_attiva':
         $num = $_GET['numero'] ?? '';
-        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione FROM simattiva WHERE associataA = ?");
+        $stmt = $pdo->prepare("SELECT CAST(codice AS CHAR) AS codice, tipoSIM, dataAttivazione FROM simattiva WHERE associataA = ?");
         $stmt->execute([$num]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
         break;
 
     case 'sim_disattive':
         $num = $_GET['numero'] ?? '';
-        $stmt = $pdo->prepare("SELECT codice, tipoSIM, dataAttivazione, dataDisattivazione FROM simdisattiva WHERE eraAssociataA = ? ORDER BY dataDisattivazione DESC");
+        $stmt = $pdo->prepare("SELECT CAST(codice AS CHAR) AS codice, tipoSIM, dataAttivazione, dataDisattivazione FROM simdisattiva WHERE eraAssociataA = ? ORDER BY dataDisattivazione DESC");
         $stmt->execute([$num]);
         echo json_encode(['success' => true, 'data' => $stmt->fetchAll()]);
         break;
@@ -81,7 +81,7 @@ switch ($action) {
             }
 
             // 3. Cerca la prima SIM non attiva del tipo richiesto
-            $stmtN = $pdo->prepare("SELECT codice, tipoSIM FROM simnonattiva WHERE tipoSIM = ? LIMIT 1");
+            $stmtN = $pdo->prepare("SELECT CAST(codice AS CHAR) AS codice, tipoSIM FROM simnonattiva WHERE tipoSIM = ? LIMIT 1");
             $stmtN->execute([$tipoSIM]);
             $sim = $stmtN->fetch();
 

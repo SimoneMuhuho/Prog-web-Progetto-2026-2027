@@ -119,15 +119,15 @@ $(function () {
             return `
                 <tr>
                     <td class="text-left"><strong>${r.numero}</strong></td>
-                    <td class="text-right">${fmtData(r.dataAttivazione)}</td>
+                    <td class="text-left">${fmtData(r.dataAttivazione)}</td>
                     <td class="text-left">${badge(r.tipo)}</td>
                     <td class="text-right">${minuti}</td>
                     <td class="text-right">${credito}</td>
                     <td class="text-right">${r.numTelefonate}</td>
-                    <td class="text-left">${sim}</td>
+                    <td class="text-center">${sim}</td>
                     <td class="text-center">${btnAttiva}</td>
                     <td class="text-center">
-                        <button class="btn btn-info btn-sm btn-dettaglio"
+                        <button class="btn-dettaglio"
                                 data-numero="${r.numero}"
                                 title="Visualizza dettaglio">Apri</button>
                     </td>

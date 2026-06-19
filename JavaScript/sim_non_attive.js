@@ -72,8 +72,8 @@ $(function () {
             <tr>
                 <td><code>${r.codice}</code></td>
                 <td>${badgeSIM(r.tipoSIM)}</td>
-                <td style="text-align:center;">
-                    <button class="btn btn-info btn-sm btn-dettaglio"
+                <td>
+                    <button class="btn-dettaglio"
                             data-codice="${r.codice}"
                             title="Visualizza dettaglio">Apri</button>
                 </td>

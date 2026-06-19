@@ -45,6 +45,8 @@
                 <button type="button" id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
             </div>
 
+            <div><div class="dashed-line"></div></div>
+
             <div class="sidebar-results-footer">
                 <div class="results-num">
                     <span class="label">Risultati</span>
@@ -68,8 +70,8 @@
                     <tr>
                         <th class="text-left">N° Contratto</th>
                         <th class="text-left">Tipo</th>
-                        <th class="text-right">Data</th>
-                        <th class="text-right">Ora</th>
+                        <th class="text-left">Data</th>
+                        <th class="text-left">Ora</th>
                         <th class="text-right">Durata</th>
                         <th class="text-right">Costo</th>
                         <th class="text-center">Azioni</th>

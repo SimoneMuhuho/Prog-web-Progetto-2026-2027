@@ -37,6 +37,8 @@
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
 
+        <div><div class="dashed-line"></div></div>
+
         <div class="sidebar-results-footer">
             <div class="results-num">
                 <span class="label">Risultati</span>
@@ -55,10 +57,10 @@
                 <thead>
                     <tr>
                         <th class="text-left">Numero</th>
-                        <th class="text-right">Data Attivazione</th>
+                        <th class="text-left">Data Attivazione</th>
                         <th class="text-left">Tipo</th>
                         <th class="text-right">Minuti Residui</th>
-                        <th class="text-right">Credito Residuo (€)</th>
+                        <th class="text-right">Credito Residuo</th>
                         <th class="text-right">N° Telefonate</th>
                         <th class="text-center">SIM Attiva</th>
                         <th class="text-center">Attiva SIM</th>
@@ -169,8 +171,7 @@
 
                 <div class="modal-footer">
                     <button type="button" id="att-btn-annulla" class="btn btn-outline">Annulla</button>
-                    <button type="submit" id="att-btn-conferma" class="btn btn-primary"
-                            style="background-color:var(--green);">
+                    <button type="submit" id="att-btn-conferma" class="btn btn-primary">
                         Conferma Attivazione
                     </button>
                 </div>

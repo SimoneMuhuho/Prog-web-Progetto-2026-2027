@@ -97,8 +97,8 @@ $(function () {
 
         const html = righe.map(r => `
             <tr>
-                <td class="text-right"><code>${r.codice}</code></td>
-                <td class="text-right"><strong>
+                <td class="text-left"><code>${r.codice}</code></td>
+                <td class="text-left"><strong>
                     <a href="contratto-telefonico.php?numero=${encodeURIComponent(r.numero)}"
                        class="link-contratto"
                        title="Vai al contratto">
@@ -106,7 +106,7 @@ $(function () {
                     </a>
                 </strong></td>
                 <td class="text-left">${badgeSIM(r.tipoSIM)}</td>
-                <td class="text-right">${fmtData(r.dataAttivazione)}</td>
+                <td class="text-left">${fmtData(r.dataAttivazione)}</td>
                 <td class="text-center" style="white-space:nowrap;">
                     <button class="btn-dettaglio"
                             data-codice="${r.codice}"

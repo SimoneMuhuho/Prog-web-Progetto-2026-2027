@@ -30,6 +30,8 @@
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
 
+        <div><div class="dashed-line"></div></div>
+        
         <div class="sidebar-results-footer">
             <div class="results-num">
                 <span class="label">Risultati</span>

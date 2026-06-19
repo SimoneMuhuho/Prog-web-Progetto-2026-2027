@@ -10,18 +10,29 @@
     <aside class="sidebar-filtro sidebar-filtro-panoramica">
         <h3>Panoramica</h3>
 
-        <div class="filtro-group">
-            <h2>Panoramica Rapida</h2>
-            <p>Contratti Totali</p> <span><?php echo $stats_dashboard['totale_contratti']; ?></span>
-            <p>SIM Attive</p> <span><?php echo $stats_dashboard['sim_attive']; ?></span>
-            <p>SIM Non Attive</p> <span><?php echo $stats_dashboard['sim_non_attive']; ?></span>
+        <div class="sidebar-welcome">
+            <h4>Ciao Amministratore!<i class="fa-solid fa-hand-sparkles"></i></h4>
+            <p>Benvenuto in <strong>Sim Salabim</strong>. Qui puoi monitorare lo stato delle SIM, i contratti attivi e il registro delle telefonate in tempo reale.</p>
         </div>
+        
+        <div><div class="dashed-line"></div></div>
 
-        <div class="sidebar-results-footer">
-            <div class="results-block">
-                <div class="info">
-                    La dashboard si aggiorna automaticamente al variare di SIM e contratti.
-                </div>
+        <div class="sidebar-guida-box">
+            <h2><i class="fa-solid fa-circle-question"></i> Guida Rapida</h2>
+            
+            <div class="guida-step">
+                <span class="step-num">1</span>
+                <p><strong>Esplora le Pagine:</strong> Usa il menu in alto per navigare tra <em>Dashboard</em>, <em>Contratti</em>, <em>Telefonate</em> e la gestione delle <em>SIM</em> (Attive/Disattivate/Non Attive).</p>
+            </div>
+            
+            <div class="guida-step">
+                <span class="step-num">2</span>
+                <p><strong>Filtra e Cerca:</strong> In ogni sezione trovi una sidebar dedicata per isolare rapidamente i dati che ti interessano (es. per codice, data o tipo).</p>
+            </div>
+            
+            <div class="guida-step">
+                <span class="step-num">3</span>
+                <p><strong>Azioni sui Dati:</strong> Usa i bottoni nelle tabelle per gestire il sistema: clicca su <em>"Apri"</em> per i dettagli o usa i tasti di <em>Modifica/Elimina</em>.</p>
             </div>
         </div>
         

@@ -13,9 +13,7 @@ $(function () {
 
     const API = 'PHP/sim_disattive/api_sim_disattive.php';
 
-    /* ══════════════════════════════════════════════════════════════════════
-       UTILITY
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- UTILITY ----- */
 
     /** Formatta data ISO (yyyy-mm-dd) → dd/mm/yyyy */
     function fmtData(iso) {
@@ -46,9 +44,7 @@ $(function () {
         window._msgTimer = setTimeout(() => $('#msg-box').slideUp(200), 4000);
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CARICAMENTO E CACHE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- CARICAMENTO E CACHE ----- */
 
     let _tutteLeSIM = [];
 
@@ -72,9 +68,7 @@ $(function () {
         });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       FILTRI CLIENT-SIDE
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- FILTRI CLIENT-SIDE ----- */
 
     function applicaFiltri(righe) {
         const codice    = $('#search-codice').val().trim().toLowerCase();
@@ -119,8 +113,8 @@ $(function () {
                 <td>${badgeSIM(r.tipoSIM)}</td>
                 <td>${fmtData(r.dataAttivazione)}</td>
                 <td>${fmtData(r.dataDisattivazione)}</td>
-                <td style="text-align:center;">
-                    <button class="btn btn-info btn-sm btn-dettaglio"
+                <td>
+                    <button class="btn-dettaglio"
                             data-codice="${r.codice}"
                             title="Visualizza dettaglio">Apri</button>
                 </td>
@@ -132,9 +126,7 @@ $(function () {
     // Primo caricamento
     caricaERicorda();
 
-    /* ══════════════════════════════════════════════════════════════════════
-       EVENTI FILTRO SIDEBAR
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- EVENTI FILTRO SIDEBAR ----- */
 
     $('#btn-cerca').on('click', function () {
         applicaFiltri(_tutteLeSIM);
@@ -155,9 +147,7 @@ $(function () {
         applicaFiltri(_tutteLeSIM);
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       MODAL DETTAGLIO  –  apertura / chiusura
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- MODAL DETTAGLIO  –  apertura / chiusura ----- */
 
     function apriDettaglio(codice) {
         // Resetta campi
@@ -189,9 +179,7 @@ $(function () {
         if (e.key === 'Escape') chiudiModal();
     });
 
-    /* ══════════════════════════════════════════════════════════════════════
-       CHIAMATA API PER IL DETTAGLIO
-    ═════════════════════════════════════════════════════════════════════ */
+    /* ----- CHIAMATA API PER IL DETTAGLIO ----- */
 
     function caricaDettaglioSIM(codice) {
         $.ajax({

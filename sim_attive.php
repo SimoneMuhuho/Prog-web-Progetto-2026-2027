@@ -47,6 +47,8 @@
             <button id="btn-reset" class="btn btn-outline btn-block">Azzera</button>
         </div>
 
+        <div><div class="dashed-line"></div></div>
+        
         <div class="sidebar-results-footer">
             <div class="results-num">
                 <span class="label">Risultati</span>
@@ -66,11 +68,11 @@
             <table id="tbl-sim-attive">
                 <thead>
                     <tr>
-                        <th>Codice SIM</th>
-                        <th>N° Contratto</th>
-                        <th>Tipo SIM</th>
-                        <th>Data Attivazione</th>
-                        <th style="text-align:center;">Azioni</th>
+                        <th class="text-left">Codice SIM</th>
+                        <th class="text-left">N° Contratto</th>
+                        <th class="text-left">Tipo SIM</th>
+                        <th class="text-left">Data Attivazione</th>
+                        <th class="text-center">Azioni</th>
                     </tr>
                 </thead>
                 <tbody id="tbl-body" class="tbl-body">
@@ -150,8 +152,7 @@
 
                 <div class="modal-footer">
                     <button type="button" id="dis-btn-annulla" class="btn btn-outline">Annulla</button>
-                    <button type="submit" id="dis-btn-conferma" class="btn btn-primary"
-                            style="background-color: #e07b35;">
+                    <button type="submit" id="dis-btn-conferma" class="btn btn-primary">
                         Conferma Disattivazione
                     </button>
                 </div>

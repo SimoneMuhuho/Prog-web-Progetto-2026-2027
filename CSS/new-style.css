@@ -197,7 +197,7 @@ main {
     padding: 0 20px;
     height: 36px; /* Sintonizzato a 36px per entrare perfettamente nella card */
 
-    font-family: 'Roboto', sans-serif;
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
     font-size: 13px; /* Leggermente più piccolo per un look più raffinata */
     font-weight: 600;
     letter-spacing: 0.3px;
@@ -257,8 +257,9 @@ main {
     color: var(--text-gray);
 } 
 .btn-outline:hover { 
-    background-color: var(--text-gray); 
-    color: var(--white); 
+    background-color: var(--light-gray); 
+    color: var(--white);
+    box-shadow: 0 6px 20px rgba(109, 108, 107, 0.4) !important;
 }
 
 /* 3. Bottoni Tabella */
@@ -466,13 +467,134 @@ main.layout-1 {
     color: var(--red);
 }
 
+/* Benvenuto */
+.sidebar-welcome {
+    margin: 0 20px 0 20px;
+}
+.sidebar-welcome h4 {
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
+    color: var(--text-dark);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+}
+/* Colore dell'icona della mano che saluta */
+.fa-hand-sparkles {
+    color: var(--red);
+}
+.fa-hand-sparkles {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--red);
+    background-color: var(--white);
+    padding: 0 5px;
+    margin-left: 10px;
+    animation: wave 1.5s ease-in-out 2; /* Oscilla 2 volte all'avvio */
+}
+
+.sidebar-welcome p {
+    font-family: "Outfit", sans-serif;
+    color: var(--text-gray);
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: 400;
+    padding-left: 0 !important; /* Forza l'allineamento pulito */
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(15deg); }
+}
+
+
+/* Guida Rapida */
+.sidebar-guida-box {
+    margin: 0 20px 0 20px;
+    padding-top: 20px;
+}
+.sidebar-guida-box h2 {
+    font-family: "Outfit", ui-sans-serif, system-ui, sans-serif !important;
+    color: var(--text-dark);
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent !important; /* Evita lo sfondo rosso dei titoli dei filtri */
+    padding: 0 !important;
+}
+.sidebar-guida-box h2 i {
+    color: var(--red); /* Icona del punto di domanda color salmone/rosso */
+}
+/* Linea tratteggiata */
+.dashed-line {
+    border-top: 2px dashed var(--pastel-red);
+    margin: 20px 20px 0 20px;
+    position: relative;
+    height: 0;
+}
+.dashed-line::after {
+    content: "\f0c4";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--red);
+    background-color: var(--white);
+    padding: 0 5px;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.guida-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+/* Il pallino con il numero dello step */
+.step-num {
+    background-color: var(--pastel-blue);
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; /* Impedisce al pallino di deformarsi se il testo è lungo */
+    margin-top: 2px;
+}
+.guida-step p {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--text-gray);
+    font-weight: 400;
+    padding-left: 0 !important; /* Resetta eventuali padding ereditati */
+}
+.guida-step strong {
+    color: var(--text-dark);
+}
+
 /* Alert di informazione */
 .sidebar-results-footer {
     padding: 0 20px 0;
 }
 
 .results-block, .results-num {
-    border-top: 1px solid var(--pastel-blue);
     padding-top: 20px;
 
     display: flex;
@@ -763,6 +885,7 @@ main.layout-1 {
 
 .text-right {
     text-align: right !important;
+    max-width: 100px;
 }
 
 /* --------------------------------------------------------------- */
@@ -968,13 +1091,16 @@ tr:nth-child(even) {
     border: none;
     border-radius: 16px;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     margin-left: 10px;
     transition: all 0.2s ease-in-out;
 }
 
 .link-contratto {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 14px !important;
+    font-weight: 700;
     text-decoration: none;
     color: var(--green);
     background-color: var(--pastel-green);
@@ -988,6 +1114,9 @@ tr:nth-child(even) {
 }
 
 .link-sim-attiva {
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 14px !important;
+    font-weight: 700;
     text-decoration: none;
     color: var(--blue);
     background-color: var(--pastel-blue);

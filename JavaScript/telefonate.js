@@ -76,8 +76,8 @@ $(function () {
             <tr data-id="${r.id}">
                 <td class="text-left"><strong>${r.effettuataDa}</strong></td>
                 <td class="text-left">${badgeContratto(r.tipoContratto)}</td>
-                <td class="text-right">${fmtData(r.data)}</td>
-                <td class="text-right">${r.ora ?? '—'}</td>
+                <td class="text-left">${fmtData(r.data)}</td>
+                <td class="text-left">${r.ora ?? '—'}</td>
                 <td class="cell-durata text-right">${fmtDurata(r.durata)}</td>
                 <td class="cell-costo text-right">${fmtCosto(r.costo)}</td>
                 <td class="text-center" style="white-space:nowrap;">
