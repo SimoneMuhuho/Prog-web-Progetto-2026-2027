@@ -2,6 +2,8 @@ Progetto Programmazione Web A.A 2026/2027 Gruppo SauceCode
 
 Progetto : Piattaforma gestione telefonate
 
+Link : https://ftp.saucecode.altervista.org
+
 SIM Salabim è un'applicazione web intuitiva che simula il gestionale di un operatore telefonico. Sviluppato a scopo didattico, permette di amministrare l'intero ecosistema di una compagnia telefonica: dai contratti dei clienti allo storico delle chiamate, fino al magazzino fisico delle SIM.
 
 Cosa puoi fare nell'app? Dashboard: Una panoramica immediata con statistiche in tempo reale sui clienti e lo stato del magazzino.
